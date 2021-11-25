@@ -5,14 +5,14 @@ import Content from './Content';
 import Footer from './Footer';
 
 const ToysCampaign = () => {
-	return (
-		<>
-			<Header />
-			<Slider />
-			<Content />
-			<Footer />
-		</>
-	);
+  return (
+    <>
+      <Header />
+      <Slider />
+      <Content />
+      <Footer />
+    </>
+  );
 };
 
 export default ToysCampaign;

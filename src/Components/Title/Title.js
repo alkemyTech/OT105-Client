@@ -11,10 +11,10 @@ const Title = ({
   titleMuiVariant = 'h2', 
   imageUrl, 
   bckgOpacity = '0.7',
-  paddingBlock = '6rem'
+  titlePadding = '6rem'
 }) => {
   const containerStyles = {
-    paddingBlock: paddingBlock, 
+    paddingBlock: titlePadding, 
     background: !imageUrl && '#FAFA88', 
   }
 

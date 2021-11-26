@@ -1,7 +1,7 @@
 import React from 'react'
 
 //Styles
-import s from './Title.module.css'
+import s from '../../Styles/Title.module.css'
 //MUI
 import { Typography } from '@mui/material'
 

@@ -10,12 +10,13 @@ const Title = ({
   titleTextColor = 'black',
   titleMuiVariant = 'h2', 
   imageUrl, 
+  bckgColor = '#FAFA88',
   bckgOpacity = '0.7',
   titlePadding = '6rem'
 }) => {
   const containerStyles = {
     paddingBlock: titlePadding, 
-    background: !imageUrl && '#FAFA88', 
+    background: !imageUrl && bckgColor, 
   }
 
   return (
@@ -24,7 +25,8 @@ const Title = ({
       style={containerStyles}
     >
       <Typography 
-      sx={{fontFamily:"Product Sans"}} 
+      sx={{fontFamily:"Product Sans"}}
+      align="center"
       variant={titleMuiVariant} 
       color={titleTextColor}>{titleText}</Typography>
       {imageUrl &&

@@ -40,51 +40,45 @@ const img = {
 };
 
 const TestimonialForm = ({ id }) => {
-  const [formValues, setFormValues] = useState({
-    name: '',
-    description: '',
-    image: '',
-  });
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
 
   const getTestimonials = () => {
     return {
-      name: 'Testimonial testing',
+      name: 'Testimonial testings',
       description: 'This is a moked testimonial to test the API-Success?',
       image: '',
     };
   };
 
-  const handleInputChange = (e) => {
-    if (e.target.name === 'name') {
-      setFormValues({ ...formValues, name: e.target.value });
-    }
-  };
-
   useEffect(() => {
     if (id) {
-      const data = getTestimonials();
+      const resp = getTestimonials();
 
-      console.log(data);
-      setFormValues({
-        name: data.name,
-        description: data.description,
-        image: data.image,
-      });
+      setName(resp.name);
+      setDescription(resp.description);
     }
   }, []);
 
-  const validate = (values) => {
+  const handleInputChange = (e) => {
+    if (e.target.name === 'name') {
+      setName(e.target.value);
+    }
+  };
+
+  const validate = () => {
     const errors = {};
 
-    if (!formValues.name) {
+    if (!name) {
       errors.name = 'El nombre es requerido';
-    } else if (formValues.name.length < 4) {
+    } else if (name.length < 4) {
       errors.name = 'El nombre debe contener al menos 4 caracteres';
     }
-    if (!formValues.description) {
+    if (!description) {
       errors.description = 'La descripción es requerida';
     }
-    if (!formValues.image) {
+    if (!image) {
       errors.image = 'La imagen es requerida';
     }
 
@@ -104,10 +98,7 @@ const TestimonialForm = ({ id }) => {
   const handleCKeditorChange = (e, editor) => {
     const data = editor.getData();
 
-    setFormValues({
-      ...formValues,
-      description: data,
-    });
+    setDescription(data);
   };
 
   const [files, setFiles] = useState([]);
@@ -129,10 +120,7 @@ const TestimonialForm = ({ id }) => {
       reader.onload = () => {
         const base64 = reader.result;
 
-        setFormValues({
-          ...formValues,
-          image: base64,
-        });
+        setImage(base64);
       };
     },
   });
@@ -146,7 +134,7 @@ const TestimonialForm = ({ id }) => {
   ));
 
   const handleSubmit = () => {
-    console.log(formValues);
+    console.log(name, description);
   };
 
   return (
@@ -159,12 +147,12 @@ const TestimonialForm = ({ id }) => {
         label="Titulo"
         name="name"
         type="text"
-        value={formValues.name}
+        value={name}
         variant="outlined"
         onChange={handleInputChange}
       />
       <CKEditor
-        data={formValues.description}
+        data={description}
         editor={ClassicEditor}
         onChange={(e, editor) => handleCKeditorChange(e, editor)}
       />

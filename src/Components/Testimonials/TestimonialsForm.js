@@ -47,7 +47,7 @@ const TestimonialForm = ({ id }) => {
   const getTestimonials = () => {
     return {
       name: 'Testimonial testings',
-      description: 'This is a moked testimonial to test the API-Success?',
+      description: 'This is a mockup testimonial',
       image: '',
     };
   };
@@ -133,8 +133,24 @@ const TestimonialForm = ({ id }) => {
     </div>
   ));
 
-  const handleSubmit = () => {
-    console.log(name, description);
+  const handleSubmit = async () => {
+    const body = {
+      name,
+      description,
+      image,
+    };
+
+    let resp;
+
+    id
+      ? (resp = await axios.patch(
+          `http://ongapi.alkemy.org/api/testimonials/${id}`,
+          body,
+        ))
+      : (resp = await axios.post(
+          'http://ongapi.alkemy.org/api/testimonials/',
+          body,
+        ));
   };
 
   return (

@@ -25,7 +25,7 @@ function App() {
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
           <Route path="/create-testimonials">
-            <TestimonialForm id={25} />
+            <TestimonialForm />
           </Route>
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />

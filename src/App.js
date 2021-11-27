@@ -13,7 +13,7 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
-import HomeFormEdit from './Components/Home/HomeFormEdit';
+import HomeEditForm from './Components/Home/HomeEditForm';
 
 function App() {
   return (
@@ -31,7 +31,7 @@ function App() {
           <Route component={ProjectsForm} path="/create-project" />
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />
-          <Route component={HomeFormEdit} path="/backoffice/home" />
+          <Route component={HomeEditForm} path="/backoffice/home" />
         </Switch>
       </BrowserRouter>
       <div className="App">

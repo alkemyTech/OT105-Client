@@ -4,6 +4,7 @@ import {
   Alert,
   AlertTitle,
   Button,
+  Container,
   FormControl,
   Input,
   InputAdornment,
@@ -12,6 +13,29 @@ import {
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import '../FormStyles.css';
+
+const validate = (values) => {
+  let errors = {};
+
+  if (!values.password) {
+    errors.password = 'required!';
+  } else if (values.password.length < 6) {
+    errors.password = 'at least 6 characters';
+  } else if (!/[\d]{1}/g.test(values.password)) {
+    errors.password = 'at least 1 number';
+  } else if (!/[!@#$%^&*(),.?":{}|<>]/g.test(values.password)) {
+    errors.password = 'at least 1 special character';
+  } else if (!/[a-zA-Z]/.test(values.password)) {
+    errors.password = 'at least 1 letter';
+  }
+  if (!values.email) {
+    errors.email = 'required!';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  return errors;
+};
 
 const LoginForm = () => {
   const [userValues, setUserValues] = useState({
@@ -24,19 +48,18 @@ const LoginForm = () => {
         email: '',
         password: '',
       },
-      //validate,
+      validate,
       onSubmit: (values) => {
         setUserValues({
           ...userValues,
           email: values.email,
           password: values.password,
         });
-        console.log(userValues);
       },
     });
 
     return (
-      <form onSubmit={formik.handleSubmit}>
+      <form className="form-container" onSubmit={formik.handleSubmit}>
         <FormControl margin="dense" sx={{ width: '25rem' }}>
           <InputLabel htmlFor="email">Email Address</InputLabel>
           <Input
@@ -63,7 +86,7 @@ const LoginForm = () => {
         </FormControl>
         <br />
         <br />
-        <FormControl margin="dense" sx={{ width: '25rem' }}>
+        <FormControl sx={{ width: '25rem' }}>
           <InputLabel htmlFor="password">password</InputLabel>
           <Input
             id="password"
@@ -89,7 +112,7 @@ const LoginForm = () => {
         </FormControl>
         <br />
         <br />
-        <Button type="submit" variant="contained">
+        <Button className="submit-btn" type="submit" variant="contained">
           Login
         </Button>
       </form>
@@ -97,9 +120,9 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="form-container">
+    <Container maxWidth="sm">
       <SignupForm />
-    </form>
+    </Container>
   );
 };
 

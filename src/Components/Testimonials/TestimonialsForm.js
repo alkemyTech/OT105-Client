@@ -1,48 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { TextField, Box, Button } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
+import { useFormik } from 'formik';
+import { TextField, Box, Button, Alert } from '@mui/material';
+import axios from 'axios';
 
+import '../../Styles/TestimonialsFormStyles.css';
 import '../FormStyles.css';
 
-const thumbsContainer = {
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  marginTop: 16,
-};
-
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
-  marginBottom: 8,
-  marginRight: 8,
-  width: 200,
-  height: 200,
-  padding: 4,
-  boxSizing: 'border-box',
-};
-
-const thumbInner = {
-  display: 'flex',
-  minWidth: 0,
-  overflow: 'hidden',
-};
-
-const img = {
-  display: 'block',
-  width: 'auto',
-  height: '100%',
-};
-
 const TestimonialForm = ({ id }) => {
-  const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
+  const [imageError, setImageError] = useState(false);
 
   const getTestimonials = () => {
     return {
@@ -56,23 +26,17 @@ const TestimonialForm = ({ id }) => {
     if (id) {
       const resp = getTestimonials();
 
-      setName(resp.name);
+      formik.values.name = resp.name;
       setDescription(resp.description);
     }
   }, []);
 
-  const handleInputChange = (e) => {
-    if (e.target.name === 'name') {
-      setName(e.target.value);
-    }
-  };
-
-  const validate = () => {
+  const validate = (values) => {
     const errors = {};
 
-    if (!name) {
+    if (!values.name) {
       errors.name = 'El nombre es requerido';
-    } else if (name.length < 4) {
+    } else if (values.name.length < 4) {
       errors.name = 'El nombre debe contener al menos 4 caracteres';
     }
     if (!description) {
@@ -102,11 +66,11 @@ const TestimonialForm = ({ id }) => {
   };
 
   const [files, setFiles] = useState([]);
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
     multiple: false,
     maxFiles: 1,
     accept: 'image/jpeg, image/png',
-    onDrop: (acceptedFiles) => {
+    onDrop: (acceptedFiles, fileRejections) => {
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -114,28 +78,33 @@ const TestimonialForm = ({ id }) => {
           }),
         ),
       );
-      const reader = new FileReader();
 
-      reader.readAsDataURL(acceptedFiles[0]);
-      reader.onload = () => {
-        const base64 = reader.result;
+      if (fileRejections.length === 0) {
+        const reader = new FileReader();
 
-        setImage(base64);
-      };
+        reader.readAsDataURL(acceptedFiles[0]);
+        reader.onload = () => {
+          const base64 = reader.result;
+
+          setImage(base64);
+        };
+      }
     },
   });
 
-  const thumbs = files.map((file) => (
-    <div key={file.name} style={thumb}>
-      <div style={thumbInner}>
-        <img src={file.preview} style={img} />
-      </div>
-    </div>
-  ));
+  useEffect(() => {
+    if (fileRejections.length > 0) {
+      setImageError(true);
+
+      return;
+    }
+
+    setImageError(false);
+  }, [fileRejections]);
 
   const handleSubmit = async () => {
     const body = {
-      name,
+      name: formik.values.name,
       description,
       image,
     };
@@ -153,6 +122,8 @@ const TestimonialForm = ({ id }) => {
         ));
   };
 
+  console.log(files);
+
   return (
     <Box
       noValidate
@@ -160,29 +131,48 @@ const TestimonialForm = ({ id }) => {
       component="form"
       onSubmit={formik.handleSubmit}>
       <TextField
+        autoComplete="off"
         label="Titulo"
         name="name"
         type="text"
-        value={name}
+        value={formik.values.name}
         variant="outlined"
-        onChange={handleInputChange}
+        onChange={formik.handleChange}
       />
+      {formik.errors.name && (
+        <Alert severity="warning">{formik.errors.name}</Alert>
+      )}
       <CKEditor
         data={description}
         editor={ClassicEditor}
         onChange={(e, editor) => handleCKeditorChange(e, editor)}
       />
-      <Box
-        component="div"
-        style={{ border: '1px solid lightgray', paddingBottom: '15px' }}
-        {...getRootProps({ className: 'dropzone' })}>
+      {formik.errors.description && (
+        <Alert severity="warning">{formik.errors.description}</Alert>
+      )}
+      <Box component="div" className="dropzone-container" {...getRootProps()}>
         <input {...getInputProps()} />
-        <p>Arrastra una imagen o haz click aqui para agregarla </p>
-        <p>(Solo archivos .jpg o .png)</p>
-      </Box>
-      <aside style={thumbsContainer}>{thumbs}</aside>
+        <p>
+          Arrastra una imagen o haz click aqui para agregarla ( .png o .jpg )
+        </p>
 
-      <Button type="submit" variant="outlined">
+        <div className="thumbs-container">
+          <div className="thumb">
+            <div className="thumbInner">
+              {files.length > 0 && (
+                <img className="thumb-image" src={files[0].preview} />
+              )}
+            </div>
+          </div>
+        </div>
+      </Box>
+      {formik.errors.image && (
+        <Alert severity="warning">{formik.errors.image}</Alert>
+      )}
+      {imageError && (
+        <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
+      )}
+      <Button className="submit-btn" type="submit" variant="contained">
         Enviar
       </Button>
     </Box>

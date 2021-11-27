@@ -3,7 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
-import { TextField, Box, Button, Alert } from '@mui/material';
+import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import axios from 'axios';
 
 import '../../Styles/TestimonialsFormStyles.css';
@@ -130,6 +130,10 @@ const TestimonialForm = ({ id }) => {
       className="form-container"
       component="form"
       onSubmit={formik.handleSubmit}>
+      <Typography variant="h5" component="div">
+        Titulo
+      </Typography>
+
       <TextField
         autoComplete="off"
         label="Titulo"
@@ -139,17 +143,29 @@ const TestimonialForm = ({ id }) => {
         variant="outlined"
         onChange={formik.handleChange}
       />
+
       {formik.errors.name && (
         <Alert severity="warning">{formik.errors.name}</Alert>
       )}
+
+      <Typography variant="h5" component="div">
+        Descripcion
+      </Typography>
+
       <CKEditor
         data={description}
         editor={ClassicEditor}
         onChange={(e, editor) => handleCKeditorChange(e, editor)}
       />
+
       {formik.errors.description && (
         <Alert severity="warning">{formik.errors.description}</Alert>
       )}
+
+      <Typography variant="h5" component="div">
+        Imagen
+      </Typography>
+
       <Box component="div" className="dropzone-container" {...getRootProps()}>
         <input {...getInputProps()} />
         <p>
@@ -166,12 +182,15 @@ const TestimonialForm = ({ id }) => {
           </div>
         </div>
       </Box>
+
       {formik.errors.image && (
         <Alert severity="warning">{formik.errors.image}</Alert>
       )}
+
       {imageError && (
         <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
       )}
+
       <Button className="submit-btn" type="submit" variant="contained">
         Enviar
       </Button>

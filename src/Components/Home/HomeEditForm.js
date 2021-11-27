@@ -12,6 +12,7 @@ import {
   Paper,
   Stack,
 } from '@mui/material';
+import s from '../../Styles/HomeEditForm.module.css';
 //Components
 import SlidesForm from '../Slides/SlidesForm';
 
@@ -42,14 +43,17 @@ export default function HomeFormEdit() {
 
   return (
     <Container maxWidth="md" sx={{ marginBlock: '4rem' }}>
-      <Typography variant="h3" color="initial">
+      <Typography
+        color="initial"
+        sx={{ fontFamily: 'Product Sans' }}
+        variant="h3">
         Editar página de inicio
       </Typography>
       <Paper
         elevation={3}
         sx={{
           padding: '2rem',
-          marginBlock: '5rem',
+          marginBlock: '4rem',
         }}>
         <form
           sx={{
@@ -88,18 +92,25 @@ export default function HomeFormEdit() {
           sx={{
             padding: '2rem',
           }}>
-          <Typography align="center" color="initial" variant="h4">
+          <Typography
+            align="center"
+            color="initial"
+            sx={{ fontFamily: 'Source Serif Pro' }}
+            variant="h4">
             Slide 1
           </Typography>
           <SlidesForm />
         </Paper>
-
         <Paper
           elevation={3}
           sx={{
             padding: '2rem',
           }}>
-          <Typography align="center" color="initial" variant="h4">
+          <Typography
+            align="center"
+            color="initial"
+            sx={{ fontFamily: 'Source Serif Pro' }}
+            variant="h4">
             Slide 2
           </Typography>
           <SlidesForm />
@@ -110,7 +121,11 @@ export default function HomeFormEdit() {
           sx={{
             padding: '2rem',
           }}>
-          <Typography align="center" color="initial" variant="h4">
+          <Typography
+            align="center"
+            color="initial"
+            sx={{ fontFamily: 'Source Serif Pro' }}
+            variant="h4">
             Slide 3
           </Typography>
           <SlidesForm />

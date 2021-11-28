@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import '../FormStyles.css';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import { useFormik } from 'formik';
+import { TextField, Box, Button, Alert, Typography } from '@mui/material';
+import '../FormStyles.css';
+import '../../Styles/CategoriesFormStyles.css';
 
 //----------------------estilos-------------------------
 const editorConfiguration = {
@@ -29,38 +30,6 @@ const datosForm = {
   title: '',
   content: '',
   image: '',
-};
-
-// ---------------estilo de dropzone------------------
-const thumbsContainer = {
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  marginTop: 16,
-};
-
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
-  marginBottom: 8,
-  marginRight: 8,
-  width: 100,
-  height: 100,
-  padding: 4,
-  boxSizing: 'border-box',
-};
-
-const thumbInner = {
-  display: 'flex',
-  minWidth: 0,
-  overflow: 'hidden',
-};
-
-const img = {
-  display: 'block',
-  width: 'auto',
-  height: '100%',
 };
 
 //function especial
@@ -97,9 +66,9 @@ const CategoriesForm = () => {
   });
 
   const thumbs = files.map((file) => (
-    <div key={file.name} style={thumb}>
-      <div style={thumbInner}>
-        <img src={file.preview} style={img} />
+    <div key={file.name} className="thumb">
+      <div className="thumbInner">
+        <img className="thumb-image" src={file.preview} />
       </div>
     </div>
   ));
@@ -167,7 +136,7 @@ const CategoriesForm = () => {
           <input {...getInputProps()} />
           <p>Drag n drop some files here, or click to select files</p>
         </div>
-        <aside style={thumbsContainer}>{thumbs}</aside>
+        <aside className="thumbsContainer">{thumbs}</aside>
       </section>
 
       <button className="submit-btn" type="submit">

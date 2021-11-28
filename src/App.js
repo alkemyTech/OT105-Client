@@ -22,8 +22,9 @@ import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
-
+import { Organization } from './Components/Organization/Organization';
 import About from './Components/About/About';
+
 function App() {
   return (
     <>

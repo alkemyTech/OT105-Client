@@ -139,7 +139,7 @@ const CategoriesForm = ({ id }) => {
 
       <TextField
         autoComplete="off"
-        label="Titulo"
+        label="Name"
         name="name"
         type="text"
         value={formik.values.name}

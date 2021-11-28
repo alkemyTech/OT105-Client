@@ -21,7 +21,10 @@ function App() {
         <Switch>
           {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
           <Route component={ActivitiesForm} path="/create-activity" />
-          <Route component={CategoriesForm} path="/create-category" />
+          <Route
+            path="/create-category"
+            render={() => <CategoriesForm id={5} />}
+          />
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
           <Route component={TestimonialForm} path="/create-testimonials" />

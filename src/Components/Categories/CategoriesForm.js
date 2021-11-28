@@ -33,7 +33,7 @@ const datosForm = {
 };
 
 //function especial
-const CategoriesForm = () => {
+const CategoriesForm = ({ id }) => {
   const [initialValues, setInitialValues] = useState({
     name: '',
     description: '',

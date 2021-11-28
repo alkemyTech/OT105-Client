@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
-import '../FormStyles.css';
+import React from 'react';
+import '../../FormStyles.css';
+import { useForm } from './useForm';
 
 const RegisterForm = () => {
-  const [initialValues, setInitialValues] = useState({
+  const initialValues = {
     name: '',
     lastName: '',
-  });
-
-  const handleChange = (e) => {
-    if (e.target.name === 'name') {
-      setInitialValues({ ...initialValues, name: e.target.value });
-    }
-    if (e.target.name === 'lastName') {
-      setInitialValues({ ...initialValues, lastName: e.target.value });
-    }
+    email: '',
+    password: '',
+    confirmPassword: '',
   };
+
+  const [values, handleInputChange] = useForm(initialValues);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(initialValues);
     localStorage.setItem('token', 'tokenValueExample');
+    // eslint-disable-next-line no-console
+    console.table({ ...values });
   };
 
   return (
@@ -29,17 +27,42 @@ const RegisterForm = () => {
         name="name"
         placeholder="Enter name"
         type="text"
-        value={initialValues.name}
-        onChange={handleChange}
+        value={values.name}
+        onChange={handleInputChange}
       />
       <input
         className="input-field"
         name="lastName"
         placeholder="Enter last name"
         type="text"
-        value={initialValues.lastName}
-        onChange={handleChange}
+        value={values.lastName}
+        onChange={handleInputChange}
       />
+      <input
+        className="input-field"
+        name="email"
+        placeholder="Enter email"
+        type="email"
+        value={values.email}
+        onChange={handleInputChange}
+      />
+      <input
+        className="input-field"
+        name="password"
+        placeholder="Enter password"
+        type="password"
+        value={values.password}
+        onChange={handleInputChange}
+      />
+      <input
+        className="input-field"
+        name="confirmPassword"
+        placeholder="Confirm password"
+        type="password"
+        value={values.confirmPassword}
+        onChange={handleInputChange}
+      />
+
       <button className="submit-btn" type="submit">
         Register
       </button>

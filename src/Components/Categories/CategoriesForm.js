@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -9,52 +8,72 @@ import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
 
-//----------------------estilos-------------------------
-const editorConfiguration = {
-  toolbar: [
-    'heading',
-    '|',
-    'bold',
-    'italic',
-    'link',
-    'bulletedList',
-    'numberedList',
-    'blockQuote',
-    'undo',
-    'redo',
-  ],
-};
-
-const datosForm = {
-  category: '',
-  title: '',
-  content: '',
-  image: '',
-};
-
-//function especial
 const CategoriesForm = ({ id }) => {
-  const [initialValues, setInitialValues] = useState({
-    name: '',
-    description: '',
-    image: '',
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [imageError, setImageError] = useState(false);
+
+  //*************************************INITIAL FORM *********************************************/
+  const getCategories = () => {
+    return {
+      name: 'Categories Test ',
+      description: 'Test text',
+      image: '',
+    };
+  };
+
+  useEffect(() => {
+    if (id) {
+      const resp = getCategories();
+
+      formik.values.name = resp.name;
+      setDescription(resp.description);
+    }
+  }, []);
+
+  //**************************VALIDATE************************************** */
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.name) {
+      errors.name = 'El nombre es requerido';
+    } else if (values.name.length < 4) {
+      errors.name = 'El nombre debe contener al menos 4 caracteres';
+    }
+    if (!description) {
+      errors.description = 'La descripción es requerida';
+    }
+    if (!image) {
+      errors.image = 'La imagen es requerida';
+    }
+
+    return errors;
+  };
+
+  //********************************FORMIK FORM*********************************** */
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      description: '',
+      image: '',
+    },
+    validate,
+    onSubmit: (values) => handleSubmit(values),
   });
 
-  //*******************************react-DROPZONE *********************************************/
+  const handleCKeditorChange = (e, editor) => {
+    const data = editor.getData();
+
+    setDescription(data);
+  };
+
+  //****************************DROPZONE****** ONE FILE-.JPEG/.PNG***********previews***************** */
   const [files, setFiles] = useState([]);
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/jeg, image/png',
-    onDrop: (acceptedFiles) => {
-      setInitialValues({
-        ...initialValues,
-        image: acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      });
-
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
+    multiple: false,
+    maxFiles: 1,
+    accept: 'image/jpeg, image/png',
+    onDrop: (acceptedFiles, fileRejections) => {
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -62,87 +81,121 @@ const CategoriesForm = ({ id }) => {
           }),
         ),
       );
+      //*****************************BASE 64 FOR SERVER*************************************** */
+      if (fileRejections.length === 0) {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(acceptedFiles[0]);
+        reader.onload = () => {
+          const base64 = reader.result;
+
+          setImage(base64);
+        };
+      }
     },
   });
 
-  const thumbs = files.map((file) => (
-    <div key={file.name} className="thumb">
-      <div className="thumbInner">
-        <img className="thumb-image" src={file.preview} />
-      </div>
-    </div>
-  ));
+  useEffect(() => {
+    if (fileRejections.length > 0) {
+      setImageError(true);
 
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
-    },
-    [files],
-  );
-
-  //***************************************************HANDLES***************************************************************** */
-  const handleChange = (e) => {
-    if (e.target.name === 'name') {
-      setInitialValues({ ...initialValues, name: e.target.value });
+      return;
     }
-    if (e.target.name === 'description') {
-      setInitialValues({ ...initialValues, description: e.target.value });
-    }
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(initialValues);
+    setImageError(false);
+  }, [fileRejections]);
+
+  //*****************************SUBMIT AND AXIOS PATCH/POST BY ID *****************************************/
+
+  const handleSubmit = async () => {
+    const body = {
+      name: formik.values.name,
+      description,
+      image,
+    };
+
+    let resp;
+
+    id
+      ? (resp = await axios.patch(
+          `http://ongapi.alkemy.org/api/categories/${id}`,
+          body,
+        ))
+      : (resp = await axios.post(
+          'http://ongapi.alkemy.org/api/categories/',
+          body,
+        ));
   };
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <h1>Categorias</h1>
-      <input
-        required
-        className="input-field"
-        minLength={4}
+    <Box
+      noValidate
+      className="form-container"
+      component="form"
+      onSubmit={formik.handleSubmit}>
+      <Typography component="div" variant="h5">
+        Name
+      </Typography>
+
+      <TextField
+        autoComplete="off"
+        label="Titulo"
         name="name"
-        placeholder="Title"
         type="text"
-        value={initialValues.name}
-        onChange={handleChange}
+        value={formik.values.name}
+        variant="outlined"
+        onChange={formik.handleChange}
       />
+
+      {formik.errors.name && (
+        <Alert severity="warning">{formik.errors.name}</Alert>
+      )}
+
+      <Typography component="div" variant="h5">
+        Descripcion
+      </Typography>
 
       <CKEditor
-        required
-        data="<p>OT105-28!</p>"
+        data={description}
         editor={ClassicEditor}
-        onBlur={(event, editor) => {
-          console.log('Blur.', editor);
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-
-          console.log({ event, editor, data });
-          setInitialValues({ ...initialValues, description: data });
-        }}
-        onFocus={(event, editor) => {
-          console.log('Focus.', editor);
-        }}
-        onReady={(editor) => {
-          // You can store the "editor" and use when it is needed.
-          console.log('Editor is ready to use!', editor);
-        }}
+        onChange={(e, editor) => handleCKeditorChange(e, editor)}
       />
-      <section className="input-field">
-        <div {...getRootProps({ className: 'dropzone' })}>
-          <input {...getInputProps()} />
-          <p>Drag n drop some files here, or click to select files</p>
-        </div>
-        <aside className="thumbsContainer">{thumbs}</aside>
-      </section>
 
-      <button className="submit-btn" type="submit">
-        Send
-      </button>
-    </form>
+      {formik.errors.description && (
+        <Alert severity="warning">{formik.errors.description}</Alert>
+      )}
+
+      <Typography component="div" variant="h5">
+        Imagen
+      </Typography>
+
+      <Box className="dropzone-container" component="div" {...getRootProps()}>
+        <input {...getInputProps()} />
+        <p>Arrastra o haz click aqui para agregar Imagen ( .png o .jpg )</p>
+
+        <div className="thumbs-container">
+          <div className="thumb">
+            <div className="thumbInner">
+              {files.length > 0 && (
+                <img className="thumb-image" src={files[0].preview} />
+              )}
+            </div>
+          </div>
+        </div>
+      </Box>
+
+      {formik.errors.image && (
+        <Alert severity="warning">{formik.errors.image}</Alert>
+      )}
+
+      {imageError && (
+        <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
+      )}
+
+      <Button className="submit-btn" type="submit" variant="contained">
+        Enviar
+      </Button>
+    </Box>
   );
 };
 

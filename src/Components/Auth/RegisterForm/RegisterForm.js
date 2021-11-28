@@ -1,72 +1,75 @@
 import React from 'react';
 import '../../FormStyles.css';
-import { useForm } from './useForm';
+
+import { Formik, Field, Form } from 'formik';
 
 const RegisterForm = () => {
   const initialValues = {
-    name: '',
+    firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
   };
 
-  const [values, handleInputChange] = useForm(initialValues);
-
   const handleSubmit = (e) => {
-    e.preventDefault();
+    /* e.preventDefault();
     localStorage.setItem('token', 'tokenValueExample');
     // eslint-disable-next-line no-console
-    console.table({ ...values });
+    console.table({ ...values }); */
+    console.log(e);
   };
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <input
-        className="input-field"
-        name="name"
-        placeholder="Enter name"
-        type="text"
-        value={values.name}
-        onChange={handleInputChange}
-      />
-      <input
-        className="input-field"
-        name="lastName"
-        placeholder="Enter last name"
-        type="text"
-        value={values.lastName}
-        onChange={handleInputChange}
-      />
-      <input
-        className="input-field"
-        name="email"
-        placeholder="Enter email"
-        type="email"
-        value={values.email}
-        onChange={handleInputChange}
-      />
-      <input
-        className="input-field"
-        name="password"
-        placeholder="Enter password"
-        type="password"
-        value={values.password}
-        onChange={handleInputChange}
-      />
-      <input
-        className="input-field"
-        name="confirmPassword"
-        placeholder="Confirm password"
-        type="password"
-        value={values.confirmPassword}
-        onChange={handleInputChange}
-      />
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Form className="form-container">
+        <h1>Register</h1>
+        <label htmlFor="firstName">First Name</label>
+        <Field
+          className="input-field"
+          id="firstName"
+          name="firstName"
+          placeholder="Your first name"
+        />
 
-      <button className="submit-btn" type="submit">
-        Register
-      </button>
-    </form>
+        <label htmlFor="lastName">Last Name</label>
+        <Field
+          className="input-field"
+          id="lastName"
+          name="lastName"
+          placeholder="Your last name"
+        />
+
+        <label htmlFor="email">Email</label>
+        <Field
+          className="input-field"
+          id="email"
+          name="email"
+          placeholder="example@example.com"
+          type="email"
+        />
+        <label htmlFor="password">Password</label>
+        <Field
+          className="input-field"
+          id="password"
+          name="password"
+          placeholder="Your password"
+          type="password"
+        />
+        <label htmlFor="confirmPassword">Confirm password</label>
+        <Field
+          className="input-field"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Confirm your password"
+          type="password"
+        />
+
+        <button className="submit-btn" type="submit">
+          Register
+        </button>
+      </Form>
+    </Formik>
   );
 };
 

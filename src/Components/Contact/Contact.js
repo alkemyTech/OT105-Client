@@ -48,6 +48,7 @@ const Contact = () => {
     onSubmit: (values) => handleSubmit(values),
   });
 
+  //*****************************SUBMIT AND AXIOS POST  *****************************************/
   const handleSubmit = async () => {
     const body = {
       name: formik.values.name,
@@ -56,6 +57,7 @@ const Contact = () => {
       message: formik.values.message,
     };
 
+    console.log(body);
     let resp;
 
     resp = await axios.post('http://ongapi.alkemy.org/api/contacts', body);

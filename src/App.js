@@ -23,7 +23,7 @@ function App() {
           <Route component={ActivitiesForm} path="/create-activity" />
           <Route
             path="/create-category"
-            render={() => <CategoriesForm id={5} />}
+            render={() => <CategoriesForm id={1171} />}
           />
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />

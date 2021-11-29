@@ -16,14 +16,6 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
     accept: 'image/jpeg, image/png',
     multiple: false,
     maxFiles: 1,
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 63747e6 (add util function to get base64)
-=======
-
->>>>>>> fb478f9 (add patch fetching function if receive a user)
     onDrop: (acceptedImage) => {
       if (
         acceptedImage.length > 0 &&
@@ -39,8 +31,6 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
         setImage({
           file: null,
           preview: null,
-<<<<<<< HEAD
-<<<<<<< HEAD
           error: 'El archivo debe ser una imagen .png/.jpg',
         });
       }
@@ -51,33 +41,13 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
         preview: null,
       });
     },
-<<<<<<< HEAD
-=======
-          error: 'File must be an image',
-=======
-          error: 'El archivo debe ser una imagen .png/.jpg',
->>>>>>> 927dec3 (implements post on create user)
-        });
-      }
-    },
->>>>>>> 63747e6 (add util function to get base64)
-=======
->>>>>>> fb478f9 (add patch fetching function if receive a user)
   });
 
   useEffect(() => {
     if (image.file) {
       setDataImage();
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
   }, [image.file]);
-=======
-  }, [image]);
->>>>>>> 63747e6 (add util function to get base64)
-=======
-  }, [image.file]);
->>>>>>> 927dec3 (implements post on create user)
 
   const setDataImage = async () => {
     const base64 = await blobToBase64(image.file);

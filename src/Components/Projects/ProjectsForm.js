@@ -11,6 +11,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import Swal from 'sweetalert2';
 import '../FormStyles.css';
+import '../../Styles/ProjectsForm.css';
 
 const thumb = {
   display: 'inline-flex',
@@ -178,7 +179,11 @@ const ProjectsForm = ({ id }) => {
                 name="name"
               />
               <h4 className="title">Due date</h4>
-              <Field component={TextField} type="date" />
+              <Field
+                component={TextField}
+                sx={{ margin: '20x auto', display: 'flex', width: '200px' }}
+                type="date"
+              />
               <h4 className="title">Image</h4>
               <section className="form">
                 <div

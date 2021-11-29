@@ -11,6 +11,11 @@ const UserForm = ({ user = null }) => {
     status: false,
     errors: null,
   });
+  const [initialValues, setInitialValues] = useState({
+    name: '',
+    email: '',
+    roleId: '',
+  });
   const userValues = user
     ? { ...user, role: user.role_id }
     : {

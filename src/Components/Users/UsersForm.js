@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../FormStyles.css';
 
-const UserForm = () => {
+const UserForm = ({ user = null }) => {
   const [initialValues, setInitialValues] = useState({
     name: '',
     email: '',
@@ -52,6 +52,8 @@ const UserForm = () => {
         <option value="1">Admin</option>
         <option value="2">User</option>
       </select>
+
+      <input accept=".jpg, .jpeg, .png" type="file" />
       <button className="submit-btn" type="submit">
         Send
       </button>

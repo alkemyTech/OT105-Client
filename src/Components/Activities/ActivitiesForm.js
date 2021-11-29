@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import CardHeader from '@mui/material/CardHeader';
+import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
@@ -143,7 +144,9 @@ const ActivitiesForm = ({ id }) => {
                 onChange={handleChange}
               />
               <ErrorMessage
-                component={() => <span className="error">{errors.name}</span>}
+                component={() => (
+                  <Alert severity="warning">{errors.name}</Alert>
+                )}
                 name="name"
               />
               <h4 className="title">Description</h4>
@@ -181,7 +184,9 @@ const ActivitiesForm = ({ id }) => {
                 </div>
               </section>
               <ErrorMessage
-                component={() => <span className="error">{errors.image}</span>}
+                component={() => (
+                  <Alert severity="warning">{errors.image}</Alert>
+                )}
                 name="image"
               />
               <Button type="submit" variant="outlined">

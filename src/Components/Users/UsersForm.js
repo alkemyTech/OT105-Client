@@ -1,63 +1,64 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Field, Form, Formik } from 'formik';
 import '../FormStyles.css';
 
 const UserForm = ({ user = null }) => {
-  const [initialValues, setInitialValues] = useState({
-    name: '',
-    email: '',
-    roleId: '',
-  });
+  const userValues = user
+    ? { ...user }
+    : {
+        name: '',
+        email: '',
+        password: '',
+        role: '',
+        image: '',
+      };
 
-  const handleChange = (e) => {
-    if (e.target.name === 'name') {
-      setInitialValues({ ...initialValues, name: e.target.value });
-    }
-    if (e.target.name === 'email') {
-      setInitialValues({ ...initialValues, email: e.target.value });
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(initialValues);
+  const handleSubmit = (values) => {
+    //console.log(values);
   };
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <input
-        className="input-field"
-        name="name"
-        placeholder="Name"
-        type="text"
-        value={initialValues.name || ''}
-        onChange={handleChange}
-      />
-      <input
-        className="input-field"
-        name="email"
-        placeholder="Email"
-        type="text"
-        value={initialValues.description || ''}
-        onChange={handleChange}
-      />
-      <select
-        className="input-field"
-        value={initialValues.roleId || ''}
-        onChange={(e) =>
-          setInitialValues({ ...initialValues, roleId: e.target.value })
-        }>
-        <option disabled value="">
-          Select the role
-        </option>
-        <option value="1">Admin</option>
-        <option value="2">User</option>
-      </select>
-
-      <input accept=".jpg, .jpeg, .png" type="file" />
-      <button className="submit-btn" type="submit">
-        Send
-      </button>
-    </form>
+    <Formik
+      className="form-container"
+      initialValues={userValues}
+      onSubmit={handleSubmit}>
+      <Form className="form-container" onSubmit={handleSubmit}>
+        <h1>{user ? 'Edit User' : 'Create User'}</h1>
+        <label htmlFor="userName">User name</label>
+        <Field
+          className="input-field"
+          name="name"
+          placeholder="User name"
+          type="text"
+          value={userValues.name}
+        />
+        <label htmlFor="userEmail">User email</label>
+        <Field
+          className="input-field"
+          name="email"
+          placeholder="User email"
+          type="text"
+          value={userValues.email}
+        />
+        <label htmlFor="userEmail">User role</label>
+        <Field
+          as="select"
+          className="input-field"
+          name="role"
+          placeholder="User email"
+          type="text"
+          value={userValues.role}>
+          <option disabled value="">
+            Select the role
+          </option>
+          <option value="1">Admin</option>
+          <option value="2">User</option>
+        </Field>
+        <button className="submit-btn" type="submit">
+          {user ? 'Edit User' : 'Create User'}
+        </button>
+      </Form>
+    </Formik>
   );
 };
 

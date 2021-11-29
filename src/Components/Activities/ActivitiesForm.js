@@ -126,6 +126,7 @@ const ActivitiesForm = ({ id }) => {
                 width: '600px',
                 height: '100%',
               }}>
+              <h4 className="title">Title</h4>
               <Field
                 fullWidth
                 component={TextField}
@@ -145,6 +146,7 @@ const ActivitiesForm = ({ id }) => {
                 component={() => <span className="error">{errors.name}</span>}
                 name="name"
               />
+              <h4 className="title">Description</h4>
               <section style={{ width: '80%', margin: '20px auto' }}>
                 <CKEditor
                   required
@@ -157,6 +159,7 @@ const ActivitiesForm = ({ id }) => {
                   }}
                 />
               </section>
+              <h4 className="title">Image</h4>
               <section className="form">
                 <div
                   {...getRootProps({ className: 'dropzone' })}

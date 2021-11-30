@@ -4,14 +4,14 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
-import { testimonialFormService } from '../../Services/testimonialsService';
-import { listHasValues, dropzoneConfig } from '../../utils';
+import { createOrEditTestimonial } from '../../Services/testimonialsService';
+import { listHasValues, dropzoneConfig, isEmptyList } from '../../utils';
 import '../../Styles/TestimonialsFormStyles.css';
 import '../FormStyles.css';
 
 const TestimonialForm = ({ id }) => {
-  const [files, setFiles] = useState([]);
-  const [image, setImage] = useState('');
+  const [imageFiles, setImageFiles] = useState([]);
+  const [base64ImageFile, setBase64ImageFile] = useState('');
   const [imageError, setImageError] = useState(false);
   const [apiResponse, setApiResponse] = useState({});
   const [testimonialDescription, setTestimonialDescription] = useState('');
@@ -24,23 +24,29 @@ const TestimonialForm = ({ id }) => {
   });
 
   const handleDrop = (acceptedFiles, fileRejections) => {
-    setFiles(
-      acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }),
-      ),
+    const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
+
+    setImageFiles(imageFileWithPreview);
+    if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
+  };
+
+  const imageFileToBase64File = (acceptedFiles) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(acceptedFiles[0]);
+    reader.onload = () => {
+      const base64 = reader.result;
+
+      setBase64ImageFile(base64);
+    };
+  };
+
+  const addImagePreviewtoImageFile = (acceptedFiles) => {
+    return acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      }),
     );
-    if (fileRejections.length === 0) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(acceptedFiles[0]);
-      reader.onload = () => {
-        const base64 = reader.result;
-
-        setImage(base64);
-      };
-    }
   };
 
   const handleCKeditorChange = (e, editor) => {
@@ -49,13 +55,12 @@ const TestimonialForm = ({ id }) => {
     setTestimonialDescription(data);
   };
 
-  const checkIfIsEditing = () => {
-    if (id) {
-      const resp = getTestimonial();
+  const isEditingMode = () => id !== undefined;
+  const updateTestimonialswithCurrentData = () => {
+    const currentTestimonial = getTestimonial();
 
-      formik.values.name = resp.name;
-      setTestimonialDescription(resp.description);
-    }
+    formik.values.name = currentTestimonial.name;
+    setTestimonialDescription(currentTestimonial.description);
   };
 
   const showErrorMessage = (errorMessage) => {
@@ -63,7 +68,7 @@ const TestimonialForm = ({ id }) => {
   };
 
   useEffect(() => {
-    checkIfIsEditing();
+    if (isEditingMode()) updateTestimonialswithCurrentData();
   }, []);
 
   const validate = (values) => {
@@ -77,7 +82,7 @@ const TestimonialForm = ({ id }) => {
     if (!testimonialDescription) {
       errors.description = 'La descripción es requerida';
     }
-    if (!image) {
+    if (!base64ImageFile) {
       errors.image = 'La imagen es requerida';
     }
 
@@ -119,10 +124,10 @@ const TestimonialForm = ({ id }) => {
     const body = {
       name: formik.values.name,
       description: testimonialDescription,
-      image,
+      image: base64ImageFile,
     };
 
-    testimonialFormService(id, body).then((resp) => setApiResponse(resp.data));
+    createOrEditTestimonial(id, body).then((resp) => setApiResponse(resp.data));
   };
 
   return (
@@ -171,8 +176,8 @@ const TestimonialForm = ({ id }) => {
         <div className="thumbs-container">
           <div className="thumb">
             <div className="thumbInner">
-              {listHasValues(files) && (
-                <img className="thumb-image" src={files[0].preview} />
+              {listHasValues(imageFiles) && (
+                <img className="thumb-image" src={imageFiles[0].preview} />
               )}
             </div>
           </div>

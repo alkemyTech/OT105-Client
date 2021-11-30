@@ -1,19 +1,21 @@
 import axios from 'axios';
 
-export const testimonialFormService = async (id, body) => {
+const TESTIMONIAL_URL = 'http://ongapi.alkemy.org/api/testimonials/';
+
+export const createOrEditTestimonial = (id, body) => {
   if (id) {
-    const resp = await axios.patch(
-      'http://ongapi.alkemy.org/api/testimonials/',
-      body,
-    );
+    const response = updateTestimonial(id, body);
 
-    return resp;
+    return response;
   } else {
-    const resp = await axios.post(
-      `http://ongapi.alkemy.org/api/testimonials/${id}`,
-      body,
-    );
+    const response = createTestimonial(body);
 
-    return resp;
+    return response;
   }
 };
+
+const createTestimonial = async (body) =>
+  await axios.post(TESTIMONIAL_URL, body);
+
+const updateTestimonial = async (id, body) =>
+  await axios.patch(`${TESTIMONIAL_URL}${id}`, body);

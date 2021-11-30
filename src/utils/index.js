@@ -1,4 +1,5 @@
 export const listHasValues = (list) => list.length > 0;
+export const isEmptyList = (list) => list.length === 0;
 
 export const dropzoneConfig = {
   multipleFiles: false,

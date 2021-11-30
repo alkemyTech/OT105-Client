@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Title from '../../Title/Title';
 
 //MUI
-import { Container, Typography } from '@mui/material';
+import { CircularProgress, Container, Typography } from '@mui/material';
 
 //In the future this API call logic should be moved.
 import axios from 'axios';
@@ -14,6 +14,7 @@ const getActivityById = (id) => {
 export default function ActivityDetail({ match }) {
   const [details, setDetails] = useState({});
   const { name, description, image } = details;
+  const [isLoading, setIsLoading] = useState(true);
 
   const activityId = match.params.id;
 
@@ -26,25 +27,40 @@ export default function ActivityDetail({ match }) {
       .catch((e) => {
         console.log(e.response.data);
         setDetails(e.response.data);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, [activityId]);
 
-  return (
-    <div>
-      <Title
-        bckgOpacity="0.5"
-        imageUrl={image}
-        titlePadding="10rem"
-        titleText={name}
-      />
-      <Container maxWidth="md" sx={{ marginTop: '3rem' }}>
-        <Typography color="initial" sx={{ marginBlock: '1rem' }} variant="h4">
-          Detalle de actividad
-        </Typography>
-        <Typography color="initial" variant="body1">
-          {description}
-        </Typography>
+  if (isLoading) {
+    return (
+      <Container
+        maxWidth="md"
+        sx={{
+          display: 'flex',
+          minHeight: '100vh',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <CircularProgress />
       </Container>
-    </div>
-  );
+    );
+  } else
+    return (
+      <div>
+        <Title
+          bckgOpacity="0.5"
+          imageUrl={image}
+          titlePadding="10rem"
+          titleText={name}
+        />
+        <Container maxWidth="md" sx={{ marginTop: '3rem' }}>
+          <Typography color="initial" sx={{ marginBlock: '1rem' }} variant="h4">
+            Detalle de actividad
+          </Typography>
+          <Typography color="initial" variant="body1">
+            {description}
+          </Typography>
+        </Container>
+      </div>
+    );
 }

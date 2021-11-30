@@ -24,9 +24,9 @@ import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
+import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
 import About from './Components/About/About';
 import Organization from './Components/Organization/OrganizationInfo';
-
 
 function App() {
   return (
@@ -86,6 +86,7 @@ function App() {
             render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
           />
           <Route component={About} path="/AboutUs" />
+          <Route component={ActivityDetail} path="/actividades/:id" />
         </Switch>
       </BrowserRouter>
     </>

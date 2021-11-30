@@ -8,7 +8,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { categoriesGet } from '../../Services/CategoriesService';
 import { urlEditNews, urlCreateNews } from '../../Services/NewsService';
-// import { getRootProps, getInputProps } from '../Utils/dropzoneFunction';
+import SlideHome from '../Slides/SlideHome';
 
 const editorConfiguration = {
   toolbar: [

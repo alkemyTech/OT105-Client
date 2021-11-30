@@ -300,9 +300,9 @@ function MembersCreateEdit() {
               />
               <Button
                 className="submit-btn"
-                onClick={() => handleClick()}
                 type="submit"
-                variant="contained">
+                variant="contained"
+                onClick={() => handleClick()}>
                 Send
               </Button>
             </Form>

@@ -4,31 +4,66 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
-import axios from 'axios';
-
+import { testimonialFormService } from '../../Services/testimonialsService';
+import { listHasValues, dropzoneConfig } from '../../utils';
 import '../../Styles/TestimonialsFormStyles.css';
 import '../FormStyles.css';
 
 const TestimonialForm = ({ id }) => {
-  const [description, setDescription] = useState('');
+  const [files, setFiles] = useState([]);
   const [image, setImage] = useState('');
   const [imageError, setImageError] = useState(false);
+  const [apiResponse, setApiResponse] = useState({});
+  const [testimonialDescription, setTestimonialDescription] = useState('');
+  const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
-  const getTestimonials = () => {
-    return {
-      name: 'Testimonial testings',
-      description: 'This is a mockup testimonial',
-      image: '',
-    };
+  const getTestimonial = () => ({
+    name: 'Testimonial testings',
+    description: 'This is a mockup testimonial',
+    image: '',
+  });
+
+  const handleDrop = (acceptedFiles, fileRejections) => {
+    setFiles(
+      acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }),
+      ),
+    );
+    if (fileRejections.length === 0) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(acceptedFiles[0]);
+      reader.onload = () => {
+        const base64 = reader.result;
+
+        setImage(base64);
+      };
+    }
+  };
+
+  const handleCKeditorChange = (e, editor) => {
+    const data = editor.getData();
+
+    setTestimonialDescription(data);
+  };
+
+  const checkIfIsEditing = () => {
+    if (id) {
+      const resp = getTestimonial();
+
+      formik.values.name = resp.name;
+      setTestimonialDescription(resp.description);
+    }
+  };
+
+  const showErrorMessage = (errorMessage) => {
+    return <Alert severity="warning"> {errorMessage} </Alert>;
   };
 
   useEffect(() => {
-    if (id) {
-      const resp = getTestimonials();
-
-      formik.values.name = resp.name;
-      setDescription(resp.description);
-    }
+    checkIfIsEditing();
   }, []);
 
   const validate = (values) => {
@@ -39,7 +74,7 @@ const TestimonialForm = ({ id }) => {
     } else if (values.name.length < 4) {
       errors.name = 'El nombre debe contener al menos 4 caracteres';
     }
-    if (!description) {
+    if (!testimonialDescription) {
       errors.description = 'La descripción es requerida';
     }
     if (!image) {
@@ -59,70 +94,36 @@ const TestimonialForm = ({ id }) => {
     onSubmit: (values) => handleSubmit(values),
   });
 
-  const handleCKeditorChange = (e, editor) => {
-    const data = editor.getData();
-
-    setDescription(data);
-  };
-
-  const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps, fileRejections } = useDropzone({
-    multiple: false,
-    maxFiles: 1,
-    accept: 'image/jpeg, image/png',
-    onDrop: (acceptedFiles, fileRejections) => {
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      );
-
-      if (fileRejections.length === 0) {
-        const reader = new FileReader();
-
-        reader.readAsDataURL(acceptedFiles[0]);
-        reader.onload = () => {
-          const base64 = reader.result;
-
-          setImage(base64);
-        };
-      }
-    },
+    multiple: multipleFiles,
+    maxFiles,
+    accept: validImages,
+    onDrop: (acceptedFiles, fileRejections) =>
+      handleDrop(acceptedFiles, fileRejections),
   });
 
-  useEffect(() => {
-    if (fileRejections.length > 0) {
+  const imageValidation = () => {
+    if (listHasValues(fileRejections)) {
       setImageError(true);
 
       return;
     }
-
     setImageError(false);
+  };
+
+  useEffect(() => {
+    imageValidation();
   }, [fileRejections]);
 
   const handleSubmit = async () => {
     const body = {
       name: formik.values.name,
-      description,
+      description: testimonialDescription,
       image,
     };
 
-    let resp;
-
-    id
-      ? (resp = await axios.patch(
-          `http://ongapi.alkemy.org/api/testimonials/${id}`,
-          body,
-        ))
-      : (resp = await axios.post(
-          'http://ongapi.alkemy.org/api/testimonials/',
-          body,
-        ));
+    testimonialFormService(id, body).then((resp) => setApiResponse(resp.data));
   };
-
-  console.log(files);
 
   return (
     <Box
@@ -130,8 +131,8 @@ const TestimonialForm = ({ id }) => {
       className="form-container"
       component="form"
       onSubmit={formik.handleSubmit}>
-      <Typography variant="h5" component="div">
-        Titulo
+      <Typography component="div" variant="h5">
+        Título
       </Typography>
 
       <TextField
@@ -144,38 +145,33 @@ const TestimonialForm = ({ id }) => {
         onChange={formik.handleChange}
       />
 
-      {formik.errors.name && (
-        <Alert severity="warning">{formik.errors.name}</Alert>
-      )}
+      {formik.errors.name && showErrorMessage(formik.errors.name)}
 
-      <Typography variant="h5" component="div">
-        Descripcion
+      <Typography component="div" variant="h5">
+        Descripción
       </Typography>
 
       <CKEditor
-        data={description}
+        data={testimonialDescription}
         editor={ClassicEditor}
         onChange={(e, editor) => handleCKeditorChange(e, editor)}
       />
 
-      {formik.errors.description && (
-        <Alert severity="warning">{formik.errors.description}</Alert>
-      )}
+      {formik.errors.description && showErrorMessage(formik.errors.description)}
 
-      <Typography variant="h5" component="div">
+      <Typography component="div" variant="h5">
         Imagen
       </Typography>
 
-      <Box component="div" className="dropzone-container" {...getRootProps()}>
+      <Box className="dropzone-container" component="div" {...getRootProps()}>
         <input {...getInputProps()} />
         <p>
           Arrastra una imagen o haz click aqui para agregarla ( .png o .jpg )
         </p>
-
         <div className="thumbs-container">
           <div className="thumb">
             <div className="thumbInner">
-              {files.length > 0 && (
+              {listHasValues(files) && (
                 <img className="thumb-image" src={files[0].preview} />
               )}
             </div>
@@ -183,13 +179,8 @@ const TestimonialForm = ({ id }) => {
         </div>
       </Box>
 
-      {formik.errors.image && (
-        <Alert severity="warning">{formik.errors.image}</Alert>
-      )}
-
-      {imageError && (
-        <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
-      )}
+      {formik.errors.image && showErrorMessage(formik.errors.image)}
+      {imageError && showErrorMessage('Solo una imagen .jpg / .png')}
 
       <Button className="submit-btn" type="submit" variant="contained">
         Enviar

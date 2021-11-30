@@ -47,10 +47,10 @@ const UserForm = ({ user = null }) => {
           <label htmlFor="userName">User name</label>
           <Field
             className="input-field"
+            id="name"
             name="name"
             placeholder="User name"
             type="text"
-            value={userValues.name}
           />
           {errors.name && touched.name ? (
             <Alert severity="warning">{errors.name}</Alert>
@@ -59,10 +59,10 @@ const UserForm = ({ user = null }) => {
           <label htmlFor="userEmail">User email</label>
           <Field
             className="input-field"
+            id="email"
             name="email"
             placeholder="User email"
             type="text"
-            value={userValues.email}
           />
           {errors.email && touched.email ? (
             <Alert severity="warning">{errors.email}</Alert>
@@ -72,10 +72,10 @@ const UserForm = ({ user = null }) => {
           <Field
             as="select"
             className="input-field"
+            id="role"
             name="role"
             placeholder="User email"
-            type="text"
-            value={userValues.role}>
+            type="text">
             <option disabled value="">
               Select the role
             </option>

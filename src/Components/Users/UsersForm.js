@@ -103,7 +103,6 @@ const UserForm = ({ user = null }) => {
             name="name"
             placeholder="User name"
             type="text"
-            value={userValues.name}
           />
           {errors.name && touched.name ? (
             <Alert severity="warning">{errors.name}</Alert>
@@ -113,9 +112,9 @@ const UserForm = ({ user = null }) => {
           <Field
             className="input-field"
             id="email"
-            placeholder="User email"
-            type="text"
             name="email"
+            placeholder="User email"
+            type="email"
             value={userValues.email}
           />
           {errors.email && touched.email ? (
@@ -129,8 +128,8 @@ const UserForm = ({ user = null }) => {
             id="role"
             name="role"
             placeholder="User Role"
-            value={userValues.role}
-            type="text">
+            type="text"
+            value={userValues.role}>
             <option disabled value="">
               Select the role
             </option>

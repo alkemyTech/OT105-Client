@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Field, Form, Formik } from 'formik';
-import '../FormStyles.css';
 import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';
 import axios from 'axios';
+import '../FormStyles.css';
 
 const UserForm = ({ user = null }) => {
   const [success, setSuccess] = useState({
@@ -103,6 +103,7 @@ const UserForm = ({ user = null }) => {
             name="name"
             placeholder="User name"
             type="text"
+            value={userValues.name}
           />
           {errors.name && touched.name ? (
             <Alert severity="warning">{errors.name}</Alert>
@@ -112,21 +113,23 @@ const UserForm = ({ user = null }) => {
           <Field
             className="input-field"
             id="email"
-            name="email"
             placeholder="User email"
             type="text"
+            name="email"
+            value={userValues.email}
           />
           {errors.email && touched.email ? (
             <Alert severity="warning">{errors.email}</Alert>
           ) : null}
 
-          <label htmlFor="userEmail">User role</label>
+          <label htmlFor="userRole">User role</label>
           <Field
             as="select"
             className="input-field"
             id="role"
             name="role"
-            placeholder="User email"
+            placeholder="User Role"
+            value={userValues.role}
             type="text">
             <option disabled value="">
               Select the role
@@ -138,13 +141,14 @@ const UserForm = ({ user = null }) => {
             <Alert severity="warning">{errors.role}</Alert>
           ) : null}
 
-          <label htmlFor="userEmail">User password</label>
+          <label htmlFor="userPassword">User password</label>
           <Field
             className="input-field"
             id="password"
             name="password"
             placeholder="User password"
             type="text"
+            value={userValues.password}
           />
           {errors.password && touched.password ? (
             <Alert severity="warning">{errors.password}</Alert>
@@ -166,6 +170,9 @@ const UserForm = ({ user = null }) => {
               Error en el envío del formulario comprueba la información
             </Alert>
           )}
+          <button className="submit-btn" type="submit">
+            {user ? 'Edit User' : 'Create User'}
+          </button>
         </Form>
       )}
     </Formik>

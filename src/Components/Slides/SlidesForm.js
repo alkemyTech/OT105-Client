@@ -1,48 +1,261 @@
-import React, { useState } from 'react';
-import '../FormStyles.css';
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/es';
+import { useParams } from 'react-router-dom';
+import { useDropzone } from 'react-dropzone';
+import SaveIcon from '@mui/icons-material/Save';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Container,
+  TextField,
+  InputLabel,
+  Button,
+  FormHelperText,
+  FormControl,
+  Tooltip,
+  Alert,
+} from '@mui/material';
+import '../../Styles/Slides/SlidesForm.css';
+import * as service from '../../Services/SlidesFormService';
 
 const SlidesForm = () => {
+  const { id } = useParams();
+  const [slideError, setSlideError] = useState(null);
   const [initialValues, setInitialValues] = useState({
     name: '',
+    order: '',
+    image: '',
     description: '',
+    responseError: '',
   });
 
-  const handleChange = (e) => {
-    if (e.target.name === 'name') {
-      setInitialValues({ ...initialValues, name: e.target.value });
-    }
-    if (e.target.name === 'description') {
-      setInitialValues({ ...initialValues, description: e.target.value });
-    }
+  // React Dropzone Config
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({
+    accept: 'image/jpeg, image/png',
+    maxFiles: 1,
+    multiple: false,
+    onDrop: async (acceptedFiles, fileRejections) => {
+      if (fileRejections.length === 0) {
+        try {
+          const image = await service.imgToBase64(acceptedFiles[0]);
+
+          formik.setFieldValue('image', image);
+        } catch (error) {
+          formik.setFieldError('image', error);
+        }
+      } else {
+        formik.setFieldError('image', '*Tipo de Archivo no admitido');
+      }
+    },
+  });
+  const removeSlideImage = () => {
+    formik.setFieldValue('image', '');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(initialValues);
+  // Formik Config
+  const yupSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(4, 'El nombre debe tener mínimo 4 caracteres de largo')
+      .required('*El nombre es requerido'),
+    order: Yup.number().required('*El número de orden es requerido'),
+    image: Yup.string().required('*La imagen es requerida'),
+    description: Yup.string().required('*La descripción es requerida'),
+  });
+  const formikOnSubmit = (values) => {
+    const { name, order, image, description } = values;
+    const body = {
+      name,
+      order,
+      image,
+      description,
+    };
+
+    try {
+      id ? service.updateSlide(id, body) : service.createSlide(body);
+      formik.resetForm();
+    } catch (error) {
+      formik.setFieldError('responseError', 'Error al guardar el slide');
+    } finally {
+      formik.setSubmitting(false);
+    }
   };
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: initialValues,
+    validationSchema: yupSchema,
+    onSubmit: formikOnSubmit,
+  });
+
+  // CKEditor Config
+  const ckeditorConfig = {
+    language: 'es',
+    removePlugins: [
+      'BlockQuote',
+      'CKFinder',
+      'CKFinderUploadAdapter',
+      'CloudServices',
+      'EasyImage',
+      'Image',
+      'ImageCaption',
+      'ImageStyle',
+      'ImageToolbar',
+      'ImageUpload',
+      'MediaEmbed',
+      'Table',
+      'TableToolbar',
+    ],
+    toolbar: [
+      'heading',
+      '|',
+      'bold',
+      'italic',
+      'link',
+      'bulletedList',
+      'numberedList',
+      '|',
+      'outdent',
+      'indent',
+      '|',
+      'undo',
+      'redo',
+    ],
+  };
+
+  useEffect(() => {
+    if (id) {
+      (async () => {
+        try {
+          const slideResponse = await service.getSlide(id);
+          const slideData = await slideResponse.data;
+          const imageData = await service.URLImageToBlob(slideData.image);
+
+          setInitialValues({
+            name: slideData.name,
+            order: slideData.order,
+            image: imageData,
+            description: slideData.description,
+            responseError: '',
+          });
+        } catch (error) {
+          setSlideError(error);
+        }
+      })();
+    }
+  }, [id]);
+
+  if (slideError) {
+    return (
+      <Container maxWidth="md" sx={{ mb: '1rem' }}>
+        <h2>Slide no encontrado</h2>
+      </Container>
+    );
+  }
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <input
-        className="input-field"
-        name="name"
-        placeholder="Slide Title"
-        type="text"
-        value={initialValues.name}
-        onChange={handleChange}
-      />
-      <input
-        className="input-field"
-        name="description"
-        placeholder="Write the description"
-        type="text"
-        value={initialValues.description}
-        onChange={handleChange}
-      />
-      <button className="submit-btn" type="submit">
-        Send
-      </button>
-    </form>
+    <Container maxWidth="md" sx={{ mb: '1rem' }}>
+      <h2>{id ? 'Edición de Slide' : 'Creación de Slide'}</h2>
+      <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
+        <TextField
+          fullWidth
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          id="name"
+          label="Nombre"
+          margin="normal"
+          name="name"
+          value={formik.values.name}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+        />
+        <TextField
+          fullWidth
+          error={formik.touched.order && Boolean(formik.errors.order)}
+          helperText={formik.touched.order && formik.errors.order}
+          id="order"
+          label="Orden"
+          margin="normal"
+          name="order"
+          type="number"
+          value={formik.values.order}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+        />
+        <InputLabel sx={{ m: '0.5rem 0 1rem 0' }}>Imagen:</InputLabel>
+        <div
+          {...getRootProps({
+            className: `base-style ${isDragAccept ? 'accept-style' : ''} ${
+              isDragActive ? 'active-style' : ''
+            } ${isDragReject ? 'reject-style' : ''}`,
+          })}>
+          <input {...getInputProps()} id="image" name="image" />
+          <p>Arrastra tu imagen aquí o haz click para seleccionarla.</p>
+          <em>(Solo imágenes *.jpeg y *.png serán aceptadas)</em>
+        </div>
+        <FormControl error={Boolean(formik.errors.image)}>
+          <FormHelperText>{formik.errors.image}</FormHelperText>
+        </FormControl>
+        {formik.values.image ? (
+          <aside>
+            <h4>Archivos subidos:</h4>
+            <div className="thumb" onClick={() => removeSlideImage()}>
+              <Tooltip title="Delete">
+                <div className="thumb-inner">
+                  <div className="thumb-btn-container">
+                    <DeleteIcon fontSize="large" htmlColor="white" />
+                  </div>
+                  <img className="img-preview" src={formik.values.image} />
+                </div>
+              </Tooltip>
+            </div>
+          </aside>
+        ) : null}
+        <div className="ck-content">
+          <InputLabel sx={{ m: '1rem 0' }}>Descripción:</InputLabel>
+          <CKEditor
+            config={ckeditorConfig}
+            data={formik.values.description}
+            editor={ClassicEditor}
+            onChange={(_event, editor) => {
+              formik.setFieldValue('description', editor.getData());
+            }}
+            onReady={(editor) => {
+              editor.editing.view.change((writer) => {
+                writer.setStyle(
+                  'min-height',
+                  '200px',
+                  editor.editing.view.document.getRoot(),
+                );
+              });
+            }}
+          />
+          <FormControl error={Boolean(formik.errors.description)}>
+            <FormHelperText>{formik.errors.description}</FormHelperText>
+          </FormControl>
+        </div>
+        {formik.errors.responseError && (
+          <Alert severity="error">{formik.errors.responseError}</Alert>
+        )}
+        <Button
+          fullWidth
+          color="primary"
+          disabled={formik.isSubmitting}
+          startIcon={<SaveIcon />}
+          sx={{ my: '1rem' }}
+          type="submit"
+          variant="contained">
+          {id ? 'Editar Slide' : 'Crear Slide'}
+        </Button>
+      </form>
+    </Container>
   );
 };
 

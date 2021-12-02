@@ -23,7 +23,16 @@ function App() {
           <Route component={ActivitiesForm} path="/create-activity" />
           <Route component={CategoriesForm} path="/create-category" />
           <Route component={NewsForm} path="/create-news" />
-          <Route component={SlidesForm} path="/backoffice/create-slide" />
+          <Route
+            exact
+            component={SlidesForm}
+            path="/backoffice/slides/create"
+          />
+          <Route
+            exact
+            component={SlidesForm}
+            path="/backoffice/slides/edit/:id"
+          />
           <Route component={TestimonialForm} path="/create-testimonials" />
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />

@@ -9,29 +9,17 @@ import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
 
 const CategoriesForm = ({ id }) => {
-  const [description, setDescription] = useState('');
+  const [categoryDescription, setCategoryDescription] = useState('');
   const [image, setImage] = useState('');
   const [imageError, setImageError] = useState(false);
+  const [filesDropzone, setFilesDropzone] = useState([]);
 
-  //*************************************INITIAL FORM *********************************************/
-  const getCategories = () => {
-    return {
-      name: 'Categories Test ',
-      description: 'Test text',
-      image: '',
-    };
-  };
+  const getCategory = (id) => ({
+    name: 'Categories Test ',
+    description: 'Test text',
+    image: '',
+  });
 
-  useEffect(() => {
-    if (id) {
-      const resp = getCategories();
-
-      formik.values.name = resp.name;
-      setDescription(resp.description);
-    }
-  }, []);
-
-  //**************************VALIDATE************************************** */
   const validate = (values) => {
     const errors = {};
 
@@ -40,7 +28,7 @@ const CategoriesForm = ({ id }) => {
     } else if (values.name.length < 4) {
       errors.name = 'El nombre debe contener al menos 4 caracteres';
     }
-    if (!description) {
+    if (!categoryDescription) {
       errors.description = 'La descripción es requerida';
     }
     if (!image) {
@@ -50,38 +38,32 @@ const CategoriesForm = ({ id }) => {
     return errors;
   };
 
-  //********************************FORMIK FORM*********************************** */
   const formik = useFormik({
     initialValues: {
       name: '',
-      description: '',
+      categoryDescription: '',
       image: '',
     },
     validate,
-    onSubmit: (values) => handleSubmit(values),
+    onSubmit: (values) => handleSubmitbecategory(values),
   });
 
-  const handleCKeditorChange = (e, editor) => {
-    const data = editor.getData();
+  const handleCKeditorChange = (e, editor) =>
+    setCategoryDescription(editor.getData());
 
-    setDescription(data);
-  };
-
-  //****************************DROPZONE****** ONE FILE-.JPEG/.PNG***********previews***************** */
-  const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps, fileRejections } = useDropzone({
     multiple: false,
     maxFiles: 1,
     accept: 'image/jpeg, image/png',
     onDrop: (acceptedFiles, fileRejections) => {
-      setFiles(
+      setFilesDropzone(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           }),
         ),
       );
-      //*****************************BASE 64 FOR SERVER*************************************** */
+
       if (fileRejections.length === 0) {
         const reader = new FileReader();
 
@@ -96,6 +78,15 @@ const CategoriesForm = ({ id }) => {
   });
 
   useEffect(() => {
+    if (id) {
+      const resp = getCategory();
+
+      formik.values.name = resp.name;
+      setCategoryDescription(resp.categoryDescription);
+    }
+  }, []);
+
+  useEffect(() => {
     if (fileRejections.length > 0) {
       setImageError(true);
 
@@ -105,12 +96,10 @@ const CategoriesForm = ({ id }) => {
     setImageError(false);
   }, [fileRejections]);
 
-  //*****************************SUBMIT AND AXIOS PATCH/POST BY ID *****************************************/
-
-  const handleSubmit = async () => {
+  const handleSubmitbecategory = async () => {
     const body = {
       name: formik.values.name,
-      description,
+      categoryDescription,
       image,
     };
 
@@ -156,7 +145,7 @@ const CategoriesForm = ({ id }) => {
       </Typography>
 
       <CKEditor
-        data={description}
+        data={categoryDescription}
         editor={ClassicEditor}
         onChange={(e, editor) => handleCKeditorChange(e, editor)}
       />
@@ -176,8 +165,8 @@ const CategoriesForm = ({ id }) => {
         <div className="thumbs-container">
           <div className="thumb">
             <div className="thumbInner">
-              {files.length > 0 && (
-                <img className="thumb-image" src={files[0].preview} />
+              {filesDropzone.length > 0 && (
+                <img className="thumb-image" src={filesDropzone[0].preview} />
               )}
             </div>
           </div>

@@ -93,6 +93,9 @@ const CategoriesForm = ({ id }) => {
     setCategoryDescription(currentCategories.categoryDescription);
   };
 
+  const handleCKeditorChange = (e, editor) =>
+    setCategoryDescription(editor.getData());
+
   const showErrorMessage = (errorMessage) => {
     return <Alert severity="warning"> {errorMessage} </Alert>;
   };
@@ -106,9 +109,6 @@ const CategoriesForm = ({ id }) => {
     validate,
     onSubmit: (values) => handleSubmitbecategory(values),
   });
-
-  const handleCKeditorChange = (e, editor) =>
-    setCategoryDescription(editor.getData());
 
   useEffect(() => {
     imageValidation();

@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
     .required('Este campo es obligatorio'),
 });
 
-export default function HomeFormEdit() {
+const EditHomeForm = () => {
   const [welcomeText, setWelcomeText] = useState('');
 
   const formik = useFormik({
@@ -130,4 +130,6 @@ export default function HomeFormEdit() {
       </Stack>
     </Container>
   );
-}
+};
+
+export default EditHomeForm;

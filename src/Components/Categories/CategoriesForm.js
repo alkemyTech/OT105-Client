@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { createOrEditCategories } from '../../Services/CategoriesService';
+import { dropzoneConfig, isEmptyList, listHasValues } from '../../utils';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
-import { dropzoneConfig, isEmptyList, listHasValues } from '../../utils';
+import { createOrEditCategories } from '../../Services/CategoriesService';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';

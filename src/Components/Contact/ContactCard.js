@@ -1,18 +1,22 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import MailIcon from '@mui/icons-material/Mail';
+import {
+  cardTitle,
+  cardContent,
+} from '../../Styles/Contact/contactCardTypography';
+import s from '../../Styles/Contact/ContactCard.module.css';
 
 const ContactCard = ({ children, contactTitle, contactInfo }) => {
   return (
-    <Box>
-      <Box>
+    <Box className={s.cardContainer}>
+      <Box className={s.titleContainer}>
         {children}
-        <Typography variant="h4" gutterBottom component="h3">
+        <Typography sx={cardTitle} component="h2">
           {contactTitle}
         </Typography>
       </Box>
       <Box>
-        <Typography variant="p" gutterBottom component="p">
+        <Typography sx={cardContent} component="p" variant="p">
           {contactInfo}
         </Typography>
       </Box>

@@ -22,6 +22,7 @@ import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
+import EditFormOrg from './Components/EditForm/EditFormOrg';
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
             path="/news/:id"
             render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
           />
+          <Route component={EditFormOrg} path="/backoffice/organization/edit" />
         </Switch>
       </BrowserRouter>
     </>

@@ -3,7 +3,6 @@ import { Field, Form, Formik } from 'formik';
 import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';
-import axios from 'axios';
 import '../FormStyles.css';
 
 const UserForm = ({ user = null }) => {
@@ -26,66 +25,10 @@ const UserForm = ({ user = null }) => {
         image: '',
       };
 
-  const handleSubmit = async (values, formik) => {
-    const url = 'http://ongapi.alkemy.org/api/';
-
-    try {
-      let response;
-
-      if (user && user.id) {
-        response = await axios.patch(
-          `${url}users/${user.id}`,
-          JSON.stringify({ ...values, role_id: values.role }),
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-      } else {
-        response = await axios.post(`${url}users`, JSON.stringify(values), {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-      }
-
-      if (response.status === 200) {
-        setSuccess({
-          ...success,
-          status: true,
-        });
-        formik.resetForm();
-        clearImage();
-        setTimeout(() => {
-          setSuccess({
-            ...success,
-            status: false,
-          });
-        }, 4000);
-      } else {
-        return new Error('Error');
-      }
-    } catch (e) {
-      setSuccess({
-        status: false,
-        errors: true,
-      });
-      setTimeout(() => {
-        setSuccess({
-          status: false,
-          errors: null,
-        });
-      }, 4000);
-    }
-  };
+  const handleSubmit = async (values) => {};
 
   const setImage = (image) => {
     userValues.image = image;
-  };
-
-  const clearImage = () => {
-    userValues.image = '';
   };
 
   return (

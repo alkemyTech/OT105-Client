@@ -15,7 +15,10 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
     accept: 'image/jpeg, image/png',
     multiple: false,
     maxFiles: 1,
+<<<<<<< HEAD
 
+=======
+>>>>>>> 63747e6 (add util function to get base64)
     onDrop: (acceptedImage) => {
       if (
         acceptedImage.length > 0 &&
@@ -31,6 +34,7 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
         setImage({
           file: null,
           preview: null,
+<<<<<<< HEAD
           error: 'El archivo debe ser una imagen .png/.jpg',
         });
       }
@@ -41,6 +45,12 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
         preview: null,
       });
     },
+=======
+          error: 'File must be an image',
+        });
+      }
+    },
+>>>>>>> 63747e6 (add util function to get base64)
   });
 
   useEffect(() => {
@@ -53,7 +63,11 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
 
       data();
     }
+<<<<<<< HEAD
   }, [image.file]);
+=======
+  }, [image]);
+>>>>>>> 63747e6 (add util function to get base64)
 
   const style = {
     flex: 1,

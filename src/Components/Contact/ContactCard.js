@@ -11,12 +11,12 @@ const ContactCard = ({ children, contactTitle, contactInfo }) => {
     <Box className={s.cardContainer}>
       <Box className={s.titleContainer}>
         {children}
-        <Typography sx={cardTitle} component="h2">
+        <Typography component="h2" sx={cardTitle}>
           {contactTitle}
         </Typography>
       </Box>
       <Box>
-        <Typography sx={cardContent} component="p" variant="p">
+        <Typography component="p" sx={cardContent}>
           {contactInfo}
         </Typography>
       </Box>

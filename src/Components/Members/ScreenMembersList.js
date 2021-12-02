@@ -9,6 +9,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Avatar,
 } from '@mui/material';
 
 const exampleMembersData = {
@@ -74,7 +75,7 @@ const ScreenMembersList = () => {
     <>
       <Container maxWidth="md" sx={{ marginTop: '2rem' }}>
         <Typography align="center" variant="h2">
-          Members
+          Miembros
         </Typography>
         <TableContainer component={Paper}>
           <Table>
@@ -85,7 +86,29 @@ const ScreenMembersList = () => {
                 <TableCell align="center">Acciones</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody></TableBody>
+            <TableBody>
+              {members.map((member) => (
+                <TableRow key={member.id}>
+                  <TableCell align="center">
+                    <Typography color="initial" variant="h5">
+                      {member.name}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Avatar
+                      alt={member.name}
+                      src={member.image}
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        margin: '0 auto',
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">Editar/Eliminar</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
         </TableContainer>
       </Container>

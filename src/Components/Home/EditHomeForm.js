@@ -12,6 +12,12 @@ import {
 } from '@mui/material';
 import s from '../../Styles/EditHomeForm.module.css';
 import SlidesForm from '../Slides/SlidesForm';
+import {
+  containerStyles,
+  formStyles,
+  paperStyles,
+} from '../../Styles/EditHomeFormStyles';
+import { productSansFont, sourceSerifProFont } from '../../Styles/fontStyles';
 
 const validationSchema = Yup.object({
   welcomeText: Yup.string()
@@ -41,11 +47,8 @@ const EditHomeForm = () => {
   });
 
   return (
-    <Container maxWidth="md" sx={{ marginBlock: '4rem' }}>
-      <Typography
-        color="initial"
-        sx={{ fontFamily: 'Product Sans' }}
-        variant="h3">
+    <Container maxWidth="md" sx={containerStyles}>
+      <Typography color="initial" sx={productSansFont} variant="h3">
         Editar página de inicio
       </Typography>
       <Paper
@@ -54,14 +57,7 @@ const EditHomeForm = () => {
           padding: '2rem',
           marginBlock: '4rem',
         }}>
-        <form
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '4rem',
-            flexDirection: 'column',
-          }}
-          onSubmit={formik.handleSubmit}>
+        <form sx={formStyles} onSubmit={formik.handleSubmit}>
           <Stack spacing={5}>
             <TextField
               autoFocus
@@ -86,44 +82,32 @@ const EditHomeForm = () => {
       </Paper>
 
       <Stack spacing={5}>
-        <Paper
-          elevation={3}
-          sx={{
-            padding: '2rem',
-          }}>
+        <Paper elevation={3} sx={paperStyles}>
           <Typography
             align="center"
             color="initial"
-            sx={{ fontFamily: 'Source Serif Pro' }}
+            sx={sourceSerifProFont}
             variant="h4">
             Slide 1
           </Typography>
           <SlidesForm />
         </Paper>
-        <Paper
-          elevation={3}
-          sx={{
-            padding: '2rem',
-          }}>
+        <Paper elevation={3} sx={paperStyles}>
           <Typography
             align="center"
             color="initial"
-            sx={{ fontFamily: 'Source Serif Pro' }}
+            sx={sourceSerifProFont}
             variant="h4">
             Slide 2
           </Typography>
           <SlidesForm />
         </Paper>
 
-        <Paper
-          elevation={3}
-          sx={{
-            padding: '2rem',
-          }}>
+        <Paper elevation={3} sx={paperStyles}>
           <Typography
             align="center"
             color="initial"
-            sx={{ fontFamily: 'Source Serif Pro' }}
+            sx={sourceSerifProFont}
             variant="h4">
             Slide 3
           </Typography>

@@ -1,7 +1,12 @@
 import React from 'react';
+import Title from '../Title/Title';
 
 function Activities() {
-  return <div></div>;
+  return (
+    <div>
+      <Title titleText={'Actividades'} />
+    </div>
+  );
 }
 
 export default Activities;

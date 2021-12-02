@@ -3,6 +3,7 @@ import '../FormStyles.css';
 import { Field, Form, Formik } from 'formik';
 import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
+import { CustomDropzone } from './CustomDropzone';
 
 const UserForm = ({ user = null }) => {
   const userValues = user
@@ -15,8 +16,10 @@ const UserForm = ({ user = null }) => {
         image: '',
       };
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {};
+
+  const setImage = (image) => {
+    userValues.image = image;
   };
 
   return (
@@ -80,6 +83,10 @@ const UserForm = ({ user = null }) => {
           {errors.password && touched.password ? (
             <Alert severity="warning">{errors.password}</Alert>
           ) : null}
+
+          <label htmlFor="userImage">User image</label>
+          <CustomDropzone setImage64={setImage} />
+
           <button className="submit-btn" type="submit">
             {user ? 'Edit User' : 'Create User'}
           </button>

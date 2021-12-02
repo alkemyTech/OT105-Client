@@ -3,8 +3,6 @@ import { Field, Form, Formik } from 'formik';
 import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';
-import '../FormStyles.css';
-import axios from 'axios';
 
 const UserForm = ({ user = null }) => {
   const [success, setSuccess] = useState({

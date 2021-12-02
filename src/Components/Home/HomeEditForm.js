@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-//Forms
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-//Styles
 import Swal from 'sweetalert2';
 import {
   Button,
@@ -13,7 +11,6 @@ import {
   Stack,
 } from '@mui/material';
 import s from '../../Styles/HomeEditForm.module.css';
-//Components
 import SlidesForm from '../Slides/SlidesForm';
 
 const validationSchema = Yup.object({

@@ -10,7 +10,7 @@ import {
   Paper,
   Stack,
 } from '@mui/material';
-import s from '../../Styles/HomeEditForm.module.css';
+import s from '../../Styles/EditHomeForm.module.css';
 import SlidesForm from '../Slides/SlidesForm';
 
 const validationSchema = Yup.object({

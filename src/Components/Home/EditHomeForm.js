@@ -22,20 +22,22 @@ const validationSchema = Yup.object({
 const EditHomeForm = () => {
   const [welcomeText, setWelcomeText] = useState('');
 
+  const onFormikSubmit = (values, { setSubmitting }) => {
+    Swal.fire({
+      text: 'El texto de bienvenida se actualizó correctamente!',
+      icon: 'success',
+      confirmButtonText: 'Hecho',
+    });
+    setWelcomeText(values.welcomeText);
+    setSubmitting(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       welcomeText: '',
     },
     validationSchema,
-    onSubmit: (values, { setSubmitting }) => {
-      Swal.fire({
-        text: 'El texto de bienvenida se actualizó correctamente!',
-        icon: 'success',
-        confirmButtonText: 'Hecho',
-      });
-      setWelcomeText(values.welcomeText);
-      setSubmitting(false);
-    },
+    onSubmit: onFormikSubmit,
   });
 
   return (

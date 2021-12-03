@@ -1,7 +1,13 @@
 import React from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import style from '../../../Styles/MembersList/MembersList.module.css';
 import {
+  memberAvatarStyle,
+  memberNameTypography,
+} from '../../../Styles/MembersList/MembersListInlineStyles';
+import {
+  Box,
   ListItem,
   Divider,
   ListItemText,
@@ -15,42 +21,50 @@ import {
 const MembersListItem = ({ member }) => {
   return (
     <>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar
-            sx={{ width: 80, height: 80, marginRight: 3 }}
-            alt="Remy Sharp"
-            src={member.image}
-          />
+      <ListItem alignItems="flex-start" sx={{ paddingBottom: 0 }}>
+        <ListItemAvatar sx={{ marginTop: 0 }}>
+          <Avatar alt={member.name} src={member.image} sx={memberAvatarStyle} />
         </ListItemAvatar>
         <ListItemText
-          primary={member.name}
+          primary={
+            <Typography component="p" sx={memberNameTypography} variant="p">
+              {member.name}
+            </Typography>
+          }
           secondary={
             <>
-              <Typography component="p" variant="body2">
-                {member.description}
-              </Typography>
-              <Tooltip sx={{ padding: 0 }} title={member.facebookUrl} arrow>
-                <IconButton>
-                  <FacebookIcon
-                    fontSize="large"
-                    onClick={() => console.log('Facebook')}
-                  />
-                </IconButton>
-              </Tooltip>
-              <Tooltip sx={{ padding: 0 }} title={member.linkedinUrl} arrow>
-                <IconButton>
-                  <LinkedInIcon
-                    fontSize="large"
-                    onClick={() => console.log('LinkedIn')}
-                  />
-                </IconButton>
-              </Tooltip>
+              <Box className={style.memberContainer}>
+                <Typography component="p" variant="p">
+                  {member.description}
+                </Typography>
+                <Box>
+                  <Tooltip arrow sx={{ padding: 0 }} title={member.facebookUrl}>
+                    <IconButton>
+                      <a
+                        href={member.facebookUrl}
+                        rel="noopener noreferrer"
+                        target="_blank">
+                        <FacebookIcon className={style.socialMediaIcon} />
+                      </a>
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip arrow sx={{ padding: 0 }} title={member.linkedinUrl}>
+                    <IconButton>
+                      <a
+                        href={member.linkedinmUrl}
+                        rel="noopener noreferrer"
+                        target="_blank">
+                        <LinkedInIcon className={style.socialMediaIcon} />
+                      </a>
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Box>
             </>
           }
         />
       </ListItem>
-      <Divider variant="inset" component="li" />
+      <Divider component="div" variant="inset" />
     </>
   );
 };

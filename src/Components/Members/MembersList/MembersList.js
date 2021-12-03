@@ -1,6 +1,7 @@
 import React from 'react';
 import { List } from '@mui/material';
-import MembersListItem from './MwmbersListItem';
+import MembersListItem from './MembersListItem';
+import { membersListStyle } from '../../../Styles/MembersList/MembersListInlineStyles';
 
 const mockupMembers = [
   {
@@ -29,11 +30,11 @@ const mockupMembers = [
   },
 ];
 
-const MembersList = () => {
+const MembersList = ({ members = mockupMembers }) => {
   return (
-    <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
-      {mockupMembers.map((member) => (
-        <MembersListItem member={member} key={member.id} />
+    <List sx={membersListStyle}>
+      {members.map((member) => (
+        <MembersListItem key={member.id} member={member} />
       ))}
     </List>
   );

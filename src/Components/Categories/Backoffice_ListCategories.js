@@ -16,17 +16,17 @@ import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 const categoriesMock = [
   {
     id: 2,
-    name: 'name de prueba',
+    name: 'Name de prueba',
     createdAt: '03/12/2021',
   },
   {
     id: 1,
-    name: 'name de prueba',
+    name: 'Name de prueba',
     createdAt: '03/12/2021',
   },
   {
     id: 3,
-    name: 'name de prueba',
+    name: 'Name de prueba',
     createdAt: '03/12/2021',
   },
 ];
@@ -54,9 +54,17 @@ const Backoffice_ListCategories = () => {
           <TableHead>
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="right">createdAt</StyledTableCell>
+              <StyledTableCell align="right">CreatedAt</StyledTableCell>
               <StyledTableCell align="right">Edit</StyledTableCell>
               <StyledTableCell align="right">Delete</StyledTableCell>
+              <StyledTableCell align="right">
+                <Button
+                  color="error"
+                  href="/backoffice/categories/create"
+                  variant="contained">
+                  Create
+                </Button>
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -67,11 +75,14 @@ const Backoffice_ListCategories = () => {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.createdAt}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button startIcon={<EditIcon />} variant="outlined" />
+                  <Button
+                    startIcon={<EditIcon color="primary" />}
+                    variant="outlined"
+                  />
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Button
-                    startIcon={<DeleteIcon />}
+                    startIcon={<DeleteIcon color="primary" />}
                     variant="outlined"
                     onClick={() => deletecategory(row.id)}
                   />

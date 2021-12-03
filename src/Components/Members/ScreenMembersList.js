@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import MemberRow from './MemberRow';
+import styles from '../../Styles/ScreenMembersListStyles';
 import {
   Typography,
   Container,
@@ -17,8 +19,7 @@ import {
   Fab,
   CircularProgress,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+
 import AddIcon from '@mui/icons-material/Add';
 
 const exampleMembersData = {
@@ -112,47 +113,18 @@ const ScreenMembersList = () => {
             </TableHead>
             {isLoading ? (
               <caption>
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    minHeight: '25vh',
-                  }}>
+                <Box sx={styles.progressBox}>
                   <CircularProgress />
                 </Box>
               </caption>
             ) : (
               <TableBody>
                 {members.map((member) => (
-                  <TableRow key={member.id}>
-                    <TableCell align="center">
-                      <Typography color="initial" variant="h5">
-                        {member.name}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="right">
-                      <Avatar
-                        alt={member.name}
-                        src={member.image}
-                        sx={{
-                          width: 100,
-                          height: 100,
-                          margin: '0 auto',
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell align="center">
-                      <ButtonGroup
-                        aria-label="outlined primary button group"
-                        size="small"
-                        variant="text">
-                        <Button startIcon={<EditIcon />}>Editar</Button>
-                        <Button startIcon={<DeleteIcon />}>Eliminar</Button>
-                      </ButtonGroup>
-                    </TableCell>
-                  </TableRow>
+                  <MemberRow
+                    key={member.id}
+                    image={member.image}
+                    name={member.name}
+                  />
                 ))}
               </TableBody>
             )}

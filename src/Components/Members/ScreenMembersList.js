@@ -15,6 +15,7 @@ import {
   ButtonGroup,
   Box,
   Fab,
+  CircularProgress,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -71,11 +72,14 @@ const membersMock = () => {
 
 const ScreenMembersList = () => {
   const [members, setMembers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     membersMock().then((res) => {
       console.log(res.data);
       setMembers(res.data);
+      setIsLoading(false);
     });
   }, []);
 
@@ -83,15 +87,15 @@ const ScreenMembersList = () => {
     <>
       <Container maxWidth="lg" sx={{ marginTop: '2rem' }}>
         <Box
+          alignItems="center"
           display="flex"
           justifyContent="space-between"
-          alignItems="center"
           sx={{ paddingInline: '1.3rem' }}>
           <Typography sx={{ marginBlock: '2rem' }} variant="h3">
             Miembros
           </Typography>
           <Link to="/backoffice/members/create">
-            <Fab color="primary" aria-label="add">
+            <Fab aria-label="add" color="primary">
               <AddIcon />
             </Fab>
           </Link>
@@ -106,37 +110,52 @@ const ScreenMembersList = () => {
                 <TableCell align="center">acciones</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {members.map((member) => (
-                <TableRow key={member.id}>
-                  <TableCell align="center">
-                    <Typography color="initial" variant="h5">
-                      {member.name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Avatar
-                      alt={member.name}
-                      src={member.image}
-                      sx={{
-                        width: 100,
-                        height: 100,
-                        margin: '0 auto',
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <ButtonGroup
-                      aria-label="outlined primary button group"
-                      size="small"
-                      variant="text">
-                      <Button startIcon={<EditIcon />}>Editar</Button>
-                      <Button startIcon={<DeleteIcon />}>Eliminar</Button>
-                    </ButtonGroup>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            {isLoading ? (
+              <caption>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '25vh',
+                  }}>
+                  <CircularProgress />
+                </Box>
+              </caption>
+            ) : (
+              <TableBody>
+                {members.map((member) => (
+                  <TableRow key={member.id}>
+                    <TableCell align="center">
+                      <Typography color="initial" variant="h5">
+                        {member.name}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Avatar
+                        alt={member.name}
+                        src={member.image}
+                        sx={{
+                          width: 100,
+                          height: 100,
+                          margin: '0 auto',
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <ButtonGroup
+                        aria-label="outlined primary button group"
+                        size="small"
+                        variant="text">
+                        <Button startIcon={<EditIcon />}>Editar</Button>
+                        <Button startIcon={<DeleteIcon />}>Eliminar</Button>
+                      </ButtonGroup>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </Container>

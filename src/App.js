@@ -32,6 +32,7 @@ import Donations from './Components/Donations/Donations';
 import Thanks from './Components/Donations/Thanks';
 import Error404 from './Components/Error404/Error404';
 import HomeScreen from './Components/Home';
+import Backoffice_ListCategories from './Components/Categories/Backoffice_ListCategories';
 
 function App() {
   return (
@@ -43,6 +44,11 @@ function App() {
           <Route
             component={BackofficeListActivities}
             path="/backoffice/activities"
+          />
+
+          <Route
+            component={Backoffice_ListCategories}
+            path="/backoffice/category"
           />
           <Route component={CategoriesForm} path="/create-category" />
           <Route component={FormContact} path="/form-contact" />

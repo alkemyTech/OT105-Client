@@ -10,7 +10,11 @@ import {
   TableCell,
   TableBody,
   Avatar,
+  Button,
+  ButtonGroup,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const exampleMembersData = {
   success: true,
@@ -73,17 +77,17 @@ const ScreenMembersList = () => {
 
   return (
     <>
-      <Container maxWidth="md" sx={{ marginTop: '2rem' }}>
-        <Typography align="center" variant="h2">
+      <Container maxWidth="lg" sx={{ marginTop: '2rem' }}>
+        <Typography sx={{ marginBlock: '2rem' }} variant="h3">
           Miembros
         </Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Nombre</TableCell>
-                <TableCell align="center">Foto</TableCell>
-                <TableCell align="center">Acciones</TableCell>
+                <TableCell align="center">nombre</TableCell>
+                <TableCell align="center">foto</TableCell>
+                <TableCell align="center">acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -105,7 +109,14 @@ const ScreenMembersList = () => {
                       }}
                     />
                   </TableCell>
-                  <TableCell align="center">Editar/Eliminar</TableCell>
+                  <TableCell align="center">
+                    <ButtonGroup
+                      aria-label="outlined primary button group"
+                      variant="text">
+                      <Button startIcon={<EditIcon />}>Editar</Button>
+                      <Button startIcon={<DeleteIcon />}>Eliminar</Button>
+                    </ButtonGroup>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

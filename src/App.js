@@ -13,6 +13,7 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import BackofficeListActivities from './Components/Activities/BackofficeListActivities';
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
         <Switch>
           {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
           <Route component={ActivitiesForm} path="/create-activity" />
+          <Route
+            component={BackofficeListActivities}
+            path="/backoffice/activities"
+          />
           <Route component={CategoriesForm} path="/create-category" />
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />

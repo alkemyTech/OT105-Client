@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Typography,
   Container,
@@ -12,9 +13,12 @@ import {
   Avatar,
   Button,
   ButtonGroup,
+  Box,
+  Fab,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 
 const exampleMembersData = {
   success: true,
@@ -78,9 +82,21 @@ const ScreenMembersList = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ marginTop: '2rem' }}>
-        <Typography sx={{ marginBlock: '2rem' }} variant="h3">
-          Miembros
-        </Typography>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ paddingInline: '1.3rem' }}>
+          <Typography sx={{ marginBlock: '2rem' }} variant="h3">
+            Miembros
+          </Typography>
+          <Link to="/backoffice/members/create">
+            <Fab color="primary" aria-label="add">
+              <AddIcon />
+            </Fab>
+          </Link>
+        </Box>
+
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -112,6 +128,7 @@ const ScreenMembersList = () => {
                   <TableCell align="center">
                     <ButtonGroup
                       aria-label="outlined primary button group"
+                      size="small"
                       variant="text">
                       <Button startIcon={<EditIcon />}>Editar</Button>
                       <Button startIcon={<DeleteIcon />}>Eliminar</Button>

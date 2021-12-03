@@ -8,7 +8,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../FormStyles.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
@@ -67,7 +67,7 @@ const Backoffice_ListCategories = () => {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.createdAt}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button startIcon={<AutoFixHighIcon />} variant="outlined" />
+                  <Button startIcon={<EditIcon />} variant="outlined" />
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Button

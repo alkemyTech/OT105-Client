@@ -35,7 +35,7 @@ const Backoffice_ListCategories = () => {
   const [categories, setCategories] = useState(categoriesMock);
   const deletecategory = (id) => {
     const isDelete = window.confirm(
-      `Estas seguro de querer eliminar la tarea "${id}"`,
+      `Estas seguro de querer eliminar la categoria "${id}"`,
     );
 
     if (isDelete) {

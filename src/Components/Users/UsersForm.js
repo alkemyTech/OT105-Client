@@ -25,7 +25,41 @@ const UserForm = ({ user = null }) => {
         image: '',
       };
 
-  const handleSubmit = async (values) => {};
+  const handleSubmit = async (values, formik) => {
+    try {
+      const url = 'http://ongapi.alkemy.org/api/';
+      const response = await axios.post(`${url}users`, JSON.stringify(values), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        setSuccess({
+          ...success,
+          status: true,
+        });
+        formik.resetForm();
+        setTimeout(() => {
+          setSuccess({
+            ...success,
+            status: false,
+          });
+        }, 4000);
+      }
+    } catch (e) {
+      setSuccess({
+        status: false,
+        errors: true,
+      });
+      setTimeout(() => {
+        setSuccess({
+          status: false,
+          errors: null,
+        });
+      }, 4000);
+    }
+  };
 
   const setImage = (image) => {
     userValues.image = image;

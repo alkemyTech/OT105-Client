@@ -35,6 +35,7 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
           file: null,
           preview: null,
 <<<<<<< HEAD
+<<<<<<< HEAD
           error: 'El archivo debe ser una imagen .png/.jpg',
         });
       }
@@ -47,6 +48,9 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
     },
 =======
           error: 'File must be an image',
+=======
+          error: 'El archivo debe ser una imagen .png/.jpg',
+>>>>>>> 927dec3 (implements post on create user)
         });
       }
     },
@@ -64,10 +68,14 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
       data();
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
   }, [image.file]);
 =======
   }, [image]);
 >>>>>>> 63747e6 (add util function to get base64)
+=======
+  }, [image.file]);
+>>>>>>> 927dec3 (implements post on create user)
 
   const style = {
     flex: 1,

@@ -15,6 +15,7 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
     accept: 'image/jpeg, image/png',
     multiple: false,
     maxFiles: 1,
+
     onDrop: (acceptedImage) => {
       if (
         acceptedImage.length > 0 &&
@@ -33,6 +34,12 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
           error: 'El archivo debe ser una imagen .png/.jpg',
         });
       }
+    },
+    onSubmit: () => {
+      setImage({
+        ...image,
+        preview: null,
+      });
     },
   });
 

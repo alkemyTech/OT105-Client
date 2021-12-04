@@ -12,7 +12,7 @@ const UserForm = ({ user = null }) => {
     errors: null,
   });
   const userValues = user
-    ? { ...user }
+    ? { ...user, role: user.role_id }
     : {
         name: '',
         email: '',
@@ -22,13 +22,28 @@ const UserForm = ({ user = null }) => {
       };
 
   const handleSubmit = async (values, formik) => {
+    const url = 'http://ongapi.alkemy.org/api/';
+
     try {
-      const url = 'http://ongapi.alkemy.org/api/';
-      const response = await axios.post(`${url}users`, JSON.stringify(values), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      let response;
+
+      if (user && user.id) {
+        response = await axios.patch(
+          `${url}users/${user.id}`,
+          JSON.stringify({ ...values, role_id: values.role }),
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+      } else {
+        response = await axios.post(`${url}users`, JSON.stringify(values), {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      }
 
       if (response.status === 200) {
         setSuccess({
@@ -36,12 +51,15 @@ const UserForm = ({ user = null }) => {
           status: true,
         });
         formik.resetForm();
+        clearImage();
         setTimeout(() => {
           setSuccess({
             ...success,
             status: false,
           });
         }, 4000);
+      } else {
+        return new Error('Error');
       }
     } catch (e) {
       setSuccess({
@@ -59,6 +77,10 @@ const UserForm = ({ user = null }) => {
 
   const setImage = (image) => {
     userValues.image = image;
+  };
+
+  const clearImage = () => {
+    userValues.image = '';
   };
 
   return (

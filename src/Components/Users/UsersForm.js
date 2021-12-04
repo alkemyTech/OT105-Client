@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../FormStyles.css';
 import { Field, Form, Formik } from 'formik';
 import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';
+import axios from 'axios';
 
 const UserForm = ({ user = null }) => {
+  const [success, setSuccess] = useState({
+    status: false,
+    errors: null,
+  });
   const userValues = user
     ? { ...user }
     : {
@@ -16,7 +21,41 @@ const UserForm = ({ user = null }) => {
         image: '',
       };
 
-  const handleSubmit = async (values) => {};
+  const handleSubmit = async (values, formik) => {
+    try {
+      const url = 'http://ongapi.alkemy.org/api/';
+      const response = await axios.post(`${url}users`, JSON.stringify(values), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        setSuccess({
+          ...success,
+          status: true,
+        });
+        formik.resetForm();
+        setTimeout(() => {
+          setSuccess({
+            ...success,
+            status: false,
+          });
+        }, 4000);
+      }
+    } catch (e) {
+      setSuccess({
+        status: false,
+        errors: true,
+      });
+      setTimeout(() => {
+        setSuccess({
+          status: false,
+          errors: null,
+        });
+      }, 4000);
+    }
+  };
 
   const setImage = (image) => {
     userValues.image = image;
@@ -90,6 +129,16 @@ const UserForm = ({ user = null }) => {
           <button className="submit-btn" type="submit">
             {user ? 'Edit User' : 'Create User'}
           </button>
+          {success.status && (
+            <Alert severity="success">{`Usuario ${
+              user ? 'editado' : 'guardado'
+            } con éxito`}</Alert>
+          )}
+          {success.errors && (
+            <Alert severity="error">
+              Error en el envío del formulario comprueba la información
+            </Alert>
+          )}
         </Form>
       )}
     </Formik>

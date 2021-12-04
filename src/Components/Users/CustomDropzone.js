@@ -30,7 +30,7 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
         setImage({
           file: null,
           preview: null,
-          error: 'File must be an image',
+          error: 'El archivo debe ser una imagen .png/.jpg',
         });
       }
     },
@@ -46,7 +46,7 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
 
       data();
     }
-  }, [image]);
+  }, [image.file]);
 
   const style = {
     flex: 1,

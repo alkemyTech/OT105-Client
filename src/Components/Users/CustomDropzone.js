@@ -16,9 +16,13 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
     multiple: false,
     maxFiles: 1,
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 63747e6 (add util function to get base64)
+=======
+
+>>>>>>> fb478f9 (add patch fetching function if receive a user)
     onDrop: (acceptedImage) => {
       if (
         acceptedImage.length > 0 &&
@@ -46,6 +50,7 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
         preview: null,
       });
     },
+<<<<<<< HEAD
 =======
           error: 'File must be an image',
 =======
@@ -55,6 +60,8 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
       }
     },
 >>>>>>> 63747e6 (add util function to get base64)
+=======
+>>>>>>> fb478f9 (add patch fetching function if receive a user)
   });
 
   useEffect(() => {

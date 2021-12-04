@@ -82,4 +82,4 @@ const OrganizationInfo = ({ id }) => {
   );
 };
 
-export default Organization;
+export default OrganizationInfo;

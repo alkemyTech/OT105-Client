@@ -1,0 +1,74 @@
+[33mcommit fb478f96f311aca649027e0411a0be5cfaec7deb[m[33m ([m[1;36mHEAD -> [m[1;32mfeat/userForm/createEditUserForm[m[33m, [m[1;31morigin/feat/userForm/createEditUserForm[m[33m, [m[1;32muserform[m[33m)[m
+Author: Julio <julio.franco9111@gmail.com>
+Date:   Sat Dec 4 20:25:32 2021 -0300
+
+    add patch fetching function if receive a user
+
+[33mcommit 927dec3558183067a8d21bcfbec0830dc260bd82[m
+Author: Julio <julio.franco9111@gmail.com>
+Date:   Sat Dec 4 14:58:05 2021 -0300
+
+    implements post on create user
+
+[33mcommit 63747e6bcbed0c1993783dd266cb64bfaf440c75[m
+Author: Julio <julio.franco9111@gmail.com>
+Date:   Wed Dec 1 22:18:47 2021 -0300
+
+    add util function to get base64
+
+[33mcommit d38996b2e3bf2d63b9407625130fe8f5eca8da34[m
+Author: Julio <julio.franco9111@gmail.com>
+Date:   Tue Nov 30 18:35:44 2021 -0300
+
+    add alerts to fields
+
+[33mcommit 402d6b18a02aed2eb3abaf49386ceb73b6950477[m
+Author: Julio <julio.franco9111@gmail.com>
+Date:   Mon Nov 29 22:48:14 2021 -0300
+
+    add validator
+
+[33mcommit 39dee20e7c93be56aa2edd02d664c4dac8b758ac[m
+Author: Julio <julio.franco9111@gmail.com>
+Date:   Mon Nov 29 00:11:52 2021 -0300
+
+    add Formik to inputs
+
+[33mcommit ee563288fe0703372f68f9ec20593d1d69d21e21[m
+Author: Julio <julio.franco9111@gmail.com>
+Date:   Sun Nov 28 23:34:27 2021 -0300
+
+    add input type file
+
+[33mcommit 95f1a4298d90f1f73331c794d79c4e9d1b3d9aac[m[33m ([m[1;32mdevelopment[m[33m)[m
+Merge: 2a961f0 ac6d2ea
+Author: Sarah <33396785+saralavanchy@users.noreply.github.com>
+Date:   Fri Nov 26 15:15:36 2021 -0300
+
+    Package inicial
+    
+    update package.json, add libraries and add files for eslint
+
+[33mcommit ac6d2ea0184e3ca977919babacfca933cbdf00bc[m
+Author: Facundo Benitez <facundob91@gmail.com>
+Date:   Thu Nov 25 18:34:39 2021 -0300
+
+    fix tabs to spaces
+
+[33mcommit 4d602a3d2c8898f8c43c92e79a0c5ca5744d5f6f[m
+Author: Facundo Benitez <facundob91@gmail.com>
+Date:   Thu Nov 25 12:25:37 2021 -0300
+
+    add sweetalert2 library
+
+[33mcommit 196e627bed0cfeacb890ce029a0200886180a2c9[m
+Author: Facundo Benitez <facundob91@gmail.com>
+Date:   Wed Nov 24 23:56:56 2021 -0300
+
+    update package.json, add libraries and add files for eslint
+
+[33mcommit 2a961f02430e3cf93ddbdb02714efb459e94d0e1[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: gabriela9292 <92749881+gabriela9292@users.noreply.github.com>
+Date:   Fri Nov 19 16:27:30 2021 -0300
+
+    Initial commit

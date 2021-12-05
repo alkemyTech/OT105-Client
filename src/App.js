@@ -89,7 +89,16 @@ function App() {
           />
           <Route component={About} path="/AboutUs" />
           <Route component={ActivityDetail} path="/activities/:id" />
-          <Route component={Donations} path="/donations" />
+          <Route
+            component={Donations}
+            path="/donations"
+            render={() => (
+              <Donations
+                donationsSubtitle="¡Ayúdanos a crecer!"
+                donationsTitle="Donaciones"
+              />
+            )}
+          />
           <Route component={Thanks} path="/thanks" />
         </Switch>
       </BrowserRouter>

@@ -13,7 +13,7 @@ const Donations = ({ donationsTitle, donationsSubtitle }) => {
             ['@media (max-width:380px)']: { fontSize: '3rem' },
           }}
           variant="h1">
-          Donaciones
+          {donationsTitle}
         </Typography>
         <Typography
           align="center"
@@ -23,11 +23,10 @@ const Donations = ({ donationsTitle, donationsSubtitle }) => {
             ['@media (max-width:380px)']: { fontSize: '1rem' },
           }}
           variant="h3">
-          Ayúdanos a crecer!
+          {donationsSubtitle}
         </Typography>
       </div>
       <Card
-        className={s.card}
         sx={{
           width: '14rem',
           margin: '3rem',

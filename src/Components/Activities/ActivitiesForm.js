@@ -9,9 +9,9 @@ import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
-import Swal from 'sweetalert2';
 import '../FormStyles.css';
 import '../../Styles/ActivitiesForm.css';
+import { createOrUpdateActivity } from '../../Services/activitiesService';
 
 const thumb = {
   display: 'inline-flex',
@@ -85,17 +85,7 @@ const ActivitiesForm = ({ id }) => {
       image: values.image,
     };
 
-    if (id) {
-      Axios.patch(`http://ongapi.alkemy.org/api/categories/${id}`, data).then(
-        () => {
-          Swal.fire('success');
-        },
-      );
-    } else {
-      Axios.post('http://ongapi.alkemy.org/api/categories/', data).then(() => {
-        Swal.fire('success');
-      });
-    }
+    createOrUpdateActivity(id, data);
   };
 
   return (

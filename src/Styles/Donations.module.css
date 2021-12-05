@@ -26,24 +26,3 @@
   filter: brightness(50%);
   user-select: none;
 }
-
-@media (max-width: 580px) {
-  .donationsTitle {
-    font-size: 4rem;
-  }
-  .donationsSubtitle {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 380px) {
-  .donationsTitle {
-    font-size: 3rem;
-  }
-  .donationsSubtitle {
-    font-size: 1rem;
-  }
-  .card {
-    width: 10rem;
-  }
-} ;

@@ -7,22 +7,33 @@ const Donations = ({ donationsTitle, donationsSubtitle }) => {
       <div className={s.donationsText}>
         <Typography
           align="center"
-          className={s.donationsTitle}
           color="white"
+          sx={{
+            ['@media (max-width:580px)']: { fontSize: '4rem' },
+            ['@media (max-width:380px)']: { fontSize: '3rem' },
+          }}
           variant="h1">
           Donaciones
         </Typography>
         <Typography
           align="center"
-          className={s.donationsSubtitle}
           color="white"
+          sx={{
+            ['@media (max-width:580px)']: { fontSize: '2rem' },
+            ['@media (max-width:380px)']: { fontSize: '1rem' },
+          }}
           variant="h3">
           Ayúdanos a crecer!
         </Typography>
       </div>
       <Card
         className={s.card}
-        sx={{ width: '14rem', margin: '3rem', borderRadius: '100px' }}>
+        sx={{
+          width: '14rem',
+          margin: '3rem',
+          borderRadius: '100px',
+          ['@media (max-width:380px)']: { width: '10rem' },
+        }}>
         <CardActionArea>
           <CardContent>
             <img

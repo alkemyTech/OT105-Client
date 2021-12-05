@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
@@ -9,6 +8,7 @@ import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
+import acceptedTypeFiles from '../../Utils/ActivitiesUtils';
 import '../FormStyles.css';
 import '../../Styles/ActivitiesForm.css';
 import { createOrUpdateActivity } from '../../Services/activitiesService';
@@ -56,7 +56,7 @@ const ActivitiesForm = ({ id }) => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     maxFiles: 1,
-    accept: 'image/jpeg, image/png',
+    accept: acceptedTypeFiles,
     onDrop: (acceptedFiles) => {
       onDropFunctionFormValues(acceptedFiles);
       onDropFunctionFiles(acceptedFiles);

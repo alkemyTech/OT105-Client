@@ -11,14 +11,15 @@ export const createOrUpdateActivity = (id, data) => {
   }
 };
 
-const createActivity = (id, data) => {
-  Axios.patch(`${baseUrl}${id}`, data).then(() => {
+const createActivity = async (id, data) => {
+  await Axios.patch(`${baseUrl}${id}`, data).then(() => {
     Swal.fire('success');
   });
 };
 
-const updateActivity = (data) => {
-  Axios.post(`${baseUrl}`, data).then(() => {
+const updateActivity = async (data) => {
+  await Axios.post(`${baseUrl}`, data).then(() => {
+    console.log(data);
     Swal.fire('success');
   });
 };

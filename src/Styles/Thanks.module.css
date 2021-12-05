@@ -13,16 +13,3 @@
 .imageContainer img {
   max-width: 100%;
 }
-
-/* .test {
-  animation: random 0.1s infinite linear;
-}
-
-@keyframes random {
-  0% {
-    transform: rotateZ(0deg);
-  }
-  100% {
-    transform: rotateZ(360deg);
-  }
-} */

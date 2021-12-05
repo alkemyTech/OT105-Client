@@ -31,28 +31,35 @@ const ActivitiesForm = ({ id }) => {
     image: id ? id.data.name : null,
   });
 
+  const onDropFunctionFormValues = (acceptedFiles) => {
+    setFormValues({
+      ...formValues,
+      image: acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }),
+      ),
+    });
+  };
+
+  const onDropFunctionFiles = (acceptedFiles) => {
+    setFiles(
+      acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }),
+      ),
+    );
+  };
+
   const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     maxFiles: 1,
     accept: 'image/jpeg, image/png',
     onDrop: (acceptedFiles) => {
-      setFormValues({
-        ...formValues,
-        image: acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      });
-
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      );
+      onDropFunctionFormValues(acceptedFiles);
+      onDropFunctionFiles(acceptedFiles);
     },
   });
 

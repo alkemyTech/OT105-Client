@@ -8,7 +8,11 @@ import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
-import acceptedTypeFiles from '../../Utils/ActivitiesUtils';
+import {
+  listHasValues,
+  dropzoneConfig,
+  isEmptyList,
+} from '../../Utils/ActivitiesUtils';
 import '../FormStyles.css';
 import '../../Styles/ActivitiesForm.css';
 import { createOrUpdateActivity } from '../../Services/activitiesService';
@@ -28,43 +32,55 @@ const ActivitiesForm = ({ id }) => {
   const [formValues, setFormValues] = useState({
     name: id ? id.data.name : '',
     description: id ? id.data.description : '',
-    image: id ? id.data.name : null,
+    image: id ? id.data.image : null,
   });
 
   const [filesImages, setFilesImages] = useState([]);
+  const [base64ImageFile, setBase64ImageFile] = useState('');
+  const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
+  const [activitiesDescription, setActivitiesDescription] = useState('');
 
-  const onDropFunctionFormValues = (acceptedFiles) => {
-    setFormValues({
-      ...formValues,
-      image: acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }),
-      ),
-    });
+  const handleDrop = (acceptedFiles, fileRejections) => {
+    const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
+
+    setFilesImages(imageFileWithPreview);
+    if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
   };
 
-  const onDropFunctionFiles = (acceptedFiles) => {
-    setFilesImages(
-      acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }),
-      ),
+  const imageFileToBase64File = (acceptedFiles) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(acceptedFiles[0]);
+    reader.onload = () => {
+      const base64 = reader.result;
+
+      setBase64ImageFile(base64);
+    };
+  };
+
+  const addImagePreviewtoImageFile = (acceptedFiles) => {
+    return acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      }),
     );
   };
 
+  const handleCKeditorChange = (e, editor) => {
+    const data = editor.getData();
+
+    setActivitiesDescription(data);
+  };
+
   const { getRootProps, getInputProps } = useDropzone({
-    multiple: false,
-    maxFiles: 1,
-    accept: acceptedTypeFiles,
-    onDrop: (acceptedFiles) => {
-      onDropFunctionFormValues(acceptedFiles);
-      onDropFunctionFiles(acceptedFiles);
-    },
+    multiple: multipleFiles,
+    maxFiles: maxFiles,
+    accept: validImages,
+    onDrop: (acceptedFiles, fileRejections) =>
+      handleDrop(acceptedFiles, fileRejections),
   });
 
-  const thumbs = filesImages.map((file) => (
+  const imagePreview = filesImages.map((file) => (
     <div key={file.name} style={thumb}>
       <div className="thumb-inner">
         <img className="img" src={file.preview} />
@@ -79,11 +95,11 @@ const ActivitiesForm = ({ id }) => {
     [filesImages],
   );
 
-  const handleClick = (values) => {
+  const handleClick = async (values) => {
     let data = {
       name: values.name,
-      description: values.description,
-      image: values.image,
+      description: activitiesDescription,
+      image: base64ImageFile,
     };
 
     createOrUpdateActivity(id, data);
@@ -95,11 +111,9 @@ const ActivitiesForm = ({ id }) => {
       validate={(values) => {
         let errors = {};
 
-        //Name
         if (!values.name) {
           errors.name = 'please submit a email';
         }
-        //Image
         if (values.image === null) {
           errors.image = 'please submit a image';
         } else if (values.image) {
@@ -149,13 +163,10 @@ const ActivitiesForm = ({ id }) => {
               <section style={{ width: '80%', margin: '20px auto' }}>
                 <CKEditor
                   required
-                  data={formValues.description}
+                  data={activitiesDescription}
                   editor={ClassicEditor}
                   label="Description"
-                  onReady={(editor) => {
-                    // eslint-disable-next-line no-console
-                    console.log('Editor is ready to use!', editor);
-                  }}
+                  onChange={(e, editor) => handleCKeditorChange(e, editor)}
                 />
               </section>
               <h4 className="title">Image</h4>
@@ -176,7 +187,7 @@ const ActivitiesForm = ({ id }) => {
                   <p style={{ textAlign: 'center' }}>
                     Drag and drop some files here, or click to select files
                   </p>
-                  <aside className="thumbs-container">{thumbs}</aside>
+                  <aside className="thumbs-container">{imagePreview}</aside>
                 </div>
               </section>
               <ErrorMessage

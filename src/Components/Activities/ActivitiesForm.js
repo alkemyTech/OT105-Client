@@ -85,7 +85,6 @@ const ActivitiesForm = ({ id }) => {
       image: values.image,
     };
 
-    Swal.fire('Good job!', 'You clicked the button!', 'success');
     if (id) {
       Axios.patch(`http://ongapi.alkemy.org/api/categories/${id}`, data).then(
         () => {

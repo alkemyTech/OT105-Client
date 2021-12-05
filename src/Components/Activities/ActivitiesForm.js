@@ -31,6 +31,8 @@ const ActivitiesForm = ({ id }) => {
     image: id ? id.data.name : null,
   });
 
+  const [filesImages, setFilesImages] = useState([]);
+
   const onDropFunctionFormValues = (acceptedFiles) => {
     setFormValues({
       ...formValues,
@@ -43,7 +45,7 @@ const ActivitiesForm = ({ id }) => {
   };
 
   const onDropFunctionFiles = (acceptedFiles) => {
-    setFiles(
+    setFilesImages(
       acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
@@ -52,7 +54,6 @@ const ActivitiesForm = ({ id }) => {
     );
   };
 
-  const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     maxFiles: 1,
@@ -63,7 +64,7 @@ const ActivitiesForm = ({ id }) => {
     },
   });
 
-  const thumbs = files.map((file) => (
+  const thumbs = filesImages.map((file) => (
     <div key={file.name} style={thumb}>
       <div className="thumb-inner">
         <img className="img" src={file.preview} />
@@ -73,9 +74,9 @@ const ActivitiesForm = ({ id }) => {
 
   useEffect(
     () => () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
     },
-    [files],
+    [filesImages],
   );
 
   const handleClick = (values) => {

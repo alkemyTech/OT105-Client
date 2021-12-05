@@ -25,7 +25,7 @@ const thumb = {
 };
 
 const ActivitiesForm = ({ id }) => {
-  const [initialValues, setInitialValues] = useState({
+  const [formValues, setFormValues] = useState({
     name: id ? id.data.name : '',
     description: id ? id.data.description : '',
     image: id ? id.data.name : null,
@@ -37,8 +37,8 @@ const ActivitiesForm = ({ id }) => {
     maxFiles: 1,
     accept: 'image/jpeg, image/png',
     onDrop: (acceptedFiles) => {
-      setInitialValues({
-        ...initialValues,
+      setFormValues({
+        ...formValues,
         image: acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
@@ -95,7 +95,7 @@ const ActivitiesForm = ({ id }) => {
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formValues}
       validate={(values) => {
         let errors = {};
 
@@ -153,7 +153,7 @@ const ActivitiesForm = ({ id }) => {
               <section style={{ width: '80%', margin: '20px auto' }}>
                 <CKEditor
                   required
-                  data={initialValues.description}
+                  data={formValues.description}
                   editor={ClassicEditor}
                   label="Description"
                   onReady={(editor) => {

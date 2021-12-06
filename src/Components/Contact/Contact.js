@@ -43,14 +43,14 @@ const Contact = () => {
       message: '',
     },
     validate,
-    onSubmit: (values) => handleSubmit(values),
+    onSubmit: (values) => handleSubmitContact(values),
   });
 
   const showErrorMessage = (errorMessage) => {
     return <Alert severity="warning"> {errorMessage} </Alert>;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmitContact = async () => {
     const body = {
       name: formik.values.name,
       email: formik.values.email,

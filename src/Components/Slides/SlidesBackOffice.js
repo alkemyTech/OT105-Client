@@ -9,7 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Link } from 'react-router-dom';
+import '../../Styles/SlidesBackOffice.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,37 +45,38 @@ const rows = [
 
 function SlidesBackOffice() {
   return (
-    <>
-      <Link to="/backoffice/Slides/create" />
-      <div style={{ height: 400, width: '900px', margin: '20px auto' }}>
-        <TableContainer component={Paper}>
-          <Table aria-label="customized table" sx={{ minWidth: 900 }}>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Title</StyledTableCell>
-                <StyledTableCell align="right">Image</StyledTableCell>
-                <StyledTableCell align="right">Order</StyledTableCell>
-                <StyledTableCell align="right">Edit</StyledTableCell>
-                <StyledTableCell align="right">Delete</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.title}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.title}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.image}</StyledTableCell>
-                  <StyledTableCell align="right">{row.order}</StyledTableCell>
-                  <StyledTableCell align="right">{row.edit}</StyledTableCell>
-                  <StyledTableCell align="right">{row.delet}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </>
+    <div style={{ height: 400, width: '900px', margin: '20px auto' }}>
+      <Link exact className="link-button" to="/backoffice/Slides/create">
+        Create a new slide
+        <ArrowRightAltIcon />
+      </Link>
+      <TableContainer component={Paper}>
+        <Table aria-label="customized table" sx={{ minWidth: 900 }}>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Title</StyledTableCell>
+              <StyledTableCell align="right">Image</StyledTableCell>
+              <StyledTableCell align="right">Order</StyledTableCell>
+              <StyledTableCell align="right">Edit</StyledTableCell>
+              <StyledTableCell align="right">Delete</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <StyledTableRow key={row.title}>
+                <StyledTableCell component="th" scope="row">
+                  {row.title}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.image}</StyledTableCell>
+                <StyledTableCell align="right">{row.order}</StyledTableCell>
+                <StyledTableCell align="right">{row.edit}</StyledTableCell>
+                <StyledTableCell align="right">{row.delet}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
 

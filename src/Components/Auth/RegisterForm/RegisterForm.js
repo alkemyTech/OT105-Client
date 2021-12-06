@@ -5,7 +5,7 @@ import { SignupSchema } from './SignupSchema';
 import { Alert } from '@mui/material';
 
 const RegisterForm = () => {
-  const initialValues = {
+  const userData = {
     firstName: '',
     lastName: '',
     email: '',
@@ -15,13 +15,15 @@ const RegisterForm = () => {
 
   const handleSubmit = (values) => {
     delete values.confirmPassword;
-    // eslint-disable-next-line no-console
-    console.table({ ...values });
   };
+
+  const showAlert = (type, text) => {
+    return <Alert severity={type}>{text}</Alert>
+  }
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={userData}
       validationSchema={SignupSchema}
       onSubmit={handleSubmit}>
       {({ errors, touched }) => (
@@ -35,7 +37,7 @@ const RegisterForm = () => {
             placeholder="Your first name"
           />
           {errors.firstName && touched.firstName ? (
-            <Alert severity="warning">{errors.firstName}</Alert>
+            showAlert('warning', errors.firstName)
           ) : null}
           <label htmlFor="lastName">Last Name</label>
           <Field
@@ -45,7 +47,7 @@ const RegisterForm = () => {
             placeholder="Your last name"
           />
           {errors.lastName && touched.lastName ? (
-            <Alert severity="warning">{errors.lastName}</Alert>
+            showAlert('warning', errors.lastName)
           ) : null}
           <label htmlFor="email">Email</label>
           <Field
@@ -56,7 +58,7 @@ const RegisterForm = () => {
             type="email"
           />
           {errors.email && touched.email ? (
-            <Alert severity="warning">{errors.email}</Alert>
+            showAlert('warning', errors.email)
           ) : null}
           <label htmlFor="password">Password</label>
           <Field
@@ -67,7 +69,7 @@ const RegisterForm = () => {
             type="text"
           />
           {errors.password && touched.password ? (
-            <Alert severity="warning">{errors.password}</Alert>
+            showAlert('warning', errors.password)
           ) : null}
           <label htmlFor="confirmPassword">Confirm password</label>
           <Field
@@ -78,7 +80,7 @@ const RegisterForm = () => {
             type="text"
           />
           {errors.confirmPassword && touched.confirmPassword ? (
-            <Alert severity="warning">{errors.confirmPassword}</Alert>
+            showAlert('warning', errors.confirmPassword)
           ) : null}
           <button className="submit-btn" disabled={!errors} type="submit">
             Register

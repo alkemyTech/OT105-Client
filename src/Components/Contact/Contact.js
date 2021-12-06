@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { emailRegex } from '../../utils';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';

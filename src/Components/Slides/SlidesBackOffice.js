@@ -44,6 +44,7 @@ const rows = [
 function SlidesBackOffice() {
   return (
     <>
+      <Link to="/backoffice/Slides/create" />
       <div style={{ height: 400, width: '900px', margin: '20px auto' }}>
         <TableContainer component={Paper}>
           <Table aria-label="customized table" sx={{ minWidth: 900 }}>

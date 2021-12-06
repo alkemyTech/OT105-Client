@@ -24,6 +24,16 @@ export const privateDelete = async (path, id) => {
   }
 };
 
+export const PrivateGet = async (route, id = null) => {
+  const fullRoute = id ? `${route}/${id}` : route;
+
+  try {
+    return await axios.get(fullRoute, config);
+  } catch (err) {
+    return err;
+  }
+};
+
 export const privatePUT = async (path, id, body) => {
   try {
     const response = await axios.put(`${path}/${id}`, body, config);
@@ -31,17 +41,6 @@ export const privatePUT = async (path, id, body) => {
     return response.data;
   } catch (error) {
     console.error(error);
-  }
-};
-
-const Get = async (route, id = null) => {
-  const url = 'http://ongapi.alkemy.org/public/api/';
-  const fullRoute = id ? `${route}/${id}` : route;
-
-  try {
-    return await axios.get(url + fullRoute, config);
-  } catch (err) {
-    return err;
   }
 };
 

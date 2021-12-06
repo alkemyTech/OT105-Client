@@ -8,11 +8,7 @@ import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
-import {
-  listHasValues,
-  dropzoneConfig,
-  isEmptyList,
-} from '../../Utils/ActivitiesUtils';
+import { dropzoneConfig, isEmptyList } from '../../Utils/ActivitiesUtils';
 import '../FormStyles.css';
 import '../../Styles/ActivitiesForm.css';
 import { createOrUpdateActivity } from '../../Services/activitiesService';
@@ -88,6 +84,13 @@ const ActivitiesForm = ({ id }) => {
     </div>
   ));
 
+  const showError = (errors, attribute) => (
+    <ErrorMessage
+      component={() => <Alert severity="warning">{errors[attribute]}</Alert>}
+      name={attribute}
+    />
+  );
+
   useEffect(
     () => () => {
       filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -114,7 +117,7 @@ const ActivitiesForm = ({ id }) => {
         if (!values.name) {
           errors.name = 'please submit a email';
         }
-        if (values.image === null) {
+        if (!values.image) {
           errors.image = 'please submit a image';
         } else if (values.image) {
           errors.image = false;
@@ -153,12 +156,7 @@ const ActivitiesForm = ({ id }) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.name}</Alert>
-                )}
-                name="name"
-              />
+              {errors && showError(errors, 'name')}
               <h4 className="title">Description</h4>
               <section style={{ width: '80%', margin: '20px auto' }}>
                 <CKEditor
@@ -190,12 +188,7 @@ const ActivitiesForm = ({ id }) => {
                   <aside className="thumbs-container">{imagePreview}</aside>
                 </div>
               </section>
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.image}</Alert>
-                )}
-                name="image"
-              />
+              {errors && showError(errors, 'image')}
               <Button type="submit" variant="outlined">
                 Send
               </Button>

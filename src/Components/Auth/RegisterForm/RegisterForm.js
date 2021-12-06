@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../FormStyles.css';
+import '../../../Styles/FormStyles.css';
 import { Formik, Field, Form } from 'formik';
 import { SignupSchema } from './SignupSchema';
 import { Alert } from '@mui/material';
@@ -18,8 +18,8 @@ const RegisterForm = () => {
   };
 
   const showAlert = (type, text) => {
-    return <Alert severity={type}>{text}</Alert>
-  }
+    return <Alert severity={type}>{text}</Alert>;
+  };
 
   return (
     <Formik
@@ -36,9 +36,9 @@ const RegisterForm = () => {
             name="firstName"
             placeholder="Your first name"
           />
-          {errors.firstName && touched.firstName ? (
-            showAlert('warning', errors.firstName)
-          ) : null}
+          {errors.firstName && touched.firstName
+            ? showAlert('warning', errors.firstName)
+            : null}
           <label htmlFor="lastName">Last Name</label>
           <Field
             className="input-field"
@@ -46,9 +46,9 @@ const RegisterForm = () => {
             name="lastName"
             placeholder="Your last name"
           />
-          {errors.lastName && touched.lastName ? (
-            showAlert('warning', errors.lastName)
-          ) : null}
+          {errors.lastName && touched.lastName
+            ? showAlert('warning', errors.lastName)
+            : null}
           <label htmlFor="email">Email</label>
           <Field
             className="input-field"
@@ -57,9 +57,9 @@ const RegisterForm = () => {
             placeholder="example@example.com"
             type="email"
           />
-          {errors.email && touched.email ? (
-            showAlert('warning', errors.email)
-          ) : null}
+          {errors.email && touched.email
+            ? showAlert('warning', errors.email)
+            : null}
           <label htmlFor="password">Password</label>
           <Field
             className="input-field"
@@ -68,9 +68,9 @@ const RegisterForm = () => {
             placeholder="Your password"
             type="text"
           />
-          {errors.password && touched.password ? (
-            showAlert('warning', errors.password)
-          ) : null}
+          {errors.password && touched.password
+            ? showAlert('warning', errors.password)
+            : null}
           <label htmlFor="confirmPassword">Confirm password</label>
           <Field
             className="input-field"
@@ -79,9 +79,9 @@ const RegisterForm = () => {
             placeholder="Confirm your password"
             type="text"
           />
-          {errors.confirmPassword && touched.confirmPassword ? (
-            showAlert('warning', errors.confirmPassword)
-          ) : null}
+          {errors.confirmPassword && touched.confirmPassword
+            ? showAlert('warning', errors.confirmPassword)
+            : null}
           <button className="submit-btn" disabled={!errors} type="submit">
             Register
           </button>

@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { passwordRegex, repasswordRegex } from '../../../utils/constants';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
@@ -8,13 +9,13 @@ export const SignupSchema = Yup.object().shape({
     .min(6, 'Password must be at least 6 characters')
     .required('Password is required')
     .matches(
-      /(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!"#$%&/()=*@'¡¿?+~_\-\\´{},;.])(?=.{6,})/,
+      passwordRegex,
       "Password must contain at least one letter, one number and one special character (!#$%&/()=*@'¡¿?+~_-´{},;.)",
     ),
   confirmPassword: Yup.string()
     .min(6, 'Password must be at least 6 characters')
     .matches(
-      /^[a-zA-Z0-9!@#$%^&*)(+=._-]*$/,
+      repasswordRegex,
       'Password needs to contain at least one character, one number and one special character',
     )
     .oneOf([Yup.ref('password'), null], 'Passwords must match'),

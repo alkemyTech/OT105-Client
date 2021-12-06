@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { emailRegex } from '../../utils';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
+import { gcreateContact } from '../../Services/ConctactService';
 
 const Contact = () => {
-  //**************************VALIDATE************************************** */
+  const [apiResponse, setApiResponse] = useState({});
   const validate = (values) => {
     const errors = {};
-
-    const emailRegex =
-      /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
     if (!values.name) {
       errors.name = 'El nombre es requerido';
@@ -36,7 +35,6 @@ const Contact = () => {
     return errors;
   };
 
-  //********************************FORMIK FORM*********************************** */
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -48,7 +46,10 @@ const Contact = () => {
     onSubmit: (values) => handleSubmit(values),
   });
 
-  //*****************************SUBMIT AND AXIOS POST  *****************************************/
+  const showErrorMessage = (errorMessage) => {
+    return <Alert severity="warning"> {errorMessage} </Alert>;
+  };
+
   const handleSubmit = async () => {
     const body = {
       name: formik.values.name,
@@ -57,10 +58,7 @@ const Contact = () => {
       message: formik.values.message,
     };
 
-    console.log(body);
-    let resp;
-
-    resp = await axios.post('http://ongapi.alkemy.org/api/contacts', body);
+    gcreateContact(body).then((resp) => setApiResponse(resp.data));
   };
 
   return (
@@ -83,9 +81,7 @@ const Contact = () => {
         onChange={formik.handleChange}
       />
 
-      {formik.errors.name && (
-        <Alert severity="warning">{formik.errors.name}</Alert>
-      )}
+      {formik.errors.name && showErrorMessage(formik.errors.name)}
 
       <Typography component="div" variant="h5">
         Email
@@ -101,9 +97,7 @@ const Contact = () => {
         onChange={formik.handleChange}
       />
 
-      {formik.errors.email && (
-        <Alert severity="warning">{formik.errors.email}</Alert>
-      )}
+      {formik.errors.email && showErrorMessage(formik.errors.email)}
       <Typography component="div" variant="h5">
         Phone
       </Typography>
@@ -118,9 +112,7 @@ const Contact = () => {
         onChange={formik.handleChange}
       />
 
-      {formik.errors.phone && (
-        <Alert severity="warning">{formik.errors.phone}</Alert>
-      )}
+      {formik.errors.phone && showErrorMessage(formik.errors.phone)}
       <Typography component="div" variant="h5">
         Message
       </Typography>
@@ -135,9 +127,7 @@ const Contact = () => {
         onChange={formik.handleChange}
       />
 
-      {formik.errors.message && (
-        <Alert severity="warning">{formik.errors.message}</Alert>
-      )}
+      {formik.errors.message && showErrorMessage(formik.errors.message)}
 
       <Button className="submit-btn" type="submit" variant="contained">
         Enviar

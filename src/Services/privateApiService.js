@@ -13,16 +13,15 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-const tokenVer = () => {
-  if (window.localStorage.hasOwnProperty('token')) {
-    const token = localStorage.token;
+const getAuthorizationHeader = () => {
+  if (!window.localStorage.hasOwnProperty('token')) return new Error('no token found');
+  const token = localStorage.token;
 
-    const Header = {
-      Authorization: 'Bearer' + token,
-    };
+  const Header = {
+    Authorization: 'Bearer' + token,
+  };
 
-    return Header;
-  }
+  return Header;
 };
 
 export default Get;

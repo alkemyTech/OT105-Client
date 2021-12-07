@@ -9,19 +9,27 @@ const HomeScreen = () => {
       sx={{
         width: '99.9%',
         textAlign: 'center',
-        height: '100vh',
+        minHeight: '100vh',
         overflow: 'hidden',
       }}>
-      <div>
-        <img fit="cover" src="https://picsum.photos/3200/700" width="100%" />
-      </div>
+      {/* Slider component */}
+      <Box
+        sx={{
+          width: '100%',
+          objectFit: 'fill',
+          height: '500px',
+          overflow: 'hidden',
+        }}>
+        <img src="https://picsum.photos/3200/1500" width="100%" />
+      </Box>
       <Container sx={{ marginTop: '20px' }}>
         <Typography variant="h3">Texto de bienvenida</Typography>
       </Container>
-      <Container sx={{ border: '1px solid', marginTop: '50px' }}>
-        <Box sx={{ objectFit: 'fill' }}>
+      <Container sx={{ marginTop: '50px' }}>
+        <Box sx={{ objectFit: 'contain' }}>
           <Typography variant="h4">Últimas novedades</Typography>
-          <img src="https://picsum.photos/1500/500" width="100%" />
+          {/* UltimasNovedades Component */}
+          <img src="https://picsum.photos/1500/800" width="100%" />
         </Box>
       </Container>
     </Box>

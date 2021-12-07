@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-export const ImageLazyLoader = ({
+const ImageLazyLoader = ({
   src,
   reservedHeight = '0px',
   observerOptions = { rootMargin: '0px', threshold: 0.0 },
@@ -34,3 +34,5 @@ export const ImageLazyLoader = ({
     </div>
   );
 };
+
+export default ImageLazyLoader;

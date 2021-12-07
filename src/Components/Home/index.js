@@ -17,8 +17,8 @@ const HomeScreen = () => {
         sx={{
           width: '100%',
           objectFit: 'fill',
-          height: '500px',
           overflow: 'hidden',
+          maxHeight: '500px',
         }}>
         <img src="https://picsum.photos/3200/1500" width="100%" />
       </Box>

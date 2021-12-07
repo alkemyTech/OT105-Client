@@ -13,4 +13,14 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-export default Get;
+const Patch = async (url, data) => {
+  //callback method for header
+  return await axios
+    .post(url, data, {
+      //headers: authorizacionHeader
+    })
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};
+
+export default { Get, Patch };

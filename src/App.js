@@ -9,6 +9,7 @@ import NewsForm from './Components/News/NewsForm';
 import SlidesForm from './Components/Slides/SlidesForm';
 import TestimonialForm from './Components/Testimonials/TestimonialsForm';
 import UserForm from './Components/Users/UsersForm';
+import UsersListTable from './Components/Users/UsersListTable';
 import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
@@ -25,6 +26,7 @@ function App() {
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
           <Route component={TestimonialForm} path="/create-testimonials" />
+          <Route component={UsersListTable} path="/backoffice/users" />
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />
           <Route component={ProjectsForm} path="/create-project" />

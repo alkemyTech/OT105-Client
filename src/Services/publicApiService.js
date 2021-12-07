@@ -6,7 +6,7 @@ const config = {
   },
 };
 
-const publicApiGet = async (route, id) => {
+const publicGet = async (route, id) => {
   let url;
 
   if (id === undefined || id === null) {
@@ -28,4 +28,4 @@ const publicApiGet = async (route, id) => {
   }
 };
 
-export { publicApiGet };
+export { publicGet };

@@ -14,11 +14,12 @@ const Get = () => {
 };
 
 const Patch = async (url, data) => {
-  getAuthorizationHeader()
-  console.log('hola')
+  getAuthorizationHeader();
+  console.log('hola');
+
   return await axios
     .post(url, data, {
-      headers: getAuthorizationHeader().Authorization
+      headers: getAuthorizationHeader().Authorization,
     })
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
@@ -35,6 +36,6 @@ const getAuthorizationHeader = () => {
   return Header;
 };
 
-Patch()
+Patch();
 
 export default { Get };

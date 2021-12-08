@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -9,7 +9,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
   Paper,
   Button,
   Container,
@@ -18,9 +17,9 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import SortableTableCell from './SortableTableCell';
 
 const mockedUsers = [
   {
@@ -108,6 +107,7 @@ const UsersListTable = () => {
   const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
   const [usersList, setUsersList] = useState(mockedUsers);
+  const [sortedUsersList, setSortedUsersList] = useState(mockedUsers);
   const rowsPerPage = 10;
 
   const descendingComparator = (a, b, orderBy) => {
@@ -138,25 +138,41 @@ const UsersListTable = () => {
     setPage(newPage);
   };
 
-  const createSortHandler = (property) => (event) => {
-    handleRequestSort(event, property);
-  };
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
+  const emptyRowsToAvoidLayoutJump =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - usersList.length) : 0;
 
-  const deleteUser = (id) => {
-    const newUsersList = usersList.filter((user) => user.id !== id);
+  const rowHeight = 53;
+
+  const isLastItemOnPage = () => {
     const total = usersList.length - 1;
     const pages = total / rowsPerPage;
 
+    return page === pages && page !== 0;
+  };
+
+  const deleteUser = (id) => {
+    const newUsersList = usersList.filter((user) => user.id !== id);
+
     setUsersList(newUsersList);
 
-    if (page === pages && page !== 0) {
+    if (isLastItemOnPage()) {
       setPage(page - 1);
     }
   };
+
+  const sortList = (list) => {
+    const sortedList = list
+      .sort(getComparator(order, orderBy))
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+    return sortedList;
+  };
+
+  useEffect(() => {
+    const newSortedUsersList = sortList(usersList);
+
+    setSortedUsersList(newSortedUsersList);
+  }, [order, orderBy, page, usersList]);
 
   return (
     <Container sx={{ my: '1rem' }}>
@@ -184,74 +200,53 @@ const UsersListTable = () => {
               sx={{ minWidth: 600 }}>
               <TableHead>
                 <TableRow>
-                  <TableCell sortDirection={orderBy === 'name' ? order : false}>
-                    <TableSortLabel
-                      active={orderBy === 'name'}
-                      direction={orderBy === 'name' ? order : 'asc'}
-                      onClick={createSortHandler('name')}>
-                      Nombre
-                      {orderBy === 'name' ? (
-                        <Box component="span" sx={visuallyHidden}>
-                          {order === 'desc'
-                            ? 'ordenado descendente'
-                            : 'ordenado ascendente'}
-                        </Box>
-                      ) : null}
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sortDirection={orderBy === 'email' ? order : false}>
-                    <TableSortLabel
-                      active={orderBy === 'email'}
-                      direction={orderBy === 'email' ? order : 'asc'}
-                      onClick={createSortHandler('email')}>
-                      Email
-                      {orderBy === 'email' ? (
-                        <Box component="span" sx={visuallyHidden}>
-                          {order === 'desc'
-                            ? 'ordenado descendente'
-                            : 'ordenado ascendente'}
-                        </Box>
-                      ) : null}
-                    </TableSortLabel>
-                  </TableCell>
+                  <SortableTableCell
+                    columnLabel="Nombre"
+                    columnName="name"
+                    handleRequestSort={handleRequestSort}
+                    order={order}
+                    orderBy={orderBy}
+                  />
+                  <SortableTableCell
+                    columnLabel="Email"
+                    columnName="email"
+                    handleRequestSort={handleRequestSort}
+                    order={order}
+                    orderBy={orderBy}
+                  />
                   <TableCell align="right">Acciones</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {usersList
-                  .sort(getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow key={row.id} hover tabIndex={-1}>
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell align="right">{row.email}</TableCell>
-                        <TableCell align="right">
-                          <Tooltip title="Editar">
-                            <IconButton
-                              component={Link}
-                              to={`/backoffice/users/edit/${row.id}`}
-                              variant="contained">
-                              <EditIcon />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Eliminar">
-                            <IconButton onClick={() => deleteUser(row.id)}>
-                              <DeleteIcon color="error" />
-                            </IconButton>
-                          </Tooltip>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
+                {sortedUsersList.map((row) => {
+                  return (
+                    <TableRow key={row.id} hover tabIndex={-1}>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell align="right">
+                        <Tooltip title="Editar">
+                          <IconButton
+                            component={Link}
+                            to={`/backoffice/users/edit/${row.id}`}
+                            variant="contained">
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Eliminar">
+                          <IconButton onClick={() => deleteUser(row.id)}>
+                            <DeleteIcon color="error" />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+                {emptyRowsToAvoidLayoutJump > 0 && (
                   <TableRow
                     style={{
-                      height: 53 * emptyRows,
+                      height: rowHeight * emptyRowsToAvoidLayoutJump,
                     }}>
                     <TableCell colSpan={3} />
                   </TableRow>

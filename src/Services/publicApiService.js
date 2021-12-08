@@ -10,12 +10,12 @@ const publicGet = async (route, id) => {
   let url;
 
   if (id === undefined || id === null) {
-    url = `http://ongapi.alkemy.org/api${route}`;
+    url = route;
   } else {
     if (typeof id !== 'number') {
       throw 'id must be type Number';
     } else {
-      url = `http://ongapi.alkemy.org/api${route}/${id}`;
+      url = `${route}/${id}`;
     }
   }
 

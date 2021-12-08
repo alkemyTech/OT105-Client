@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import CardHeader from '@mui/material/CardHeader';
+import Box from '@mui/material/Box';
 import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -98,7 +99,7 @@ const ActivitiesForm = ({ id }) => {
     [filesImages],
   );
 
-  const handleClick = async (values) => {
+  const handleClick = (values) => {
     let data = {
       name: values.name,
       description: activitiesDescription,
@@ -119,8 +120,6 @@ const ActivitiesForm = ({ id }) => {
         }
         if (!values.image) {
           errors.image = 'please submit a image';
-        } else if (values.image) {
-          errors.image = false;
         }
 
         return errors;
@@ -128,7 +127,15 @@ const ActivitiesForm = ({ id }) => {
       onSubmit={(values) => {
         handleClick(values);
       }}>
-      {({ values, handleChange, errors, touched, handleBlur }) => {
+      {({
+        values,
+        handleChange,
+        errors,
+        touched,
+        handleBlur,
+        handleSubmit,
+        handleReset,
+      }) => {
         return (
           <Card sx={{ margin: '20px auto', width: '600px', height: '100%' }}>
             <CardHeader title={id ? 'EDIT ACTIVITY' : 'CREATE ACTIVITY'} />
@@ -139,7 +146,8 @@ const ActivitiesForm = ({ id }) => {
                 marginRight: 'auto',
                 width: '600px',
                 height: '100%',
-              }}>
+              }}
+              onSubmit={handleSubmit}>
               <h4 className="title">Title</h4>
               <Field
                 fullWidth

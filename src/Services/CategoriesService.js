@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-//URL
 const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
 
 const getAllCategories = async () => {

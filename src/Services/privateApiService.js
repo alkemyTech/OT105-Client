@@ -13,4 +13,15 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
+const getAuthorizationHeader = () => {
+  if (!window.localStorage.hasOwnProperty('token')) return new Error('no token found');
+  const token = localStorage.token;
+
+  const Header = {
+    Authorization: 'Bearer' + token,
+  };
+
+  return Header;
+};
+
 export default Get;

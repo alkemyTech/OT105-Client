@@ -13,7 +13,7 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-export const publicApiPost = async (url, body) => {
+export const publicPost = async (url, body) => {
   try {
     const resp = await axios.post(url, body);
 

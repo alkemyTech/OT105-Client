@@ -1,20 +1,28 @@
 import axios from 'axios';
 
-const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories/';
+const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
 
-export const createOrEditCategories = (id, body) => {
-  if (id) {
-    const response = updateCategories(id, body);
+const createCategorie = async (categorie) => {
+  try {
+    const res = await axios.post(CATEGORIES_URL, categorie);
 
-    return response;
-  } else {
-    const response = createCategories(body);
-
-    return response;
+    return res.data;
+  } catch (err) {
+    return err.response.data;
   }
 };
 
-const createCategories = async (body) => await axios.post(CATEGORIES_URL, body);
+const editCategorie = async (categorieId, editCategorie) => {
+  try {
+    const res = await axios.put(
+      `${CATEGORIES_URL}/${categorieId}`,
+      editCategorie,
+    );
 
-const updateCategories = async (id, body) =>
-  await axios.patch(`${CATEGORIES_URL}${id}`, body);
+    return res.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+export { createCategorie, editCategorie };

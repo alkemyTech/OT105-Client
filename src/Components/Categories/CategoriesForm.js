@@ -4,7 +4,10 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
-import { createOrEditCategories } from '../../Services/CategoriesService';
+import {
+  createCategorie,
+  editCategorie,
+} from '../../Services/CategoriesService';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
@@ -125,7 +128,11 @@ const CategoriesForm = ({ id }) => {
       image: base64ImageFile,
     };
 
-    createOrEditCategories(id, body).then((resp) => setApiResponse(resp.data));
+    if (id) {
+      editCategorie(id, body).then((resp) => setApiResponse(resp.data));
+    } else {
+      createCategorie(body).then((resp) => setApiResponse(resp.data));
+    }
   };
 
   return (

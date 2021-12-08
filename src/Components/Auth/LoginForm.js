@@ -10,27 +10,33 @@ import {
   InputAdornment,
   InputLabel,
 } from '@mui/material';
+import {
+  containsSixCharacters,
+  containsOneNumber,
+  containSpecialCharacter,
+  containsOneLetter,
+  validEmail,
+} from '../../Utils/Validations/userValidations';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import '../FormStyles.css';
-
 const validate = (values) => {
   let errors = {};
 
   if (!values.password) {
     errors.password = 'required!';
-  } else if (values.password.length < 6) {
+  } else if (containsSixCharacters(values.password)) {
     errors.password = 'at least 6 characters';
-  } else if (!/[\d]{1}/g.test(values.password)) {
+  } else if (!containsOneNumber(values.password)) {
     errors.password = 'at least 1 number';
-  } else if (!/[!@#$%^&*(),.?":{}|<>]/g.test(values.password)) {
+  } else if (!containSpecialCharacter(values.password)) {
     errors.password = 'at least 1 special character';
-  } else if (!/[a-zA-Z]/.test(values.password)) {
+  } else if (!containsOneLetter(values.password)) {
     errors.password = 'at least 1 letter';
   }
   if (!values.email) {
     errors.email = 'required!';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  } else if (!validEmail(values.email)) {
     errors.email = 'Invalid email address';
   }
 
@@ -57,9 +63,19 @@ const LoginForm = () => {
         });
       },
     });
+    const showErrors = (errorAttribute) => {
+      if (formik.touched[errorAttribute] && formik.errors[errorAttribute]) {
+        return (
+          <Alert align="justify" severity="warning" sx={{ width: '23rem' }}>
+            <AlertTitle> Warning </AlertTitle>
+            {formik.errors[errorAttribute]}
+          </Alert>
+        );
+      }
+    };
 
     return (
-      <form className="form-container" onSubmit={formik.handleSubmit}>
+      <form className="login-user-form" onSubmit={formik.handleSubmit}>
         <FormControl margin="dense" sx={{ width: '25rem' }}>
           <InputLabel htmlFor="email">Email Address</InputLabel>
           <Input
@@ -77,15 +93,8 @@ const LoginForm = () => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
-          {formik.touched.email && formik.errors.email ? (
-            <Alert align="justify" severity="warning" sx={{ width: '23rem' }}>
-              <AlertTitle> Warning </AlertTitle>
-              {formik.errors.email}
-            </Alert>
-          ) : null}
+          {showErrors('email')}
         </FormControl>
-        <br />
-        <br />
         <FormControl sx={{ width: '25rem' }}>
           <InputLabel htmlFor="password">password</InputLabel>
           <Input
@@ -103,15 +112,8 @@ const LoginForm = () => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
-          {formik.touched.password && formik.errors.password ? (
-            <Alert align="justify" severity="warning" sx={{ width: '23rem' }}>
-              <AlertTitle> Warning </AlertTitle>
-              {formik.errors.password}
-            </Alert>
-          ) : null}
+          {showErrors('password')}
         </FormControl>
-        <br />
-        <br />
         <Button className="submit-btn" type="submit" variant="contained">
           Login
         </Button>

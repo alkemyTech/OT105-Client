@@ -11,23 +11,13 @@ import Button from '@mui/material/Button';
 import CardHeader from '@mui/material/CardHeader';
 import { Alert } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
-
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
-  margin: 'auto',
-  width: 'auto',
-  height: 60,
-  padding: 4,
-  boxSizing: 'border-box',
-};
+import { createOrEditTestimonial } from '../../Services/MemberServices';
+import thumb from './membersCreateEdit.module.css';
 
 function MembersCreateEdit() {
   const { id } = useParams();
-  const urlEdit = `http://ongapi.alkemy.org/public/api/members/${id}`;
-  const urlCreate = `http://ongapi.alkemy.org/public/api/members`;
-  const [initialValues, setInitialValues] = useState({
+  const [apiResponse, setApiResponse] = useState({});
+  const [formValues, setFormValues] = useState({
     name: '',
     image: '',
     description: '',
@@ -35,19 +25,19 @@ function MembersCreateEdit() {
     linkedinUrl: '',
   });
 
-  const [files, setFiles] = useState([]);
+  const [dropZoneFiles, setDropZoneFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/png, image/jpg',
     onDrop: (acceptedFiles) => {
-      setInitialValues({
-        ...initialValues,
+      setFormValues({
+        ...formValues,
         image: acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           }),
         ),
       });
-      setFiles(
+      setDropZoneFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
@@ -56,107 +46,59 @@ function MembersCreateEdit() {
       );
     },
   });
-  const thumbs = files.map((file) => (
+  const thumbs = dropZoneFiles.map((file) => (
     <div key={file.name} style={thumb}>
       <div className="thumb-inner">
         <img className="img" src={file.preview} />
       </div>
     </div>
   ));
+  const avoidMemoryLeak = () =>
+    dropZoneFiles.forEach((file) => URL.revokeObjectURL(file.preview));
 
   useEffect(
     () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      avoidMemoryLeak();
     },
-    [files],
+    [dropZoneFiles],
   );
+  const showErrorMessage = (errorMessage) => {
+    return <Alert severity="warning"> {errorMessage} </Alert>;
+  };
 
   const descriptionChange = (e, editor) => {
     const data = editor.getData();
 
-    setInitialValues({ ...initialValues, description: data });
+    setFormValues({ ...formValues, description: data });
   };
   const nameChange = (e, values) => {
     // eslint-disable-next-line no-console
     console.log(values);
-    setInitialValues({ ...initialValues, name: e.target.value });
+    setFormValues({ ...formValues, name: e.target.value });
   };
   const facebookChange = (e) => {
-    setInitialValues({ ...initialValues, facebookUrl: e.target.value });
+    setFormValues({ ...formValues, facebookUrl: e.target.value });
   };
   const linkedInChange = (e) => {
-    setInitialValues({ ...initialValues, linkedinUrl: e.target.value });
+    setFormValues({ ...formValues, linkedinUrl: e.target.value });
   };
   const handleClick = () => {
-    const datosConEtiquetas = initialValues.description;
-    const datosSinEtiquetas = datosConEtiquetas.replace(/<[^>]+>/g, '');
-
-    if (!id) {
-      axios
-        .post(urlCreate, {
-          name: initialValues.name,
-          image: initialValues.image,
-          description: datosSinEtiquetas,
-          facebookUrl: initialValues.facebookUrl,
-          linkedinUrl: initialValues.linkedinUrl,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            // eslint-disable-next-line no-console
-            alert('Create member successfully');
-
-            return initialValues;
-          }
-        })
-        // eslint-disable-next-line no-console
-        .catch((e) => console.log(e));
-    }
-    if (id) {
-      axios
-        .post(urlEdit, {
-          name: initialValues.name,
-          image: initialValues.image,
-          description: datosSinEtiquetas,
-          facebookUrl: initialValues.facebookUrl,
-          linkedinUrl: initialValues.linkedinUrl,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            // eslint-disable-next-line no-console
-            alert('Edit member successfully');
-
-            return setInitialValues(initialValues);
-          }
-        })
-        .catch((e) => alert(e));
-    }
-  };
-
-  useEffect(() => {
-    const dataEdit = async () => {
-      if (id) {
-        const initialData = await axios.get(urlEdit),
-          { name, image, description, facebookUrl, linkedinUrl } =
-            initialData.data.data;
-
-        if (name) setInitialValues({ ...initialValues, name: name });
-        if (image) setInitialValues({ ...initialValues, image: image });
-        if (description)
-          setInitialValues({ ...initialValues, description: description });
-        if (facebookUrl)
-          setInitialValues({ ...initialValues, facebookUrl: facebookUrl });
-        if (linkedinUrl)
-          setInitialValues({ ...initialValues, linkedinUrl: linkedinUrl });
-      }
+    const dataTags = formValues.description;
+    const cleanTags = dataTags.replace(/<[^>]+>/g, '');
+    const body = {
+      name: formValues.name,
+      image: formValues.image,
+      description: cleanTags,
+      facebookUrl: formValues.facebookUrl,
+      linkedinUrl: formValues.linkedinUrl,
     };
 
-    dataEdit();
-  });
+    createOrEditTestimonial(id, body).then((resp) => setApiResponse(resp.data));
+  };
 
   return (
     <Formik
-      initialValues={{
+      formValues={{
         name: '',
         image: '',
         description: '',
@@ -166,17 +108,16 @@ function MembersCreateEdit() {
       validate={(values) => {
         let errors = {};
 
-        //Name
         if (!values.name) {
           errors.name = 'Please submit a email';
         }
-        //Image
+
         if (values.image === null) {
           errors.image = 'Please submit a image';
         } else if (values.image) {
           errors.image = false;
         }
-        //Description
+
         if (!values.description) {
           errors.description = 'Please submit a description';
         }
@@ -206,32 +147,22 @@ function MembersCreateEdit() {
                 name="name"
                 placeholder="complet name"
                 type="text"
-                value={initialValues.name}
+                value={formValues.name}
                 onChange={(e, values) => nameChange(e, values)}
               />
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.name}</Alert>
-                )}
-                name="name"
-              />
+              {errors.name && showErrorMessage(errors.name)}
               <h4 className="name">Description</h4>
               <section style={{ width: '80%', margin: '20px auto' }}>
                 <CKEditor
                   required
                   component={TextField}
-                  data={initialValues.description}
+                  data={formValues.description}
                   editor={ClassicEditor}
                   label="Description"
                   onChange={descriptionChange}
                 />
               </section>
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.description}</Alert>
-                )}
-                name="name"
-              />
+              {errors.description && showErrorMessage(errors.description)}
               <h4 className="title">Image</h4>
               <section className="form">
                 <div
@@ -250,12 +181,7 @@ function MembersCreateEdit() {
                   <aside className="thumbs-container">{thumbs}</aside>
                 </div>
               </section>
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.image}</Alert>
-                )}
-                name="image"
-              />
+              {errors.image && showErrorMessage(errors.image)}
               <h4 className="title">facebookUrl</h4>
               <Field
                 fullWidth
@@ -267,16 +193,11 @@ function MembersCreateEdit() {
                 placeholder="facebookUrl"
                 sx={{ margin: '20px auto', width: '80%', display: 'flex' }}
                 type="text"
-                value={initialValues.facebookUrl}
+                value={formValues.facebookUrl}
                 variant="outlined"
                 onChange={(e, value) => facebookChange(e, value)}
               />
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.facebookUrl}</Alert>
-                )}
-                name="facebookUrl"
-              />
+              {errors.facebookUrl && showErrorMessage(errors.facebookUrl)}
               <h4 className="title">linkedinUrl</h4>
               <Field
                 fullWidth
@@ -288,21 +209,16 @@ function MembersCreateEdit() {
                 placeholder="linkedinUrl"
                 sx={{ margin: '20px auto', width: '80%', display: 'flex' }}
                 type="text"
-                value={initialValues.linkedinUrl}
+                value={formValues.linkedinUrl}
                 variant="outlined"
                 onChange={linkedInChange}
               />
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.linkedinUrl}</Alert>
-                )}
-                name="linkedinUrl"
-              />
+              {errors.linkedinUrl && showErrorMessage(errors.linkedinUrl)}
               <Button
                 className="submit-btn"
-                onClick={() => handleClick()}
                 type="submit"
-                variant="contained">
+                variant="contained"
+                onClick={() => handleClick()}>
                 Send
               </Button>
             </Form>

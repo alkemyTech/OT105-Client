@@ -24,15 +24,27 @@ import * as service from '../../Services/SlidesFormService';
 const SlidesForm = () => {
   const { id } = useParams();
   const [slideError, setSlideError] = useState(null);
-  const [initialValues, setInitialValues] = useState({
+  const [formInitialValues, setFormInitialValues] = useState({
     name: '',
     order: '',
     image: '',
     description: '',
     responseError: '',
   });
+  const acceptedFileExtensions = 'image/jpeg, image/png';
+  const onDrop = async (acceptedFiles, fileRejections) => {
+    if (fileRejections.length === 0) {
+      try {
+        const image = await service.imgToBase64(acceptedFiles[0]);
 
-  // React Dropzone Config
+        formik.setFieldValue('image', image);
+      } catch (error) {
+        formik.setFieldError('image', error);
+      }
+    } else {
+      formik.setFieldError('image', '*Tipo de Archivo no admitido');
+    }
+  };
   const {
     getRootProps,
     getInputProps,
@@ -40,28 +52,14 @@ const SlidesForm = () => {
     isDragAccept,
     isDragReject,
   } = useDropzone({
-    accept: 'image/jpeg, image/png',
+    accept: acceptedFileExtensions,
     maxFiles: 1,
     multiple: false,
-    onDrop: async (acceptedFiles, fileRejections) => {
-      if (fileRejections.length === 0) {
-        try {
-          const image = await service.imgToBase64(acceptedFiles[0]);
-
-          formik.setFieldValue('image', image);
-        } catch (error) {
-          formik.setFieldError('image', error);
-        }
-      } else {
-        formik.setFieldError('image', '*Tipo de Archivo no admitido');
-      }
-    },
+    onDrop: onDrop,
   });
   const removeSlideImage = () => {
     formik.setFieldValue('image', '');
   };
-
-  // Formik Config
   const yupSchema = Yup.object().shape({
     name: Yup.string()
       .min(4, 'El nombre debe tener mínimo 4 caracteres de largo')
@@ -90,12 +88,10 @@ const SlidesForm = () => {
   };
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: initialValues,
+    initialValues: formInitialValues,
     validationSchema: yupSchema,
     onSubmit: formikOnSubmit,
   });
-
-  // CKEditor Config
   const ckeditorConfig = {
     language: 'es',
     removePlugins: [
@@ -129,26 +125,27 @@ const SlidesForm = () => {
       'redo',
     ],
   };
+  const getInitialFormData = async () => {
+    try {
+      const slideResponse = await service.getSlide(id);
+      const slideData = await slideResponse.data;
+      const imageData = await service.URLImageToBlob(slideData.image);
+
+      setFormInitialValues({
+        name: slideData.name,
+        order: slideData.order,
+        image: imageData,
+        description: slideData.description,
+        responseError: '',
+      });
+    } catch (error) {
+      setSlideError(error);
+    }
+  };
 
   useEffect(() => {
     if (id) {
-      (async () => {
-        try {
-          const slideResponse = await service.getSlide(id);
-          const slideData = await slideResponse.data;
-          const imageData = await service.URLImageToBlob(slideData.image);
-
-          setInitialValues({
-            name: slideData.name,
-            order: slideData.order,
-            image: imageData,
-            description: slideData.description,
-            responseError: '',
-          });
-        } catch (error) {
-          setSlideError(error);
-        }
-      })();
+      getInitialFormData();
     }
   }, [id]);
 

@@ -4,15 +4,13 @@ import { Typography, Box } from '@mui/material';
 import Title from '../../Title/Title';
 import style from '../../../Styles/NewsDetail/NewsDetail.module.css';
 
-const NewsDetail = () => {
+const NewsDetail = ({ newsTitle }) => {
   const [newsDetail, setNewsDetail] = useState({
-    name: '',
     content: '',
     image: '',
   });
 
   const getNewsDetails = () => ({
-    name: 'Titulo de la noticia',
     content:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus omnis dolor illum error quas iusto eum, rerum, ad at quis perferendis fuga. Dolorem repellat, quae qui quisquam perspiciatis numquam nesciunt!. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus omnis dolor illum error quas iusto eum, rerum, ad at quis perferendis fuga. Dolorem repellat, quae qui quisquam perspiciatis numquam nesciunt!',
     image:
@@ -31,7 +29,7 @@ const NewsDetail = () => {
 
   return (
     <div>
-      <Title titleText={newsDetail.name} imageUrl={newsDetail.image} />
+      <Title titleText={newsTitle} imageUrl={newsDetail.image} />
       <Box component="div" className={style.container}>
         <Box component="div" className={style.content}>
           <Typography variant="p" component="p">

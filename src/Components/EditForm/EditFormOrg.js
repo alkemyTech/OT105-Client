@@ -52,6 +52,45 @@ function EditFormOrg() {
       onSubmit: (values) => {},
     });
 
+    const showErrors = (errorAttribute) => {
+      if (formik.touched[errorAttribute] && formik.errors[errorAttribute]) {
+        return (
+          <Alert
+            align="justify"
+            severity="warning"
+            sx={{ width: '23rem', height: '2rem' }}>
+            <AlertTitle> {formik.errors[errorAttribute]} </AlertTitle>
+          </Alert>
+        );
+      }
+    };
+    const showErrorCollapse = (errorAttribute) => {
+      if (formik.touched[errorAttribute] && formik.errors[errorAttribute]) {
+        return (
+          <Collapse in={open}>
+            <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}>
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              align="justify"
+              severity="warning"
+              sx={{ width: '23rem' }}>
+              <AlertTitle>Warning</AlertTitle>
+              {formik.errors[errorAttribute]}
+            </Alert>
+          </Collapse>
+        );
+      }
+    };
+
     return (
       <form className="formEditOrg" onSubmit={formik.handleSubmit}>
         <FormControl margin="dense">
@@ -66,17 +105,8 @@ function EditFormOrg() {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
-          {formik.touched.name && formik.errors.name ? (
-            <Alert
-              align="justify"
-              severity="warning"
-              sx={{ width: '23rem', height: '2rem' }}>
-              <AlertTitle>{formik.errors.name}</AlertTitle>
-            </Alert>
-          ) : null}
+          {showErrors('name')}
         </FormControl>
-        <br />
-        <br />
         <InputLabel>Logo</InputLabel>
         <FormControl>
           <div {...getRootProps()}>
@@ -94,7 +124,94 @@ function EditFormOrg() {
             <h4>Files</h4>
             <ul>{files}</ul>
           </aside>
-          {formik.errors.logo && formik.touched.logo ? (
+          {showErrorCollapse('logo')}
+        </FormControl>
+        <Container sx={{ width: '28rem' }}>
+          <CKEditor
+            required
+            data={formik.values.shortDescription}
+            editor={ClassicEditor}
+            id="shortDescription"
+            name="shortDescription"
+            type="text"
+            onChange={formik.handleChange}
+          />
+          {showErrors('shortDescription')}
+        </Container>
+        <FormControl margin="dense">
+          <TextField
+            multiline
+            id="longDescription"
+            name="longDescription"
+            placeholder="Long description"
+            rows={4}
+            sx={{ width: '25rem' }}
+            type="text"
+            value={formik.values.longDescription}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {showErrors('longDescription')}
+        </FormControl>
+        <InputLabel> social media links</InputLabel>
+        <FormControl margin="dense">
+          <TextField
+            id="link1"
+            margin="dense"
+            name="link1"
+            placeholder="link1"
+            size="small"
+            sx={{ width: '25rem' }}
+            type="url"
+            value={formik.values.link1}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {showErrors('link1')}
+          <TextField
+            id="link2"
+            margin="dense"
+            name="link2"
+            placeholder="link2"
+            size="small"
+            sx={{ width: '25rem' }}
+            type="url"
+            value={formik.values.link2}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {showErrors('link2')}
+          <TextField
+            id="link3"
+            margin="dense"
+            name="link3"
+            placeholder="link3"
+            size="small"
+            sx={{ width: '25rem' }}
+            type="url"
+            value={formik.values.link3}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {showErrors('link3')}
+        </FormControl>
+        <Button className="btn" type="submit" variant="contained">
+          {' '}
+          submit
+        </Button>
+      </form>
+    );
+  };
+
+  return (
+    <Container maxWidth="sm">
+      <Edit />
+    </Container>
+  );
+}
+export default EditFormOrg;
+/* 
+{formik.touched.logo && formik.errors.logo ? (
             <Collapse in={open}>
               <Alert
                 action={
@@ -116,131 +233,4 @@ function EditFormOrg() {
               </Alert>
             </Collapse>
           ) : null}
-        </FormControl>
-        <br />
-        <br />
-        <Container sx={{ width: '25rem' }}>
-          <CKEditor
-            required
-            data={formik.values.shortDescription}
-            editor={ClassicEditor}
-            id="shortDescription"
-            name="shortDescription"
-            type="text"
-            onChange={handleChange}
-          />
-          {formik.touched.shortDescription && formik.errors.shortDescription ? (
-            <Alert
-              align="justify"
-              severity="warning"
-              sx={{ width: '23rem', height: '2rem' }}>
-              <AlertTitle> {formik.errors.shortDescription}</AlertTitle>
-            </Alert>
-          ) : null}
-        </Container>
-        <br />
-        <FormControl margin="dense">
-          <TextField
-            multiline
-            id="longDescription"
-            name="longDescription"
-            placeholder="Long description"
-            rows={4}
-            sx={{ width: '25rem' }}
-            type="text"
-            value={formik.values.longDescription}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.touched.longDescription && formik.errors.longDescription ? (
-            <Alert
-              align="justify"
-              severity="warning"
-              sx={{ width: '23rem', height: '2rem' }}>
-              <AlertTitle>{formik.errors.longDescription}</AlertTitle>
-            </Alert>
-          ) : null}
-        </FormControl>
-        <br />
-        <InputLabel> social media links</InputLabel>
-        <FormControl margin="dense">
-          <TextField
-            id="link1"
-            margin="dense"
-            name="link1"
-            placeholder="link1"
-            size="small"
-            sx={{ width: '25rem' }}
-            type="url"
-            value={formik.values.link1}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.touched.link1 && formik.errors.link1 ? (
-            <Alert
-              align="justify"
-              severity="warning"
-              sx={{ width: '23rem', height: '2rem' }}>
-              <AlertTitle>{formik.errors.link1}</AlertTitle>
-            </Alert>
-          ) : null}
-          <TextField
-            id="link2"
-            margin="dense"
-            name="link2"
-            placeholder="link2"
-            size="small"
-            sx={{ width: '25rem' }}
-            type="url"
-            value={formik.values.link2}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.touched.link2 && formik.errors.link2 ? (
-            <Alert
-              align="justify"
-              severity="warning"
-              sx={{ width: '23rem', height: '2rem' }}>
-              <AlertTitle> {formik.errors.link2}</AlertTitle>
-            </Alert>
-          ) : null}
-          <TextField
-            id="link3"
-            margin="dense"
-            name="link3"
-            placeholder="link3"
-            size="small"
-            sx={{ width: '25rem' }}
-            type="url"
-            value={formik.values.link3}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {formik.touched.link3 && formik.errors.link3 ? (
-            <Alert
-              align="justify"
-              severity="warning"
-              sx={{ width: '23rem', height: '2rem' }}>
-              <AlertTitle> {formik.errors.link3}</AlertTitle>
-            </Alert>
-          ) : null}
-        </FormControl>
-
-        <br />
-        <br />
-        <br />
-        <Button className="btn" type="submit" variant="contained">
-          {' '}
-          submit
-        </Button>
-      </form>
-    );
-  };
-
-  return (
-    <div>
-      <Edit />
-    </div>
-  );
-}
-export default EditFormOrg;
+*/

@@ -210,27 +210,3 @@ function EditFormOrg() {
   );
 }
 export default EditFormOrg;
-/* 
-{formik.touched.logo && formik.errors.logo ? (
-            <Collapse in={open}>
-              <Alert
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setOpen(false);
-                    }}>
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                align="justify"
-                severity="warning"
-                sx={{ width: '23rem' }}>
-                <AlertTitle>Warning</AlertTitle>
-                {formik.errors.logo}
-              </Alert>
-            </Collapse>
-          ) : null}
-*/

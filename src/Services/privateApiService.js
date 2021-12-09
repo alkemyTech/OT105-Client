@@ -1,8 +1,16 @@
 import axios from 'axios';
 
+const getAuthorizationHeader = () => {
+  const token = localStorage.getItem('token');
+  const auth = 'Bearer ' + token;
+
+  return token !== null ? auth : null;
+};
+
 const config = {
   headers: {
-    Group: 1, //Aqui va el ID del equipo!!
+    Group: 105,
+    Authorization: getAuthorizationHeader(),
   },
 };
 
@@ -11,17 +19,6 @@ const Get = () => {
     .get('https://jsonplaceholder.typicode.com/users', config)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
-};
-
-const getAuthorizationHeader = () => {
-  if (!window.localStorage.hasOwnProperty('token')) return new Error('no token found');
-  const token = localStorage.token;
-
-  const Header = {
-    Authorization: 'Bearer' + token,
-  };
-
-  return Header;
 };
 
 export default Get;

@@ -42,36 +42,37 @@ export default function ActivityDetail({ match }) {
         <CircularProgress />
       </Container>
     );
-  } else
-    return (
-      <>
-        {success ? (
-          <div>
-            <Title
-              bckgOpacity="0.5"
-              imageUrl={image}
-              titlePadding="10rem"
-              titleText={name}
-            />
-            <Container maxWidth="md" sx={{ marginTop: '3rem' }}>
-              <Typography
-                color="initial"
-                sx={{ marginBlock: '1rem' }}
-                variant="h4">
-                Detalle de actividad
-              </Typography>
-              <Typography color="initial" variant="body1">
-                {description}
-              </Typography>
-            </Container>
-          </div>
-        ) : (
+  }
+
+  return (
+    <>
+      {success ? (
+        <div>
           <Title
-            titlePadding="12rem"
-            titleText="Actividad no encontrada"
-            variant="h3"
+            bckgOpacity="0.5"
+            imageUrl={image}
+            titlePadding="10rem"
+            titleText={name}
           />
-        )}
-      </>
-    );
+          <Container maxWidth="md" sx={{ marginTop: '3rem' }}>
+            <Typography
+              color="initial"
+              sx={{ marginBlock: '1rem' }}
+              variant="h4">
+              Detalle de actividad
+            </Typography>
+            <Typography color="initial" variant="body1">
+              {description}
+            </Typography>
+          </Container>
+        </div>
+      ) : (
+        <Title
+          titlePadding="12rem"
+          titleText="Actividad no encontrada"
+          variant="h3"
+        />
+      )}
+    </>
+  );
 }

@@ -35,6 +35,7 @@ import HomeScreen from './Components/Home';
 import Footer from './Components/Footer/Footer';
 import Backoffice_ListCategories from './Components/Categories/Backoffice_ListCategories';
 
+import News from './Components/News/News';
 function App() {
   return (
     <>
@@ -119,6 +120,7 @@ function App() {
           />
           <Route component={Thanks} path="/thanks" />
           <Route component={Error404} path="*" />
+          <Route component={News} path="/backoffice/news" />
         </Switch>
         <Footer />
       </BrowserRouter>

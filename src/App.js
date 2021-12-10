@@ -26,7 +26,10 @@ function App() {
           <Route component={CategoriesForm} path="/create-category" />
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
-          <Route component={TestimonialForm} path="/create-testimonials" />
+          <Route
+            path="/create-testimonials"
+            render={() => <TestimonialForm id={25} />}
+          />
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />
           <Route component={ProjectsForm} path="/create-project" />

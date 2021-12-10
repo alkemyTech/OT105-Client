@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { CircularProgress, Skeleton } from '@mui/material';
 
 const ImageLazyLoader = ({
   src,
-  reservedHeight = '0px',
+  reservedHeight = '300px',
   observerOptions = { rootMargin: '0px', threshold: 0.0 },
 }) => {
-  const [visible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef();
 
   useEffect(() => {
@@ -24,13 +26,29 @@ const ImageLazyLoader = ({
     return () => observer.disconnect();
   }, []);
 
+  const handleLoad = () => {
+    setIsLoaded(true);
+  };
+
   return (
-    <div
-      ref={containerRef}
-      style={{
-        minHeight: reservedHeight,
-      }}>
-      {visible ? <img alt="" src={src} width="320" /> : null}
+    <div ref={containerRef}>
+      {isLoaded ? null : (
+        <Skeleton
+          animation="wave"
+          height={reservedHeight}
+          sx={{
+            margin: '0 auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          variant="rectangular"
+          width={300}>
+          <CircularProgress sx={{ visibility: 'visible' }} />
+        </Skeleton>
+      )}
+
+      {isVisible ? <img alt="" src={src} onLoad={handleLoad} /> : null}
     </div>
   );
 };

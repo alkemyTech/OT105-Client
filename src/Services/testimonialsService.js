@@ -22,4 +22,4 @@ const createTestimonial = async (body) =>
   await axios.post(POST_TESTIMONIAL_URL, body);
 
 const updateTestimonial = async (id, body) =>
-  await axios.patch(`${UPDATE_TESTIMONIAL_URL}${id}`, body);
+  await axios.patch(`${UPDATE_TESTIMONIAL_URL}/${id}`, body);

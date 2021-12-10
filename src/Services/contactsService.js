@@ -22,4 +22,24 @@ const sendContactData = async (data) => {
   }
 };
 
-export { sendContactData, getContactInfo };
+const editContactData = async (id, data) => {
+  try {
+    const res = await axios.put(`CONTACTS_URL${id}`, data);
+
+    return console.log(res.data);
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+const deleteContactData = async (id) => {
+  try {
+    const res = await axios.delete(`CONTACTS_URL${id}`);
+
+    return console.log(res.data);
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+export { sendContactData, getContactInfo, editContactData, deleteContactData };

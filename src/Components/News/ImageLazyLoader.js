@@ -4,6 +4,7 @@ import { CircularProgress, Skeleton } from '@mui/material';
 const ImageLazyLoader = ({
   src,
   reservedHeight = '300px',
+  imgStyles = {},
   observerOptions = { rootMargin: '0px', threshold: 0.0 },
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -48,7 +49,9 @@ const ImageLazyLoader = ({
         </Skeleton>
       )}
 
-      {isVisible ? <img alt="" src={src} onLoad={handleLoad} /> : null}
+      {isVisible ? (
+        <img alt="" src={src} style={imgStyles} onLoad={handleLoad} />
+      ) : null}
     </div>
   );
 };

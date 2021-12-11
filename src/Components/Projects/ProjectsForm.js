@@ -22,7 +22,7 @@ const ProjectsForm = ({ id }) => {
     image: id ? id.data.name : null,
   });
   const [description, setDescription] = useState('');
-  const [files, setFiles] = useState([]);
+  const [filesImages, setFilesImages] = useState([]);
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -38,7 +38,7 @@ const ProjectsForm = ({ id }) => {
         ),
       });
 
-      setFiles(
+      setFilesImages(
         acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
@@ -48,7 +48,7 @@ const ProjectsForm = ({ id }) => {
     },
   });
 
-  const imagePreview = files.map((file) => (
+  const imagePreview = filesImages.map((file) => (
     <div key={file.name} className="image-preview">
       <div className="thumb-inner">
         <img className="img" src={file.preview} />
@@ -59,9 +59,9 @@ const ProjectsForm = ({ id }) => {
   useEffect(
     () => () => {
       // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
     },
-    [files],
+    [filesImages],
   );
 
   const handleCKeditorChange = (e, editor) => {

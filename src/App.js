@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
@@ -14,8 +14,15 @@ import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
 import Activities from './Components/Activities/Activities';
+import Patch from './Services/privateApiService';
 
 function App() {
+  let data = 123;
+
+  useEffect(() => {
+    Patch(data);
+  }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -26,8 +33,6 @@ function App() {
           <Route path="/create-category" render={() => <CategoriesForm />} />
 
           <Route component={Activities} path="/Actividades" />
-          
-
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
           <Route

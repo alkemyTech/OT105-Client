@@ -1,8 +1,16 @@
 import axios from 'axios';
 
+const getAuthorizationHeader = () => {
+  const token = localStorage.getItem('token');
+  const auth = 'Bearer ' + token;
+
+  return token !== null ? auth : null;
+};
+
 const config = {
   headers: {
-    Group: 105, //Aqui va el ID del equipo!!
+    Group: 105,
+    Authorization: getAuthorizationHeader(),
   },
 };
 
@@ -13,29 +21,13 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-const Patch = async (url, data) => {
-  getAuthorizationHeader();
-  console.log('hola');
-
+const Patch = async (data) => {
   return await axios
-    .post(url, data, {
-      headers: getAuthorizationHeader().Authorization,
+    .patch(`http://ongapi.alkemy.org/api/activities/5`, data, {
+      headers: config.headers.Authorization,
     })
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
 
-const getAuthorizationHeader = () => {
-  if (!localStorage.getItem('token')) return new Error('no token found');
-  const token = localStorage.token;
-
-  const Header = {
-    Authorization: 'Bearer' + token,
-  };
-
-  return Header;
-};
-
-Patch();
-
-export default { Get };
+export default { Get, Patch };

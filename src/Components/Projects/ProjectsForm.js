@@ -8,6 +8,7 @@ import CardHeader from '@mui/material/CardHeader';
 import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { dropzoneConfig } from '../../utils/index';
 import { useDropzone } from 'react-dropzone';
 import Swal from 'sweetalert2';
 import '../FormStyles.css';
@@ -22,10 +23,11 @@ const ProjectsForm = ({ id }) => {
   });
   const [description, setDescription] = useState('');
   const [files, setFiles] = useState([]);
+  const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     maxFiles: 1,
-    accept: 'image/jpeg, image/png',
+    accept: validImages,
     onDrop: (acceptedFiles) => {
       setProjectFormValues({
         ...projectFormValues,

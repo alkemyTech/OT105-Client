@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import '../FormStyles.css';
+import {
+  deleteActivityById,
+  getActivities,
+  getActivityById,
+  postActivity,
+  putActivity,
+} from '../../Services/ActivitiesServices';
 
 const ActivitiesForm = () => {
   const [initialValues, setInitialValues] = useState({

@@ -1,6 +1,12 @@
 import React from 'react';
 import '../CardListStyles.css';
-
+import {
+  deleteActivityById,
+  getActivities,
+  getActivityById,
+  postActivity,
+  putActivity,
+} from '../../Services/ActivitiesServices';
 const ActivitiesList = () => {
   const activitiesMock = [
     { id: 2, name: 'Titulo de prueba', description: 'Descripcion de prueba' },

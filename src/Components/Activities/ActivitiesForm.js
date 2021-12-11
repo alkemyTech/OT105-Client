@@ -11,8 +11,18 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { dropzoneConfig, isEmptyList } from '../../Utils';
 import '../FormStyles.css';
+<<<<<<< HEAD
 import '../../Styles/ActivitiesForm.css';
 import { createOrUpdateActivity } from '../../Services/activitiesService';
+=======
+import {
+  deleteActivityById,
+  getActivities,
+  getActivityById,
+  postActivity,
+  putActivity,
+} from '../../Services/ActivitiesServices';
+>>>>>>> 47630b0 (ActivitiesServices created and conected to every activities component)
 
 const thumb = {
   display: 'inline-flex',

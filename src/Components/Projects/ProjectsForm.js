@@ -13,17 +13,6 @@ import Swal from 'sweetalert2';
 import '../FormStyles.css';
 import '../../Styles/ProjectsForm.css';
 
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
-  margin: 'auto',
-  width: 'auto',
-  height: 100,
-  padding: 4,
-  boxSizing: 'border-box',
-};
-
 const ProjectsForm = ({ id }) => {
   const [initialValues, setInitialValues] = useState({
     name: id ? id.data.name : '',
@@ -57,8 +46,8 @@ const ProjectsForm = ({ id }) => {
     },
   });
 
-  const thumbs = files.map((file) => (
-    <div key={file.name} style={thumb}>
+  const imagePreview = files.map((file) => (
+    <div key={file.name} className="image-preview">
       <div className="thumb-inner">
         <img className="img" src={file.preview} />
       </div>
@@ -202,7 +191,7 @@ const ProjectsForm = ({ id }) => {
                   <p style={{ textAlign: 'center' }}>
                     Drag and drop some files here, or click to select files
                   </p>
-                  <aside className="thumbs-container">{thumbs}</aside>
+                  <aside className="thumbs-container">{imagePreview}</aside>
                 </div>
               </section>
               <ErrorMessage

@@ -14,7 +14,7 @@ import '../FormStyles.css';
 import '../../Styles/ProjectsForm.css';
 
 const ProjectsForm = ({ id }) => {
-  const [initialValues, setInitialValues] = useState({
+  const [projectFormValues, setProjectFormValues] = useState({
     name: id ? id.data.name : '',
     description: id ? id.data.description : '',
     dueDate: id ? id.data.dueDate : '',
@@ -27,8 +27,8 @@ const ProjectsForm = ({ id }) => {
     maxFiles: 1,
     accept: 'image/jpeg, image/png',
     onDrop: (acceptedFiles) => {
-      setInitialValues({
-        ...initialValues,
+      setProjectFormValues({
+        ...projectFormValues,
         image: acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
@@ -92,7 +92,7 @@ const ProjectsForm = ({ id }) => {
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={projectFormValues}
       validate={(values) => {
         let errors = {};
 

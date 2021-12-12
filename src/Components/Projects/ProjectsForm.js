@@ -76,7 +76,7 @@ const ProjectsForm = ({ id }) => {
   };
 
   const handleClick = (values) => {
-    let data = {
+    let newFormValues = {
       name: values.name,
       description: description,
       dueDate: values.dueDate,
@@ -85,13 +85,17 @@ const ProjectsForm = ({ id }) => {
 
     Swal.fire('Good job!', 'You clicked the button!', 'success');
     if (id) {
-      Axios.patch(`http://ongapi.alkemy.org/api/categories/${id}`, data).then(
-        () => {
-          Swal.fire('success');
-        },
-      );
+      Axios.patch(
+        `http://ongapi.alkemy.org/api/categories/${id}`,
+        newFormValues,
+      ).then(() => {
+        Swal.fire('success');
+      });
     } else {
-      Axios.post('http://ongapi.alkemy.org/api/categories/', data).then(() => {
+      Axios.post(
+        'http://ongapi.alkemy.org/api/categories/',
+        newFormValues,
+      ).then(() => {
         Swal.fire('success');
       });
     }

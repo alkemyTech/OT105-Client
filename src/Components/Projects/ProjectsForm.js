@@ -8,7 +8,7 @@ import CardHeader from '@mui/material/CardHeader';
 import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { dropzoneConfig } from '../../utils/index';
+import { dropzoneConfig, isEmptyList } from '../../utils/index';
 import { useDropzone } from 'react-dropzone';
 import Swal from 'sweetalert2';
 import '../FormStyles.css';
@@ -24,29 +24,24 @@ const ProjectsForm = ({ id }) => {
   const [description, setDescription] = useState('');
   const [filesImages, setFilesImages] = useState([]);
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
-  const { getRootProps, getInputProps } = useDropzone({
-    multiple: false,
-    maxFiles: 1,
-    accept: validImages,
-    onDrop: (acceptedFiles) => {
-      setProjectFormValues({
-        ...projectFormValues,
-        image: acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      });
+  const [base64ImageFile, setBase64ImageFile] = useState('');
+  const handleDrop = (acceptedFiles, fileRejections) => {
+    const imageFileWithPreview = imagePreview(acceptedFiles);
 
-      setFilesImages(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      );
-    },
-  });
+    setFilesImages(imageFileWithPreview);
+    if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
+  };
+
+  const imageFileToBase64File = (acceptedFiles) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(acceptedFiles[0]);
+    reader.onload = () => {
+      const base64 = reader.result;
+
+      setBase64ImageFile(base64);
+    };
+  };
 
   const imagePreview = filesImages.map((file) => (
     <div key={file.name} className="image-preview">
@@ -56,9 +51,16 @@ const ProjectsForm = ({ id }) => {
     </div>
   ));
 
+  const { getRootProps, getInputProps } = useDropzone({
+    multiple: multipleFiles,
+    maxFiles: maxFiles,
+    accept: validImages,
+    onDrop: (acceptedFiles, fileRejections) =>
+      handleDrop(acceptedFiles, fileRejections),
+  });
+
   useEffect(
     () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
       filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
     },
     [filesImages],
@@ -75,7 +77,7 @@ const ProjectsForm = ({ id }) => {
       name: values.name,
       description: description,
       dueDate: values.dueDate,
-      image: values.image,
+      image: base64ImageFile,
     };
 
     Swal.fire('Good job!', 'You clicked the button!', 'success');
@@ -98,17 +100,12 @@ const ProjectsForm = ({ id }) => {
       validate={(values) => {
         let errors = {};
 
-        //Name
         if (!values.name) {
           errors.name = 'Please submit a email';
         }
-        //Image
-        if (values.image === null) {
+        if (!base64ImageFile) {
           errors.image = 'Please submit a image';
-        } else if (values.image) {
-          errors.image = false;
         }
-        //Description
         if (!values.description) {
           errors.description = 'Please submit a description';
         }

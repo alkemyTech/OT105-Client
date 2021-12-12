@@ -59,9 +59,12 @@ const ProjectsForm = ({ id }) => {
       handleDrop(acceptedFiles, fileRejections),
   });
 
+  const avoidMemoryLeaks = () =>
+    filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
+
   useEffect(
     () => () => {
-      filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
+      avoidMemoryLeaks();
     },
     [filesImages],
   );

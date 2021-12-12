@@ -21,4 +21,12 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-export default Get;
+export const privatePUT = async (path, id, body) => {
+  try {
+    const response = await axios.put(`${path}/${id}`, body, config);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

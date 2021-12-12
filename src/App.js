@@ -26,7 +26,6 @@ function App() {
           <Route path="/create-category" render={() => <CategoriesForm />} />
 
           <Route component={Activities} path="/Actividades" />
-          
 
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />

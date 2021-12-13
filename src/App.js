@@ -13,6 +13,7 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import EditHomeForm from './Components/Home/EditHomeForm';
 import Seccion_Novedades from './Components/News/Seccion_Novedades';
 import Activities from './Components/Activities/Activities';
 import Contact from './Components/Contact/Contact';
@@ -44,6 +45,7 @@ function App() {
           <Route component={ProjectsForm} path="/create-project" />
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />
+          <Route component={EditHomeForm} path="/backoffice/home" />
           <Route component={Contact} path="/contact" />
           <Route component={BackofficeDashboard} path="/backoffice" />
         </Switch>

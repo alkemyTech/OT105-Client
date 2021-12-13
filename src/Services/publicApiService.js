@@ -28,4 +28,15 @@ const publicGet = async (route, id) => {
   }
 };
 
-export { publicGet };
+const publicPost = async (url, body) => {
+  try {
+    const resp = await axios.post(url, body);
+
+    return resp;
+  } catch (error) {
+    return error;
+  }
+};
+
+export { publicGet, publicPost };
+

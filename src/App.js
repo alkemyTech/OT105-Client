@@ -18,6 +18,7 @@ import Seccion_Novedades from './Components/News/Seccion_Novedades';
 import Activities from './Components/Activities/Activities';
 import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
+import NewsDetail from './Components/News/Detail/NewsDetail';
 
 
 function App() {
@@ -48,6 +49,10 @@ function App() {
           <Route component={EditHomeForm} path="/backoffice/home" />
           <Route component={Contact} path="/contact" />
           <Route component={BackofficeDashboard} path="/backoffice" />
+          <Route
+            render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
+            path="/news/:id"
+          />
         </Switch>
       </BrowserRouter>
     </>

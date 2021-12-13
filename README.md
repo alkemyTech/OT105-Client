@@ -32,3 +32,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Custom Components/Services:
 
 ### [Alerts](Documentation/Alerts/README.md)
+### [Loader](Documentation/Loader/Loader.md)

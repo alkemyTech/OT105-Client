@@ -13,4 +13,14 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
+export const publicPost = async (url, body) => {
+  try {
+    const resp = await axios.post(url, body);
+
+    return resp;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default Get;

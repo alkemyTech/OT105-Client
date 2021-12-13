@@ -11,23 +11,24 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { dropzoneConfig, isEmptyList } from '../../utils/index';
 import { createOrUpdateProject } from '../../Services/projectService';
 import { useDropzone } from 'react-dropzone';
-import Swal from 'sweetalert2';
 import '../FormStyles.css';
 import '../../Styles/ProjectsForm.css';
 
 const ProjectsForm = ({ id }) => {
+  const [projectDueDate, setProjectDueDate] = useState('');
+
   const [projectFormValues, setProjectFormValues] = useState({
     name: id ? id.data.name : '',
     description: id ? id.data.description : '',
     dueDate: id ? id.data.dueDate : '',
     image: id ? id.data.name : null,
   });
-  const [description, setDescription] = useState('');
   const [filesImages, setFilesImages] = useState([]);
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
   const [base64ImageFile, setBase64ImageFile] = useState('');
+  const [projectsDescription, setProjectsDescription] = useState('');
   const handleDrop = (acceptedFiles, fileRejections) => {
-    const imageFileWithPreview = imagePreview(acceptedFiles);
+    const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
 
     setFilesImages(imageFileWithPreview);
     if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
@@ -44,13 +45,13 @@ const ProjectsForm = ({ id }) => {
     };
   };
 
-  const imagePreview = filesImages.map((file) => (
-    <div key={file.name} className="image-preview">
-      <div className="thumb-inner">
-        <img className="img" src={file.preview} />
-      </div>
-    </div>
-  ));
+  const addImagePreviewtoImageFile = (acceptedFiles) => {
+    return acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      }),
+    );
+  };
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: multipleFiles,
@@ -60,8 +61,23 @@ const ProjectsForm = ({ id }) => {
       handleDrop(acceptedFiles, fileRejections),
   });
 
+  const imagePreview = filesImages.map((file) => (
+    <div key={file.name} className="image">
+      <div className="image-inner">
+        <img className="preview-image" src={file.preview} />
+      </div>
+    </div>
+  ));
+
   const avoidMemoryLeaks = () =>
     filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
+
+  const showError = (errors, attribute, type) => (
+    <ErrorMessage
+      component={() => <Alert severity="warning">{errors[attribute]}</Alert>}
+      name={attribute}
+    />
+  );
 
   useEffect(
     () => () => {
@@ -71,16 +87,23 @@ const ProjectsForm = ({ id }) => {
   );
 
   const handleCKeditorChange = (e, editor) => {
-    const data = editor.getData();
+    let dataDescription = editor.getData();
 
-    setDescription(data);
+    setProjectsDescription(dataDescription);
+
+    console.log(dataDescription);
+  };
+
+  const handleDueDateChange = (e, value) => {
+    setProjectDueDate(e.target.value);
+    console.log(projectDueDate);
   };
 
   const handleClick = (values) => {
     let newFormValues = {
       name: values.name,
-      description: description,
-      dueDate: values.dueDate,
+      description: projectsDescription,
+      dueDate: JSON.stringify(projectDueDate),
       image: base64ImageFile,
     };
 
@@ -94,13 +117,13 @@ const ProjectsForm = ({ id }) => {
         let errors = {};
 
         if (!values.name) {
-          errors.name = 'Please submit a email';
+          errors.name = 'These camps are required';
         }
-        if (!base64ImageFile) {
+        if (!values.image) {
           errors.image = 'Please submit a image';
         }
-        if (!values.description) {
-          errors.description = 'Please submit a description';
+        if (!projectsDescription) {
+          errors.description = 'These camps are required';
         }
 
         return errors;
@@ -108,7 +131,7 @@ const ProjectsForm = ({ id }) => {
       onSubmit={(values) => {
         handleClick(values);
       }}>
-      {({ values, handleChange, errors, touched, handleBlur }) => {
+      {({ values, handleChange, errors, handleSubmit }) => {
         return (
           <Card sx={{ margin: '20px auto', width: '600px', height: '100%' }}>
             <CardHeader title={id ? 'EDIT PROJECT' : 'CREATE PROJECT'} />
@@ -119,12 +142,13 @@ const ProjectsForm = ({ id }) => {
                 marginRight: 'auto',
                 width: '600px',
                 height: '100%',
-              }}>
+              }}
+              onSubmit={handleSubmit}>
               <h4 className="title">Title</h4>
               <Field
                 fullWidth
                 component={TextField}
-                error={Boolean(touched.name && errors.name)}
+                error={errors.name}
                 id="name"
                 label="Name"
                 name="name"
@@ -133,37 +157,33 @@ const ProjectsForm = ({ id }) => {
                 type="text"
                 value={values.name}
                 variant="outlined"
-                onBlur={handleBlur}
                 onChange={handleChange}
               />
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.name}</Alert>
-                )}
-                name="name"
-              />
+              {errors.name && showError(errors, 'name')}
               <h4 className="title">Description</h4>
               <section style={{ width: '80%', margin: '20px auto' }}>
                 <CKEditor
-                  required
-                  component={TextField}
-                  data={description}
                   editor={ClassicEditor}
-                  label="Description"
-                  onChange={(e, editor) => handleCKeditorChange(e, editor)}
+                  errors={errors.description}
+                  id="description"
+                  label="description"
+                  name="description"
+                  data={values.description}
+                  onChange={(e, editor) => {
+                    handleCKeditorChange(e, editor);
+                  }}
                 />
               </section>
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.description}</Alert>
-                )}
-                name="name"
-              />
+              {errors.description && showError(errors, 'description')}
               <h4 className="title">Due date</h4>
               <Field
                 component={TextField}
                 sx={{ margin: '20x auto', display: 'flex', width: '200px' }}
                 type="date"
+                data={values.dueDate}
+                onChange={(e, data) => {
+                  handleDueDateChange(e, data);
+                }}
               />
               <h4 className="title">Image</h4>
               <section className="form">
@@ -183,15 +203,10 @@ const ProjectsForm = ({ id }) => {
                   <p style={{ textAlign: 'center' }}>
                     Drag and drop some files here, or click to select files
                   </p>
-                  <aside className="thumbs-container">{imagePreview}</aside>
+                  <aside className="image-container">{imagePreview}</aside>
                 </div>
               </section>
-              <ErrorMessage
-                component={() => (
-                  <Alert severity="warning">{errors.image}</Alert>
-                )}
-                name="image"
-              />
+              {errors.image && showError(errors, 'image')}
               <Button type="submit" variant="outlined">
                 Send
               </Button>

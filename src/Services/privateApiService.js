@@ -40,8 +40,8 @@ const Get = async (route, id = null) => {
 
   try {
     return await axios.get(url + fullRoute, config);
-  } catch (error) {
-    return error;
+  } catch (err) {
+    return err;
   }
 };
 

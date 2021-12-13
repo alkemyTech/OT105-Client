@@ -13,8 +13,11 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import Seccion_Novedades from './Components/News/Seccion_Novedades';
 import Activities from './Components/Activities/Activities';
+import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
+
 
 function App() {
   return (
@@ -30,6 +33,7 @@ function App() {
           
 
           <Route component={NewsForm} path="/create-news" />
+          <Route component={Seccion_Novedades} path="/Novedades" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
           <Route
             path="/create-testimonials"
@@ -40,6 +44,7 @@ function App() {
           <Route component={ProjectsForm} path="/create-project" />
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />
+          <Route component={Contact} path="/contact" />
           <Route component={BackofficeDashboard} path="/backoffice" />
         </Switch>
       </BrowserRouter>

@@ -16,6 +16,7 @@ import ProjectsForm from './Components/Projects/ProjectsForm';
 import Seccion_Novedades from './Components/News/Seccion_Novedades';
 import Activities from './Components/Activities/Activities';
 import Contact from './Components/Contact/Contact';
+import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />
           <Route component={Contact} path="/contact" />
+          <Route component={BackofficeDashboard} path="/backoffice" />
         </Switch>
       </BrowserRouter>
     </>

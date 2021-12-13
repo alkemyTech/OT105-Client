@@ -1,0 +1,57 @@
+.error {
+    width: 80%;
+    text-align: left;
+    margin: 5px auto;
+    display: flex;
+    font-size: 15px;
+    color: red;
+}
+
+.form {
+    margin: 20px auto;
+    display: flex;
+    width: 80%;
+    padding: 15px 30px;
+    border: 1px solid #c1c1c1;
+}
+
+.thumbs-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 26;
+}
+
+.thumb {
+    display: inline-flex;
+    border-radius: 2;
+    border: 1px solid #eaeaea;
+    margin: auto;
+    width: auto;
+    height: 100;
+    padding: 4;
+    box-sizing: border-box;
+}
+
+.thumb-inner {
+    display: flex;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.img {
+    display: block;
+    width: auto;
+    height: 100%;
+}
+
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+    margin: 20px auto !important;
+    width: 80% !important;
+    min-width: auto !important;
+    display: flex !important;
+}
+
+.title {
+    margin-left: 20px;
+}

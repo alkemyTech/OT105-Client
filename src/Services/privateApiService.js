@@ -34,6 +34,17 @@ export const privatePUT = async (path, id, body) => {
   }
 };
 
+const Get = async (route, id = null) => {
+  const url = 'http://ongapi.alkemy.org/public/api/';
+  const fullRoute = id ? `${route}/${id}` : route;
+
+  try {
+    return await axios.get(url + fullRoute, config);
+  } catch (error) {
+    return error;
+  }
+};
+
 export const privatePATCH = async (path, id, body) => {
   try {
     const response = await axios.patch(`${path}/${id}`, body, config);

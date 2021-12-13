@@ -1,0 +1,24 @@
+img {
+  width: 100%;
+  display: block;
+  margin: 0;
+  border-radius: 5px;
+}
+.container {
+  display: flex;
+  max-width: 80%;
+  margin: 0 auto;
+  margin-top: 80px;
+  gap: 50px;
+  align-items: center;
+}
+
+.image {
+  flex: 0 0 40%;
+  box-shadow: -4px 14px 23px -5px rgba(0,0,0,0.82);
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}

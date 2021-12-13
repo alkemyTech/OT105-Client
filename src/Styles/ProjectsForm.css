@@ -7,34 +7,35 @@
     border: 1px solid #c1c1c1;
 }
 
-.thumbs-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 26;
+.image-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 5px auto;
+  width: 100%;
 }
 
-.image-preview {
-    display: inline-flex;
-    border-radius: 2;
-    border: 1px solid #eaeaea;
-    margin: auto;
-    width: auto;
-    height: 100;
-    padding: 4;
-    box-sizing: border-box;
+.image {
+  display: flex;
+  border-radius: 2px;
+  border: 1px solid #eaeaea;
+  margin: 5px auto;
+  max-width: 180px;
+  max-height: 150px;
+  padding: 4px;
+  box-sizing: border-box;
 }
 
-.thumb-inner {
-    display: flex;
-    min-width: 0;
-    overflow: hidden;
+.image-inner {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
 }
 
-.img {
-    display: block;
-    width: auto;
-    height: 100%;
+.preview-image {
+  display: auto;
+  width: auto;
+  height: 100%;
 }
 
 .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {

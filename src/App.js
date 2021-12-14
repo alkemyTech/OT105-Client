@@ -13,8 +13,15 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
-import Contact from './Components/Contact/Contact';
 import FormContact from './Components/Contact/FormContact';
+import ScreenMembersList from './Components/Members/ScreenMembersList';
+import EditHomeForm from './Components/Home/EditHomeForm';
+import Seccion_Novedades from './Components/News/Seccion_Novedades';
+import Activities from './Components/Activities/Activities';
+import Contact from './Components/Contact/Contact';
+import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
+import NewsDetail from './Components/News/Detail/NewsDetail';
+
 
 function App() {
   return (
@@ -23,62 +30,34 @@ function App() {
         <Switch>
           {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
           <Route component={ActivitiesForm} path="/create-activity" />
-          <Route component={CategoriesForm} path="/create-category" />
-          <Route component={Contact} path="/create-contact" />
           <Route component={FormContact} path="/form-contact" />
+          <Route path="/create-category" render={() => <CategoriesForm />} />
+          <Route component={Activities} path="/Actividades" />
           <Route component={NewsForm} path="/create-news" />
+          <Route component={Seccion_Novedades} path="/Novedades" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
-          <Route component={TestimonialForm} path="/create-testimonials" />
+          <Route
+            path="/create-testimonials"
+            render={() => <TestimonialForm id={25} />}
+          />
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />
           <Route component={ProjectsForm} path="/create-project" />
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />
+          <Route
+            component={ScreenMembersList}
+            exact
+            path="/backoffice/members"
+          <Route component={EditHomeForm} path="/backoffice/home" />
+          <Route component={Contact} path="/contact" />
+          <Route component={BackofficeDashboard} path="/backoffice" />
+          <Route
+            render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
+            path="/news/:id"
+          />
         </Switch>
       </BrowserRouter>
-      <div className="App">
-        <header className="App-header">
-          <img alt="logo" className="App-logo" src={logo} />
-          <Counter />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <span>
-            <span>Learn </span>
-            <a
-              className="App-link"
-              href="https://reactjs.org/"
-              rel="noopener noreferrer"
-              target="_blank">
-              React
-            </a>
-            <span>, </span>
-            <a
-              className="App-link"
-              href="https://redux.js.org/"
-              rel="noopener noreferrer"
-              target="_blank">
-              Redux
-            </a>
-            <span>, </span>
-            <a
-              className="App-link"
-              href="https://redux-toolkit.js.org/"
-              rel="noopener noreferrer"
-              target="_blank">
-              Redux Toolkit
-            </a>
-            ,<span> and </span>
-            <a
-              className="App-link"
-              href="https://react-redux.js.org/"
-              rel="noopener noreferrer"
-              target="_blank">
-              React Redux
-            </a>
-          </span>
-        </header>
-      </div>
     </>
   );
 }

@@ -1,28 +1,25 @@
 import axios from 'axios';
+import es from 'date-fns/locale/es';
 
 const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
 
-const getAllCategories = async () => {
+const getCategoryOrCategories = async (categorieId) => {
   try {
-    const res = await axios.get(CATEGORIES_URL);
+    if (categorieId == null) {
+      const res = await axios.get(CATEGORIES_URL);
 
-    return res.data.data;
+      return res.data.data;
+    } else {
+      const res = await axios.get(`${CATEGORIES_URL}/${categorieId}`);
+
+      return res.data.data;
+    }
   } catch (err) {
     return err.response.data;
   }
 };
 
-const getCategorieById = async (categorieId) => {
-  try {
-    const res = await axios.get(`${CATEGORIES_URL}/${categorieId}`);
-
-    return res.data.data;
-  } catch (err) {
-    return err.response.data;
-  }
-};
-
-const createCategorie = async (categorie) => {
+const createCategory = async (categorie) => {
   try {
     const res = await axios.post(CATEGORIES_URL, categorie);
 
@@ -32,7 +29,7 @@ const createCategorie = async (categorie) => {
   }
 };
 
-const editCategorie = async (categorieId, editCategorie) => {
+const editCategory = async (categorieId, editCategorie) => {
   try {
     const res = await axios.put(
       `${CATEGORIES_URL}/${categorieId}`,
@@ -45,7 +42,7 @@ const editCategorie = async (categorieId, editCategorie) => {
   }
 };
 
-const deleteCategorie = async (categorieId) => {
+const deleteCategory = async (categorieId) => {
   try {
     const res = await axios.delete(`${CATEGORIES_URL}/${categorieId}`);
 
@@ -56,9 +53,8 @@ const deleteCategorie = async (categorieId) => {
 };
 
 export {
-  getAllCategories,
-  getCategorieById,
-  createCategorie,
-  editCategorie,
-  deleteCategorie,
+  getCategoryOrCategories,
+  createCategory,
+  editCategory,
+  deleteCategory,
 };

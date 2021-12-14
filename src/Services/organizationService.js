@@ -1,27 +1,17 @@
 import axios from 'axios';
 
-const getOrganizacion = async () => {
+const getOrganization = async (id) => {
   try {
-    const response = await axios(process.env.REACT_APP_GET_ORGANIZATION);
+    const url = id
+      ? `${process.env.REACT_APP_GET_ORGANIZATION}/${id}`
+      : process.env.REACT_APP_GET_ORGANIZATION;
+    const response = await axios(url);
 
     return response.data;
   } catch (err) {
     return err.respose.data;
   }
 };
-
-const getOrganizacionById = async (id) => {
-  try {
-    const response = await axios(
-      `${process.env.REACT_APP_GET_ORGANIZATION_BY_ID}/${id}`,
-    );
-
-    return response.data;
-  } catch (err) {
-    return err.respose.data;
-  }
-};
-
 const editOrganization = async (id, body) => {
   try {
     const response = await axios.put(
@@ -45,9 +35,4 @@ const createOrganization = async (body) => {
   }
 };
 
-export {
-  getOrganizacion,
-  getOrganizacionById,
-  editOrganization,
-  createOrganization,
-};
+export { getOrganization, editOrganization, createOrganization };

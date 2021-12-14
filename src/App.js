@@ -21,7 +21,7 @@ import Activities from './Components/Activities/Activities';
 import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
-
+import Error404 from './Components/Error404/Error404';
 
 function App() {
   return (
@@ -49,6 +49,7 @@ function App() {
             component={ScreenMembersList}
             exact
             path="/backoffice/members"
+          />
           <Route component={EditHomeForm} path="/backoffice/home" />
           <Route component={Contact} path="/contact" />
           <Route component={BackofficeDashboard} path="/backoffice" />
@@ -56,6 +57,7 @@ function App() {
             render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
             path="/news/:id"
           />
+          <Route component={Error404} path="*" />
         </Switch>
       </BrowserRouter>
     </>

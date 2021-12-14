@@ -14,7 +14,7 @@ import '../../Styles/SlidesBackOffice.css';
 import {
   StyledTableCell,
   StyledTableRow,
-} from '../../utils/SlidesBackOfficeStyled';
+} from '../../Utils/SlidesBackOfficeStyled';
 
 function SlidesBackOffice() {
   const [mockedData, setMockedData] = useState([

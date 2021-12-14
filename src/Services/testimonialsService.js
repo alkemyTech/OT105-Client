@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-const GET_TESTIMONIAL_URL = process.env.REACT_APP_GET_TESTIMONIAL;
-const GET_ALL_TESTIMONIALS_URL = process.env.REACT_APP_GET_ALL_TESTIMONIALS;
-const POST_TESTIMONIAL_URL = process.env.REACT_APP_POST_TESTIMONIAL;
-const UPDATE_TESTIMONIAL_URL = process.env.REACT_APP_UPDATE_TESTIMONIAL;
-const DELETE_TESTIMONIAL_URL = process.env.REACT_APP_DELETE_TESTIMONIAL;
+const TESTIMONIALS_URL = process.env.REACT_APP_TESTIMONIALS_URL;
 
 export const createOrEditTestimonial = (id, body) => {
   if (id) {
@@ -19,7 +15,25 @@ export const createOrEditTestimonial = (id, body) => {
 };
 
 const createTestimonial = async (body) =>
-  await axios.post(POST_TESTIMONIAL_URL, body);
+  await axios.post(TESTIMONIALS_URL, body);
 
 const updateTestimonial = async (id, body) =>
-  await axios.patch(`${UPDATE_TESTIMONIAL_URL}/${id}`, body);
+  await axios.patch(`${TESTIMONIALS_URL}/${id}`, body);
+
+export const deleteTestimonial = async (id) => {
+  const response = await axios.delete(`${TESTIMONIALS_URL}/${id}`);
+
+  return response;
+};
+
+export const getAllTestimonials = async () => {
+  const response = await axios.get(TESTIMONIALS_URL);
+
+  return response;
+};
+
+export const getTestimonial = async (id) => {
+  const response = await axios.get(`${TESTIMONIALS_URL}/${id}`);
+
+  return response;
+};

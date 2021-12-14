@@ -16,7 +16,7 @@ const sendContactData = async (data) => {
   try {
     const res = await axios.post(CONTACTS_URL, data);
 
-    return console.log(res.data);
+    return res.data;
   } catch (err) {
     return err.response.data;
   }
@@ -26,7 +26,7 @@ const editContactData = async (id, data) => {
   try {
     const res = await axios.put(`${CONTACTS_URL}/${id}`, data);
 
-    return console.log(res.data);
+    return res.data;
   } catch (err) {
     return err.response.data;
   }
@@ -36,7 +36,7 @@ const deleteContactData = async (id) => {
   try {
     const res = await axios.delete(`${CONTACTS_URL}/${id}`);
 
-    return console.log(res.data);
+    return res.data;
   } catch (err) {
     return err.response.data;
   }

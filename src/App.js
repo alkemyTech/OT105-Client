@@ -14,6 +14,7 @@ import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
 import Activities from './Components/Activities/Activities';
+import UserListTable from './Components/Users/UserListTable';
 
 function App() {
   return (
@@ -26,7 +27,6 @@ function App() {
           <Route path="/create-category" render={() => <CategoriesForm />} />
 
           <Route component={Activities} path="/Actividades" />
-          
 
           <Route component={NewsForm} path="/create-news" />
           <Route component={SlidesForm} path="/backoffice/create-slide" />
@@ -34,6 +34,8 @@ function App() {
             path="/create-testimonials"
             render={() => <TestimonialForm id={25} />}
           />
+          <Route component={UserListTable} path="/backoffice/users-table" />
+
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />
           <Route component={ProjectsForm} path="/create-project" />

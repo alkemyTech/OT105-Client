@@ -34,28 +34,28 @@ export const UserHttp = () => {
       .catch((err) => err);
   };
 
-  const get = (url, options = {}) => customFetch(url, options);
+  const getUsers = (url, options = {}) => customFetch(url, options);
 
-  const post = (url, options = {}) => {
+  const postUsers = (url, options = {}) => {
     options.method = "POST";
     return customFetch(url, options);
   };
 
-  const put = (url, options = {}) => {
+  const putUsers = (url, options = {}) => {
     options.method = "PUT";
     return customFetch(url, options);
   };
 
-  const del = (url, options = {}) => {
+  const delUsers = (url, options = {}) => {
     options.method = "DELETE";
     return customFetch(url, options);
   };
 
   return {
-    get,
-    post,
-    put,
-    del,
+    getUsers,
+    postUsers,
+    putUsers,
+    delUsers,
   };
 };
 

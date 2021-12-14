@@ -23,6 +23,7 @@ import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
 
+import About from './Components/About/About';
 function App() {
   return (
     <>
@@ -74,6 +75,7 @@ function App() {
             path="/news/:id"
             render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
           />
+          <Route component={About} path="/AboutUs" />
         </Switch>
       </BrowserRouter>
     </>

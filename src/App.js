@@ -35,6 +35,7 @@ function App() {
           <Route component={FormContact} path="/form-contact" />
           <Route path="/create-category" render={() => <CategoriesForm />} />
           <Route component={Activities} path="/Actividades" />
+          <Route component={Organization} path="/backoffice/organization" />
           <Route component={NewsForm} path="/create-news" />
           <Route component={Seccion_Novedades} path="/Novedades" />
           <Route

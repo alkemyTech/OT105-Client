@@ -69,3 +69,16 @@
   width: 'auto';
   height: '100%';
 };
+
+.login-user-form{
+  width: 90%;
+  height: auto;
+  margin:35px auto;
+  border:#2E86C1 2px solid;
+  display: flex;
+  flex-direction: column;
+  padding: 35px;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}

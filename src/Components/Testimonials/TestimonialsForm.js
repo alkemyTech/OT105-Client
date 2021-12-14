@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import { createOrEditTestimonial } from '../../Services/testimonialsService';
-import { listHasValues, dropzoneConfig, isEmptyList } from '../../utils';
+import { listHasValues, dropzoneConfig, isEmptyList } from '../../Utils';
 import '../../Styles/TestimonialsFormStyles.css';
 import '../FormStyles.css';
 

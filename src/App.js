@@ -9,6 +9,7 @@ import NewsForm from './Components/News/NewsForm';
 import SlidesForm from './Components/Slides/SlidesForm';
 import TestimonialForm from './Components/Testimonials/TestimonialsForm';
 import UserForm from './Components/Users/UsersForm';
+import UsersListTable from './Components/Users/UsersListTable';
 import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
@@ -44,6 +45,12 @@ function App() {
             component={SlidesForm}
             path="/backoffice/slides/edit/:id"
           />
+
+          <Route
+            path="/create-testimonials"
+            render={() => <TestimonialForm id={25} />}
+          />
+          <Route component={UsersListTable} path="/backoffice/users" />
           <Route
             path="/create-testimonials"
             render={() => <TestimonialForm id={25} />}

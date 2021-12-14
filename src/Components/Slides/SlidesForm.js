@@ -19,7 +19,7 @@ import {
   Alert,
 } from '@mui/material';
 import '../../Styles/Slides/SlidesForm.css';
-import * as service from '../../Services/SlidesFormService';
+import * as service from '../../Services/slidesService';
 
 const SlidesForm = () => {
   const { id } = useParams();

@@ -9,6 +9,7 @@ import NewsForm from './Components/News/NewsForm';
 import SlidesForm from './Components/Slides/SlidesForm';
 import TestimonialForm from './Components/Testimonials/TestimonialsForm';
 import UserForm from './Components/Users/UsersForm';
+import UsersListTable from './Components/Users/UsersListTable';
 import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
@@ -22,7 +23,6 @@ import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 
-
 function App() {
   return (
     <>
@@ -35,7 +35,22 @@ function App() {
           <Route component={Activities} path="/Actividades" />
           <Route component={NewsForm} path="/create-news" />
           <Route component={Seccion_Novedades} path="/Novedades" />
-          <Route component={SlidesForm} path="/backoffice/create-slide" />
+          <Route
+            exact
+            component={SlidesForm}
+            path="/backoffice/slides/create"
+          />
+          <Route
+            exact
+            component={SlidesForm}
+            path="/backoffice/slides/edit/:id"
+          />
+
+          <Route
+            path="/create-testimonials"
+            render={() => <TestimonialForm id={25} />}
+          />
+          <Route component={UsersListTable} path="/backoffice/users" />
           <Route
             path="/create-testimonials"
             render={() => <TestimonialForm id={25} />}
@@ -46,15 +61,16 @@ function App() {
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />
           <Route
-            component={ScreenMembersList}
             exact
+            component={ScreenMembersList}
             path="/backoffice/members"
+          />
           <Route component={EditHomeForm} path="/backoffice/home" />
           <Route component={Contact} path="/contact" />
           <Route component={BackofficeDashboard} path="/backoffice" />
           <Route
-            render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
             path="/news/:id"
+            render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
           />
         </Switch>
       </BrowserRouter>

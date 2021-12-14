@@ -14,11 +14,14 @@ const config = {
   },
 };
 
-const Get = () => {
-  axios
-    .get('https://jsonplaceholder.typicode.com/users', config)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+export const privateDelete = async (path, id) => {
+  try {
+    const response = await axios.delete(`${path}/${id}`, config);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const privatePATCH = async (path, id, body) => {
@@ -30,5 +33,3 @@ export const privatePATCH = async (path, id, body) => {
     console.error(error);
   }
 };
-
-export default { Get };

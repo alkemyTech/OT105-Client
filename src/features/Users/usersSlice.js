@@ -1,40 +1,41 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const userSlice = createSlice({
+const initialState = {
+  list: [],
+  status: 'idle',
+  error: null,
+};
+
+export const getAllUsers = createAsyncThunk('users/getAllUsers', async () => {
+  try {
+    const response = await axios.get('http://ongapi.alkemy.org/api/users');
+
+    return response.data.data;
+  } catch (err) {
+    return console.log(err);
+  }
+});
+
+const usersSlice = createSlice({
   name: 'users',
-  initialState: {
-    list: [],
-  },
-  reducers: {
-    setUserList: (state, action) => {
-      state.list = action.payload;
-    },
+  initialState,
+  reducers: {},
+  extraReducers(builder) {
+    builder.addCase(getAllUsers.pending, (state, _action) => {
+      state.status = 'loading';
+    });
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
+      state.status = 'succeeded';
+      state.list = state.list.concat(action.payload);
+    });
+    builder.addCase(getAllUsers.rejected, (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    });
   },
 });
 
-export const { setUserList } = userSlice.actions;
+export default usersSlice.reducer;
 
-export default userSlice.reducer;
-
-// export const getAllUsers = () => (dispatch) => {
-//   axios
-//     .get('http://ongapi.alkemy.org/api/users')
-//     .then((response) => {
-//       dispatch(setUserList(response.data.data));
-//       console.log(response.data.data);
-//     })
-//     .catch((error) => console.log(error));
-// };
-export const getAllUsers = createAsyncThunk(
-  'users/getAllUsers',
-  async (dispatch) => {
-    axios
-      .get('http://ongapi.alkemy.org/api/users')
-      .then((response) => {
-        dispatch(setUserList(response.data.data));
-        console.log(response.data.data);
-      })
-      .catch((error) => console.log(error));
-  },
-);
+export const selectAllUsers = (state) => state.users.list;

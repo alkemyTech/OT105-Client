@@ -6,7 +6,7 @@ const getContactInfo = async () => {
   try {
     const res = await axios.get(CONTACTS_URL);
 
-    return console.log(res.data);
+    return res.data;
   } catch (err) {
     return err.response.data;
   }

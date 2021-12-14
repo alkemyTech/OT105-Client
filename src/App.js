@@ -21,6 +21,7 @@ import Activities from './Components/Activities/Activities';
 import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
+import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
 
 function App() {
   return (
@@ -54,6 +55,8 @@ function App() {
             path="/create-testimonials"
             render={() => <TestimonialForm id={25} />}
           />
+          <Route component={SlidesBackOffice} path="/backoffice/Slides" />
+          <Route component={TestimonialForm} path="/create-testimonials" />
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />
           <Route component={ProjectsForm} path="/create-project" />

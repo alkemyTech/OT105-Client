@@ -1,211 +1,200 @@
-//eslint-disable react-hooks/exhaustive-deps
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import '../../Components/FormStyles.css';
+import React, { useState, useEffect } from 'react';
+import { dropzoneConfig, isEmptyList, listHasValues } from '../../utils';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
-import { categoriesGet } from '../../Services/CategoriesService';
+import { useFormik } from 'formik';
 import { urlEditNews, urlCreateNews } from '../../Services/NewsService';
-import SlideHome from '../Slides/SlideHome';
+import { TextField, Box, Button, Alert, Typography } from '@mui/material';
+import '../FormStyles.css';
+import '../../Styles/CategoriesFormStyles.css';
 
-const editorConfiguration = {
-  toolbar: [
-    'heading',
-    '|',
-    'bold',
-    'italic',
-    'link',
-    'bulletedList',
-    'numberedList',
-    'blockQuote',
-    'undo',
-    'redo',
-  ],
-};
+const NewsCreateEdit = ({ id }) => {
+  const [categoryDescription, setCategoryDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [base64ImageFile, setBase64ImageFile] = useState('');
+  const [imageError, setImageError] = useState(false);
+  const [apiResponse, setApiResponse] = useState({});
+  const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
-const dataForm = {
-  category: '',
-  title: '',
-  content: '',
-  image: '',
-};
-
-const NewsCreateEdit = () => {
-  const { id } = useParams();
-  const [categories, setcategories] = useState([]);
-  const [initialDataForm, setinitialDataForm] = useState(dataForm);
-  const [files, setFiles] = useState([]);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/png, image/jpg',
-    onDrop: (acceptedFiles) => {
-      setinitialDataForm({
-        ...initialDataForm,
-        image: acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      });
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
-      );
-    },
+  const getCategory = () => ({
+    title: 'Categories Test ',
+    categoryDescription: 'Test text',
+    image: '',
   });
 
-  const thumbs = files.map((file) => (
-    <div key={file.name} className="thumb">
-      <div className="thumbInner">
-        <img alt="img not found" className="imgThumbs" src={file.preview} />
-      </div>
-    </div>
-  ));
+  const handleDrop = (acceptedFiles, fileRejections) => {
+    const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
 
-  useEffect(
-    () => () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    setImage(imageFileWithPreview);
+    if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
+  };
+
+  const imageFileToBase64File = (acceptedFiles) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(acceptedFiles[0]);
+    reader.onload = () => {
+      const base64 = reader.result;
+
+      setBase64ImageFile(base64);
+    };
+  };
+
+  const addImagePreviewtoImageFile = (acceptedFiles) => {
+    return acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      }),
+    );
+  };
+
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
+    multiple: multipleFiles,
+    maxFiles,
+    accept: validImages,
+    onDrop: (acceptedFiles, fileRejections) =>
+      handleDrop(acceptedFiles, fileRejections),
+  });
+
+  const imageValidation = () => {
+    if (listHasValues(fileRejections)) {
+      setImageError(true);
+
+      return;
+    }
+    setImageError(false);
+  };
+
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.title) {
+      errors.title = 'El titulo es requerido';
+    } else if (values.title.length < 4) {
+      errors.title = 'El titulo debe contener al menos 4 caracteres';
+    }
+    if (!categoryDescription) {
+      errors.description = 'La descripción es requerida';
+    }
+    if (!base64ImageFile) {
+      errors.image = 'La imagen es requerida';
+    }
+
+    return errors;
+  };
+
+  const isEditingMode = () => id !== undefined;
+
+  const updateCategorieswithCurrentData = () => {
+    const currentCategories = getCategory();
+
+    formik.values.title = currentCategories.title;
+    setCategoryDescription(currentCategories.categoryDescription);
+  };
+
+  const handleCKeditorChange = (e, editor) =>
+    setCategoryDescription(editor.getData());
+
+  const showErrorMessage = (errorMessage) => {
+    return <Alert severity="warning"> {errorMessage} </Alert>;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      categoryDescription: '',
+      image: '',
     },
-    [files],
-  );
-
-  const onNewsDataChange = (e) => {
-    if (e.target.name === 'title') {
-      setinitialDataForm({ ...initialDataForm, title: e.target.value });
-    } else if (e.target.name === 'category') {
-      setinitialDataForm({ ...initialDataForm, category: e.target.value });
-    }
-  };
-
-  const updateContentState = (e, editor) => {
-    const data = editor.getData();
-
-    setinitialDataForm({
-      ...initialDataForm,
-      content: data,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    const dataWithTags = initialDataForm.content;
-    const dataNoTags = dataWithTags.replace(/<[^>]+>/g, '');
-
-    if (!id) {
-      axios
-        .post(urlCreateNews, {
-          name: initialDataForm.title,
-          image: initialDataForm.image,
-          content: dataNoTags,
-          category_id: initialDataForm.category,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            alert('news create successfulli');
-
-            return setinitialDataForm(dataForm);
-          }
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-    if (id) {
-      axios
-        .put(urlEditNews, {
-          name: initialDataForm.title,
-          image: initialDataForm.image,
-          content: dataNoTags,
-          category_id: initialDataForm.category,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            alert('news updated successfulli');
-
-            return setinitialDataForm(dataForm);
-          }
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-    e.preventDefault();
-  };
-
-  const showCategoryOptions = () =>
-    categories?.map((category) => (
-      <option key={category.id} value={category.name}>
-        {category.name}
-      </option>
-    ));
+    validate,
+    onSubmit: (values) => handleSubmitbecategory(values),
+  });
 
   useEffect(() => {
-    const DatosEditNew = async () => {
-      const DataInicialCategorie = await axios.get(categoriesGet),
-        categorieData = await DataInicialCategorie.data.data;
+    imageValidation();
+  }, [fileRejections]);
 
-      setcategories(categorieData);
+  useEffect(() => {
+    if (isEditingMode()) updateCategorieswithCurrentData();
+  }, []);
 
-      if (id) {
-        const datosIniciales = await axios.get(urlEditNews),
-          EditNewData = datosIniciales.data.data,
-          { name, content } = await EditNewData;
-
-        if (name) setinitialDataForm({ ...initialDataForm, title: name });
-        if (content)
-          setinitialDataForm({ ...initialDataForm, content: content });
-      }
+  const handleSubmitbecategory = async () => {
+    const body = {
+      title: formik.values.title,
+      description: categoryDescription,
+      image: base64ImageFile,
     };
 
-    DatosEditNew();
-  }, [categoriesGet]);
+    if (id) {
+      urlCreateNews(id, body).then((resp) => setApiResponse(resp.data));
+    } else {
+      urlEditNews(body).then((resp) => setApiResponse(resp.data));
+    }
+  };
 
   return (
-    <>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <label className="label-Title-New-News" htmlFor="title">
-          <h2 className="titulo-Titulo-New-News">Title</h2>
-          <input
-            required
-            className="input-field"
-            name="title"
-            type="text"
-            value={initialDataForm.title || ''}
-            onChange={onNewsDataChange}
-          />
-        </label>
-        <h2 className="titulo-Content-New-News">Description</h2>
-        <CKEditor
-          config={editorConfiguration}
-          data={initialDataForm.content}
-          editor={ClassicEditor}
-          onChange={updateContentState}
-        />
-        <h2 className="categorias-New-News">Category</h2>
-        <select
-          required
-          className="select-field"
-          name="category"
-          value={initialDataForm.category || ''}
-          onChange={onNewsDataChange}>
-          <option value="">Select category</option>
-          {showCategoryOptions()};
-        </select>
-        <section className="input-field">
-          <div {...getRootProps({ className: 'dropzone' })}>
-            <input {...getInputProps()} />
-            <p>Drag n drop some files here, or click to select files</p>
+    <Box
+      noValidate
+      className="form-container"
+      component="form"
+      onSubmit={formik.handleSubmit}>
+      <Typography component="div" variant="h5">
+        Title
+      </Typography>
+
+      <TextField
+        autoComplete="off"
+        label="Title"
+        name="title"
+        type="text"
+        value={formik.values.title}
+        variant="outlined"
+        onChange={formik.handleChange}
+      />
+
+      {formik.errors.title && showErrorMessage(formik.errors.title)}
+
+      <Typography component="div" variant="h5">
+        Descripcion
+      </Typography>
+
+      <CKEditor
+        data={categoryDescription}
+        editor={ClassicEditor}
+        onChange={(e, editor) => handleCKeditorChange(e, editor)}
+      />
+
+      {formik.errors.description && showErrorMessage(formik.errors.description)}
+
+      <Typography component="div" variant="h5">
+        Imagen
+      </Typography>
+
+      <Box className="dropzone-container" component="div" {...getRootProps()}>
+        <input {...getInputProps()} />
+        <p>Arrastra o haz click aqui para agregar Imagen ( .png o .jpg )</p>
+
+        <div className="thumbs-container">
+          <div className="thumb">
+            <div className="thumbInner">
+              {listHasValues(image) && (
+                <img className="thumb-image" src={image[0].preview} />
+              )}
+            </div>
           </div>
-          <aside className="thumbsContainer">{thumbs}</aside>
-        </section>
-        <button className="submit-btn" type="submit">
-          Send
-        </button>
-      </form>
-    </>
+        </div>
+      </Box>
+
+      {formik.errors.image && showErrorMessage(formik.errors.image)}
+
+      {imageError && (
+        <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
+      )}
+
+      <Button className="submit-btn" type="submit" variant="contained">
+        Enviar
+      </Button>
+    </Box>
   );
 };
 

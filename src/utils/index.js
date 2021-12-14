@@ -8,4 +8,3 @@ export const dropzoneConfig = {
   maxFiles: 1,
   validImages: 'image/jpeg, image/png',
 };
-

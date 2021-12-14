@@ -23,7 +23,7 @@ import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
 import About from './Components/About/About';
-import Organization from './Components/Organization/Organization';
+import Organization from './Components/Organization/OrganizationInfo';
 
 function App() {
   return (

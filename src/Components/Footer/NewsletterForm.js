@@ -25,7 +25,6 @@ const NewsletterForm = () => {
   };
   const formikOnSubmit = (_values) => {
     try {
-      //subscribeFunc(values.email); Replace with Subscribe Newsletter function
       setSubscribed(true);
       setTimeout(() => localStorage.setItem('subscribed', true), 5000);
       formik.resetForm();

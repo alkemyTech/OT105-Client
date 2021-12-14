@@ -1,9 +1,9 @@
 import NewsletterForm from './NewsletterForm';
 
 const Footer = () => {
-  const logedIn = true; // Replace with real login info
+  const logedIn = true;
 
-  return <div>{logedIn ? <NewsletterForm /> : null}</div>;
+  return <div>{logedIn && <NewsletterForm />}</div>;
 };
 
 export default Footer;

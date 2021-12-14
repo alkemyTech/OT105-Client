@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const MEMBERS_URL = process.env.REACT_APP_MEMBERS_URL;
+
 const getAllMembers = async () => {
   try {
-    const res = await axios.get(process.env.REACT_APP_MEMBERS_URL);
+    const res = await axios.get(MEMBERS_URL);
 
     return res.data.data;
   } catch (err) {
@@ -12,9 +14,7 @@ const getAllMembers = async () => {
 
 const getMemberById = async (memberId) => {
   try {
-    const res = await axios.get(
-      `${process.env.REACT_APP_MEMBERS_URL}/${memberId}`,
-    );
+    const res = await axios.get(`${MEMBERS_URL}/${memberId}`);
 
     return res.data.data;
   } catch (err) {
@@ -24,7 +24,7 @@ const getMemberById = async (memberId) => {
 
 const createMember = async (member) => {
   try {
-    const res = await axios.post(process.env.REACT_APP_MEMBERS_URL, member);
+    const res = await axios.post(MEMBERS_URL, member);
 
     return res.data;
   } catch (err) {
@@ -34,10 +34,7 @@ const createMember = async (member) => {
 
 const editMember = async (memberId, editedMember) => {
   try {
-    const res = await axios.put(
-      `${process.env.REACT_APP_MEMBERS_URL}/${memberId}`,
-      editedMember,
-    );
+    const res = await axios.put(`${MEMBERS_URL}/${memberId}`, editedMember);
 
     return res.data;
   } catch (err) {
@@ -47,9 +44,7 @@ const editMember = async (memberId, editedMember) => {
 
 const deleteMember = async (memberId) => {
   try {
-    const res = await axios.delete(
-      `${process.env.REACT_APP_MEMBERS_URL}/${memberId}`,
-    );
+    const res = await axios.delete(`${MEMBERS_URL}/${memberId}`);
 
     return res.data;
   } catch (err) {

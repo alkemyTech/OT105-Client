@@ -3,9 +3,12 @@ import { useFormik } from 'formik';
 import { emailRegex } from '../../Utils';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
-import { gcreateContact } from '../../Services/ConctactService';
+import {
+  sendContactData,
+  editContactData,
+} from '../../Services/contactsService';
 
-const FormContact = () => {
+const FormContact = ({ id }) => {
   const [apiResponse, setApiResponse] = useState({});
   const validate = (values) => {
     const errors = {};
@@ -49,6 +52,14 @@ const FormContact = () => {
     return <Alert severity="warning"> {errorMessage} </Alert>;
   };
 
+  const createOrUpdateContactData = (id, body) => {
+    if (!id) {
+      sendContactData(body);
+    } else {
+      editContactData(id, body);
+    }
+  };
+
   const handleSubmitContact = async () => {
     const body = {
       name: formik.values.name,
@@ -57,7 +68,9 @@ const FormContact = () => {
       message: formik.values.message,
     };
 
-    gcreateContact(body).then((resp) => setApiResponse(resp.data));
+    createOrUpdateContactData(id, body).then((resp) =>
+      setApiResponse(resp.data),
+    );
   };
 
   return (

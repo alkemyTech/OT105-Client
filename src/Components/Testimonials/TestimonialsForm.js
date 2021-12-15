@@ -127,7 +127,7 @@ const TestimonialForm = ({ id }) => {
       image: base64ImageFile,
     };
 
-    createOrEditTestimonial(id, body).then((resp) => setApiResponse(resp.data));
+    createOrEditTestimonial(id, body);
   };
 
   return (

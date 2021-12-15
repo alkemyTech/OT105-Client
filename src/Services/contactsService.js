@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const CONTACTS_URL = 'http://ongapi.alkemy.org/api/contacts';
+const CONTACTS_URL = process.env.REACT_APP_CONTACTS;
 
 const getContactInfo = async () => {
   try {

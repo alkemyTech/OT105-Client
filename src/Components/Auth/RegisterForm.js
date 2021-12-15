@@ -5,11 +5,18 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  BottomNavigation,
+  BottomNavigationAction,
 } from '@mui/material';
+import s from './terms_and_conditions.pdf';
+import { Document, Page } from 'react-pdf';
+import { pdfjs } from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 import '../FormStyles.css';
-
+import RestoreIcon from '@mui/icons-material/Restore';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 const RegisterForm = () => {
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -17,10 +24,21 @@ const RegisterForm = () => {
   });
 
   const [open, setOpen] = React.useState(false);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
+  const previousPage = () => {
+    if (pageNumber === 1) return;
+    setPageNumber(pageNumber - 1);
+  };
+  const nextPage = () => {
+    if (pageNumber === numPages) return;
+    setPageNumber(pageNumber + 1);
+  };
 
   const handleClose = (e) => {
     if (e.target.textContent === 'Aceptar') {
@@ -76,10 +94,28 @@ const RegisterForm = () => {
         onClose={handleClose}>
         <DialogTitle>{'¿Acepta los términos y condiciones?'}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText> */}
+          <Document
+            file={s}
+            onLoadSuccess={onDocumentLoadSuccess}
+            style={{ maxWidth: '100%' }}>
+            <Page pageNumber={pageNumber} scale={0.7} />
+          </Document>
+
+          <BottomNavigation showLabels>
+            <BottomNavigationAction
+              icon={<ArrowBackIosNewIcon />}
+              label="Prev"
+              onClick={previousPage}
+            />
+            <p>
+              Page {pageNumber} of {numPages}
+            </p>
+            <BottomNavigationAction
+              icon={<ArrowForwardIosIcon />}
+              label="Next"
+              onClick={nextPage}
+            />
+          </BottomNavigation>
         </DialogContent>
         <DialogActions>
           <Button onClick={(e) => handleClose(e)}>Rechazar</Button>

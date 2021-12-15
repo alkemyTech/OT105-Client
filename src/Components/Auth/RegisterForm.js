@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   Button,
   Dialog,
@@ -14,9 +13,9 @@ import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 import '../FormStyles.css';
-import RestoreIcon from '@mui/icons-material/Restore';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 const RegisterForm = () => {
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -87,6 +86,7 @@ const RegisterForm = () => {
           Register
         </button>
       </form>
+
       <Dialog
         keepMounted
         aria-describedby="alert-dialog-slide-description"

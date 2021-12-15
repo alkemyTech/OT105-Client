@@ -3,6 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { Grid, Button, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import image404 from '../../assets/img/404Error-somosMas.svg';
+import {
+  pageContainer,
+  mainGridContainer,
+  messageError,
+  homeButtom,
+} from '../../Styles/Error404/Error404InlineStyles';
 
 const Error404 = () => {
   const history = useHistory();
@@ -10,37 +16,47 @@ const Error404 = () => {
     history.push('/');
   };
 
-  const theme = createTheme();
+  const error404Theme = createTheme();
 
-  theme.typography.h3 = {
-    fontSize: '1.2rem',
+  error404Theme.typography.h3 = {
+    fontSize: '1.1rem',
     '@media (min-width:600px)': {
-      fontSize: '1.5rem',
+      fontSize: '1.8rem',
     },
-    [theme.breakpoints.up('md')]: {
-      fontSize: '5rem',
+    [error404Theme.breakpoints.up('md')]: {
+      fontSize: '2.5rem',
     },
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container xs={12} alignItems="center" sx={{ height: '100vh' }}>
+    <ThemeProvider theme={error404Theme}>
+      <Grid container sm={12} alignItems="center" sx={pageContainer}>
         <Grid
           container
           item
-          spacing={3}
-          xs={12}
+          sm={12}
           md={8}
-          sx={{ margin: '0 auto' }}>
-          <Grid item sm={12} md={7} justifyContent="center">
+          justifyContent="center"
+          alignItems="center"
+          sx={mainGridContainer}>
+          <Grid item xs={12} sm={7}>
             <img src={image404} alt="404" />
           </Grid>
-          <Grid item sm={12} md={5}>
-            <Typography variant="h3" component="p">
-              Oops.. Pagina no encontrada
+          <Grid item xs={12} sm={5}>
+            <Typography
+              variant="h3"
+              component="p"
+              textAlign="center"
+              sx={messageError}>
+              Oops.. Página no encontrada
             </Typography>
-
-            <Button onClick={handleClick}>Ir al inicio</Button>
+            <Button
+              onClick={handleClick}
+              variant="contained"
+              size="medium"
+              sx={homeButtom}>
+              Ir al inicio
+            </Button>
           </Grid>
         </Grid>
       </Grid>

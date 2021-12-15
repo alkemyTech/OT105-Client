@@ -22,8 +22,9 @@ import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
-
 import About from './Components/About/About';
+import Organization from './Components/Organization/OrganizationInfo';
+
 function App() {
   return (
     <>
@@ -34,6 +35,7 @@ function App() {
           <Route component={FormContact} path="/form-contact" />
           <Route path="/create-category" render={() => <CategoriesForm />} />
           <Route component={Activities} path="/Actividades" />
+          <Route component={Organization} path="/backoffice/organization" />
           <Route component={NewsForm} path="/create-news" />
           <Route component={Seccion_Novedades} path="/Novedades" />
           <Route

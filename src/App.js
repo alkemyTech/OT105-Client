@@ -13,6 +13,8 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import NewsCreateEdit from './Components/News/NewsCreateEdit';
+import MembersCreateEdit from './Components/Members/MembersCreateEdit';
 import FormContact from './Components/Contact/FormContact';
 import ScreenMembersList from './Components/Members/ScreenMembersList';
 import EditHomeForm from './Components/Home/EditHomeForm';
@@ -24,6 +26,7 @@ import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
 import About from './Components/About/About';
 import Organization from './Components/Organization/OrganizationInfo';
+
 
 function App() {
   return (
@@ -37,6 +40,7 @@ function App() {
           <Route component={Activities} path="/Actividades" />
           <Route component={Organization} path="/backoffice/organization" />
           <Route component={NewsForm} path="/create-news" />
+          <Route component={NewsCreateEdit} path="/backoffice/news" />
           <Route component={Seccion_Novedades} path="/Novedades" />
           <Route
             exact
@@ -62,6 +66,10 @@ function App() {
           <Route component={TestimonialForm} path="/create-testimonials" />
           <Route component={UserForm} path="/create-user" />
           <Route component={MembersForm} path="/create-member" />
+          <Route
+            component={MembersCreateEdit}
+            path="/backoffice/members/edit"
+          />
           <Route component={ProjectsForm} path="/create-project" />
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />

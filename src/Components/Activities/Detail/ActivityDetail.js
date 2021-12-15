@@ -4,8 +4,8 @@ import { CircularProgress, Container, Typography } from '@mui/material';
 import { getActivityById } from '../../../Services/activitiesService';
 
 export default function ActivityDetail({ match }) {
-  const [details, setDetails] = useState({});
-  const { name, description, image } = details;
+  const [activityDetails, setActivityDetails] = useState({});
+  const { name, description, image } = activityDetails;
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const activityId = match.params.id;
@@ -14,11 +14,11 @@ export default function ActivityDetail({ match }) {
     getActivityById(activityId)
       .then((res) => {
         setSuccess(true);
-        setDetails(res.data.data);
+        setActivityDetails(res.data.data);
       })
       .catch((e) => {
         setSuccess(false);
-        setDetails(e.response.data);
+        setActivityDetails(e.response.data);
       })
       .finally(() => setIsLoading(false));
   }, [activityId]);

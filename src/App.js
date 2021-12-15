@@ -86,7 +86,7 @@ function App() {
             render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
           />
           <Route component={About} path="/AboutUs" />
-          <Route component={ActivityDetail} path="/actividades/:id" />
+          <Route component={ActivityDetail} path="/activities/:id" />
         </Switch>
       </BrowserRouter>
     </>

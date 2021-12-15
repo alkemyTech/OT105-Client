@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { emailRegex } from '../../utils';
+import { emailRegex } from '../../Utils';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
 import { gcreateContact } from '../../Services/ConctactService';

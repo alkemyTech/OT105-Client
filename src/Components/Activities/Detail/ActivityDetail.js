@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//COMPONENTS
 import Title from '../../Title/Title';
-//MUI
 import { CircularProgress, Container, Typography } from '@mui/material';
 import { getActivityById } from '../../../Services/activitiesService';
 

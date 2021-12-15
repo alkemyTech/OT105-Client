@@ -12,15 +12,13 @@ export default function ActivityDetail({ match }) {
   useEffect(() => {
     getActivityById(activityId)
       .then((res) => {
-        if (res.response.data.success === false) {
+        if (res.success === true) {
+          setSuccess(true);
+          setActivityDetails(res.data);
+        } else if (res.response.data.success === false) {
           setSuccess(false);
-
-          return;
         }
-        setSuccess(true);
-        setActivityDetails(res.data);
       })
-
       .finally(() => setIsLoading(false));
   }, [activityId]);
 

@@ -5,7 +5,7 @@ import { Paper, Typography } from '@mui/material/';
 const Thanks = () => {
   return (
     <div className={s.container}>
-      <Paper elevation={3} sx={{ padding: '2.5rem' }}>
+      <Paper elevation={3} sx={{ padding: '1.6rem' }}>
         <Typography align="center" sx={{ marginBlock: '2rem' }} variant="h2">
           ¡Gracias!
         </Typography>

@@ -18,7 +18,7 @@ export const createOrEditTestimonial = (id, body) => {
 const createTestimonial = async (body) => {
   try {
     await axios.post(TESTIMONIALS_URL, body);
-  } catch (err) {
+  } catch {
     return errorAlert();
   }
 };

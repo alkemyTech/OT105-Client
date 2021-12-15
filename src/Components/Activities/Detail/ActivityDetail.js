@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Title from '../../Title/Title';
 //MUI
 import { CircularProgress, Container, Typography } from '@mui/material';
-//In the future this API call logic should be moved.
-import axios from 'axios';
-const getActivityById = (id) => {
-  return axios.get(`http://ongapi.alkemy.org/api/activities/${id}`);
-};
+import { getActivityById } from '../../../Services/activitiesService';
 
 export default function ActivityDetail({ match }) {
   const [details, setDetails] = useState({});

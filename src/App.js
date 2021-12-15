@@ -24,7 +24,6 @@ import Contact from './Components/Contact/Contact';
 import BackofficeDashboard from './Components/Backoffice/BackofficeDashboard';
 import NewsDetail from './Components/News/Detail/NewsDetail';
 import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
-import About from './Components/About/About';
 import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
 import About from './Components/About/About';
 import Organization from './Components/Organization/OrganizationInfo';

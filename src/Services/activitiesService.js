@@ -7,9 +7,9 @@ export const getActivityById = async (id) => {
   try {
     const { data } = await Axios.get(`${baseUrl}/${id}`);
 
-    console.log(data);
+    return data;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 

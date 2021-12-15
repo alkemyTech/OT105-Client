@@ -27,6 +27,8 @@ import SlidesBackOffice from './Components/Slides/SlidesBackOffice';
 import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
 import About from './Components/About/About';
 import Organization from './Components/Organization/OrganizationInfo';
+import Donations from './Components/Donations/Donations';
+import Thanks from './Components/Donations/Thanks';
 
 function App() {
   return (
@@ -87,6 +89,16 @@ function App() {
           />
           <Route component={About} path="/AboutUs" />
           <Route component={ActivityDetail} path="/activities/:id" />
+          <Route
+            path="/donations"
+            render={() => (
+              <Donations
+                donationsSubtitle="¡Ayúdanos a crecer!"
+                donationsTitle="Donaciones"
+              />
+            )}
+          />
+          <Route component={Thanks} path="/thanks" />
         </Switch>
       </BrowserRouter>
     </>

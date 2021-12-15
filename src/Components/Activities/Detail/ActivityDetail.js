@@ -5,7 +5,6 @@ import { getActivityById } from '../../../Services/activitiesService';
 
 export default function ActivityDetail({ match }) {
   const [activityDetails, setActivityDetails] = useState({});
-  const { name, description, image } = activityDetails;
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const activityId = match.params.id;
@@ -44,9 +43,9 @@ export default function ActivityDetail({ match }) {
         <div>
           <Title
             bckgOpacity="0.5"
-            imageUrl={image}
+            imageUrl={activityDetails.image}
             titlePadding="10rem"
-            titleText={name}
+            titleText={activityDetails.name}
           />
           <Container maxWidth="md" sx={{ marginTop: '3rem' }}>
             <Typography
@@ -56,7 +55,7 @@ export default function ActivityDetail({ match }) {
               Detalle de actividad
             </Typography>
             <Typography color="initial" variant="body1">
-              {description}
+              {activityDetails.description}
             </Typography>
           </Container>
         </div>

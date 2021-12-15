@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { dropzoneConfig, isEmptyList, listHasValues } from '../../utils';
+import { dropzoneConfig, isEmptyList, listHasValues } from '../../Utils';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';

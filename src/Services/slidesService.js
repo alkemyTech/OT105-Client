@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SLIDES_URL = 'http://ongapi.alkemy.org/api/slides';
+const SLIDES_URL = process.env.REACT_APP_SLIDES_URL;
 
 export const getAllSlides = async () => {
   try {

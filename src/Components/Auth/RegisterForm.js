@@ -9,7 +9,7 @@ import {
   BottomNavigation,
   BottomNavigationAction,
 } from '@mui/material';
-import s from './terms_and_conditions.pdf';
+import s from '../../assets/terms_and_conditions.pdf';
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -94,29 +94,25 @@ const RegisterForm = () => {
         onClose={handleClose}>
         <DialogTitle>{'¿Acepta los términos y condiciones?'}</DialogTitle>
         <DialogContent>
-          <Document
-            file={s}
-            onLoadSuccess={onDocumentLoadSuccess}
-            style={{ maxWidth: '100%' }}>
+          <Document file={s} onLoadSuccess={onDocumentLoadSuccess}>
             <Page pageNumber={pageNumber} scale={0.7} />
           </Document>
-
-          <BottomNavigation showLabels>
-            <BottomNavigationAction
-              icon={<ArrowBackIosNewIcon />}
-              label="Prev"
-              onClick={previousPage}
-            />
-            <p>
-              Page {pageNumber} of {numPages}
-            </p>
-            <BottomNavigationAction
-              icon={<ArrowForwardIosIcon />}
-              label="Next"
-              onClick={nextPage}
-            />
-          </BottomNavigation>
         </DialogContent>
+        <BottomNavigation showLabels sx={{ position: 'absolute', bottom: '0' }}>
+          <BottomNavigationAction
+            icon={<ArrowBackIosNewIcon />}
+            label="Prev"
+            onClick={previousPage}
+          />
+          <p>
+            Page {pageNumber} of {numPages}
+          </p>
+          <BottomNavigationAction
+            icon={<ArrowForwardIosIcon />}
+            label="Next"
+            onClick={nextPage}
+          />
+        </BottomNavigation>
         <DialogActions>
           <Button onClick={(e) => handleClose(e)}>Rechazar</Button>
           <Button onClick={(e) => handleClose(e)}>Aceptar</Button>

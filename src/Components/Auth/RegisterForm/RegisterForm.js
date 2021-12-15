@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../../Styles/FormStyles.css';
 import { Formik, Field, Form } from 'formik';
 import { SignupSchema } from './SignupSchema';
@@ -24,9 +24,6 @@ const RegisterForm = () => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
-  useEffect(() => {
-    setOpen(true);
-  }, []);
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };

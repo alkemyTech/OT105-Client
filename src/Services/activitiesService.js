@@ -3,6 +3,16 @@ import Swal from 'sweetalert2';
 
 const baseUrl = 'http://ongapi.alkemy.org/api/activities';
 
+export const getActivityById = async (id) => {
+  try {
+    const { data } = await Axios.get(`${baseUrl}/${id}`);
+
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const createOrUpdateActivity = (id, data) => {
   if (!id) {
     createActivity(data);

@@ -93,7 +93,6 @@ const UserForm = ({ user = null }) => {
             name="password"
             placeholder="User password"
             type="text"
-            value={userValues.password}
           />
           {errors.password && touched.password ? (
             <Alert severity="warning">{errors.password}</Alert>
@@ -115,9 +114,6 @@ const UserForm = ({ user = null }) => {
               Error en el envío del formulario comprueba la información
             </Alert>
           )}
-          <button className="submit-btn" type="submit">
-            {user ? 'Edit User' : 'Create User'}
-          </button>
         </Form>
       )}
     </Formik>

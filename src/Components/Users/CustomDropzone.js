@@ -66,13 +66,7 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
 
   useEffect(() => {
     if (image.file) {
-      const data = async () => {
-        const base64 = await blobToBase64(image.file);
-
-        setImage64(base64);
-      };
-
-      data();
+      setDataImage();
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -83,6 +77,12 @@ export const CustomDropzone = ({ setImage64 = () => {} }) => {
 =======
   }, [image.file]);
 >>>>>>> 927dec3 (implements post on create user)
+
+  const setDataImage = async () => {
+    const base64 = await blobToBase64(image.file);
+
+    setImage64(base64);
+  };
 
   const style = {
     flex: 1,

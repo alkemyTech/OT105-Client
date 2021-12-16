@@ -61,7 +61,7 @@ const Content = () => {
             paddingBlock: '1.2rem',
             position: 'relative',
             zIndex: '100',
-            backgroundColor: 'rgba(250,250,250,0.8)',
+            backgroundColor: 'rgba(250,250,250,0.6)',
             ['@media (min-width:768px)']: {
               padding: '1.6rem',
               fontSize: '1.4rem',

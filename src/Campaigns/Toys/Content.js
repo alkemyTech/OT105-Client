@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react';
 import { useMediaQuery, Chip } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import s from '../../Styles/ToysCampaign/Content.module.css';
+import foto1 from '../../assets/foto1.jpg';
+import foto2 from '../../assets/foto2.jpg';
+import foto3 from '../../assets/foto3.jpg';
+import foto4 from '../../assets/foto4.jpg';
+import foto5 from '../../assets/foto5.jpg';
+import foto6 from '../../assets/foto6.jpg';
+import foto7 from '../../assets/foto7.jpg';
+import foto8 from '../../assets/foto8.jpg';
+import foto9 from '../../assets/foto9.jpg';
+import foto10 from '../../assets/foto10.jpg';
 
 const calculateDaysToDate = (dateEnd) => {
   const actualDate = new Date();
@@ -16,7 +26,6 @@ const Content = () => {
   const matchesMobile = useMediaQuery('(max-width:480px)');
   const matchesTablet = useMediaQuery('(min-width:480px)');
   const matchesDesktop = useMediaQuery('(min-width:768px)');
-  const matchesTv = useMediaQuery('(min-width:1280px)');
 
   useEffect(() => {
     const dateEnd = new Date('08/01/2022');
@@ -50,6 +59,9 @@ const Content = () => {
             marginBlock: '1.4rem',
             padding: '0.4rem',
             paddingBlock: '1.2rem',
+            position: 'relative',
+            zIndex: '100',
+            backgroundColor: 'rgba(250,250,250,0.8)',
             ['@media (min-width:768px)']: {
               padding: '1.6rem',
               fontSize: '1.4rem',
@@ -57,6 +69,20 @@ const Content = () => {
           }}
         />
       </div>
+      {matchesDesktop && (
+        <div className={s.photosContainer}>
+          <img alt="" className={s.photo} src={foto1} />
+          <img alt="" className={s.photo} src={foto2} />
+          <img alt="" className={s.photo} src={foto3} />
+          <img alt="" className={s.photo} src={foto4} />
+          <img alt="" className={s.photo} src={foto5} />
+          <img alt="" className={s.photo} src={foto6} />
+          <img alt="" className={s.photo} src={foto7} />
+          <img alt="" className={s.photo} src={foto8} />
+          <img alt="" className={s.photo} src={foto9} />
+          <img alt="" className={s.photo} src={foto10} />
+        </div>
+      )}
     </div>
   );
 };

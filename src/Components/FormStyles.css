@@ -18,7 +18,9 @@
 
 .submit-btn{
     background-color: #2E86C1;
-    padding: 10px 15px;
+    padding: 15px 15px;
+    height: 40px;
+    padding: 15px 15px;
     border: none;
     color: #fff;
 }
@@ -26,4 +28,17 @@
 .submit-btn:hover{
     cursor: pointer;
     background-color: #3498DB;
+}
+
+.login-user-form{
+  width: 90%;
+  height: auto;
+  margin:35px auto;
+  border:#2E86C1 2px solid;
+  display: flex;
+  flex-direction: column;
+  padding: 35px;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
 }

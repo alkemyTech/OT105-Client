@@ -12,8 +12,8 @@ const initialState = {
 
 export const fetchUsData = createAsyncThunk('us/fetchUsData', async () => {
   const response = {
-    organization: { hola: 123 },
-    membersList: ['jaja'],
+    organization: {},
+    membersList: [],
   };
 
   response.organization = await getOrganization();

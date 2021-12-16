@@ -29,6 +29,7 @@ import About from './Components/About/About';
 import Organization from './Components/Organization/OrganizationInfo';
 import Donations from './Components/Donations/Donations';
 import Thanks from './Components/Donations/Thanks';
+import Error404 from './Components/Error404/Error404';
 
 function App() {
   return (
@@ -99,6 +100,7 @@ function App() {
             )}
           />
           <Route component={Thanks} path="/thanks" />
+          <Route component={Error404} path="*" />
         </Switch>
       </BrowserRouter>
     </>

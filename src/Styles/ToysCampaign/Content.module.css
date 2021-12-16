@@ -8,6 +8,7 @@ h6 {
 
 .bckg {
   position: relative;
+  overflow-x: hidden;
 }
 
 .toysContainer {

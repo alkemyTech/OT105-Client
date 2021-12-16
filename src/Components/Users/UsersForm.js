@@ -4,6 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';
+import '../../Styles/UsersForm/CreateEditUserFormStyle.css';
 
 const UserForm = ({ user = null }) => {
   const [success, setSuccess] = useState({

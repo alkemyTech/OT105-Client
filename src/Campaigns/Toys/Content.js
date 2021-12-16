@@ -32,12 +32,14 @@ const Content = () => {
       </p>
       {matchesMobile && <h3 className={s.dateLabel}>Fecha de inicio:</h3>}
       {matchesTablet && (
-        <>
+        <div className={s.countdownContainer}>
           <h2 className={s.daysToStart}>{daysToStart}</h2>
           <h3>días para el inicio de la campaña</h3>
-        </>
+        </div>
       )}
-      <h4 className={s.dateStart}>1 de Agosto 2022 a partir de las 13:00 hs</h4>
+      <h4 className={s.dateStart}>
+        1 de Agosto de 2022 a partir de las 13:00 hs
+      </h4>
       <Chip
         icon={<LocationOnIcon color="success" />}
         label="Barrio La Cava"

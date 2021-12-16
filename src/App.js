@@ -30,13 +30,14 @@ import Organization from './Components/Organization/OrganizationInfo';
 import Donations from './Components/Donations/Donations';
 import Thanks from './Components/Donations/Thanks';
 import Error404 from './Components/Error404/Error404';
+import HomeScreen from './Components/Home';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Switch>
-          {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
+          <Route exact component={HomeScreen} path="/" />
           <Route component={ActivitiesForm} path="/create-activity" />
           <Route component={FormContact} path="/form-contact" />
           <Route path="/create-category" render={() => <CategoriesForm />} />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../FormStyles.css';
 import { Field, Form, Formik } from 'formik';
+import '../FormStyles.css';
 import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';

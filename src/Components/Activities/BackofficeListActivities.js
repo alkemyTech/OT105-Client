@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
+  Typography,
+  Container,
   TableContainer,
+  Table,
+  Paper,
   TableHead,
   TableRow,
+  TableCell,
+  TableBody,
+  Avatar,
+  Button,
+  ButtonGroup,
+  Box,
+  Fab,
+  CircularProgress,
 } from '@mui/material';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 let activitiesMock = [
   {
@@ -51,6 +60,20 @@ function BackofficeListActivities() {
 
   return (
     <div>
+      <Box
+        alignItems="center"
+        display="flex"
+        justifyContent="space-between"
+        sx={{ paddingInline: '1.3rem' }}>
+        <Typography sx={{ marginBlock: '2rem' }} variant="h3">
+          Actividades
+        </Typography>
+        <Link to="/backoffice/activities/create">
+          <Fab aria-label="add" color="primary">
+            <AddIcon />
+          </Fab>
+        </Link>
+      </Box>
       <TableContainer component={Paper}>
         <Table aria-label="caption table" sx={{ minWidth: 650 }}>
           <caption>A basic table example with a caption</caption>
@@ -65,23 +88,30 @@ function BackofficeListActivities() {
           </TableHead>
           <TableBody>
             {activities.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.image}</TableCell>
-                <TableCell align="right">{row.createdAt}</TableCell>
-                <TableCell align="right">
-                  <Button startIcon={<AutoFixHighIcon />} variant="outlined" />
-                </TableCell>
-                <TableCell align="right">
-                  <Button
-                    startIcon={<DeleteIcon />}
-                    variant="outlined"
-                    onClick={() => deleteActiviti(row.id)}
-                  />
-                </TableCell>
-              </TableRow>
+              <>
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.image}</TableCell>
+                  <TableCell align="right">{row.createdAt}</TableCell>
+                  <TableCell align="right">
+                    <Link to={`/balckoffice/activities/create/${row.id}`}>
+                      <Button
+                        startIcon={<AutoFixHighIcon />}
+                        variant="outlined"
+                      />
+                    </Link>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      startIcon={<DeleteIcon />}
+                      variant="outlined"
+                      onClick={() => deleteActiviti(row.id)}
+                    />
+                  </TableCell>
+                </TableRow>
+              </>
             ))}
           </TableBody>
         </Table>

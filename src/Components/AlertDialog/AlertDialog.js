@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AlertDialog({ history }) {
+export default function AlertDialog({ message }) {
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
@@ -20,10 +20,10 @@ export default function AlertDialog({ history }) {
         aria-labelledby="alert-dialog-title"
         open={open}
         onClose={handleClose}>
-        <DialogTitle id="alert-dialog-title">{'Alert Error!!!'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'errorMessage'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {history}
+            {message}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

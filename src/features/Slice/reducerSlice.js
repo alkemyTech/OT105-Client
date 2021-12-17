@@ -1,4 +1,4 @@
-import * as slidesServices from '../Services/slidesService';
+import * as slidesServices from '../../Services/slidesService';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const slidesInitialState = {

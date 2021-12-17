@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import '../FormStyles.css';
@@ -11,6 +10,7 @@ import Button from '@mui/material/Button';
 import CardHeader from '@mui/material/CardHeader';
 import { Alert } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
+import { createMember, editMember, getMemberById } from '../../Services/membersService';
 
 const thumb = {
   display: 'inline-flex',
@@ -25,8 +25,7 @@ const thumb = {
 
 function MembersCreateEdit() {
   const { id } = useParams();
-  const urlEdit = `http://ongapi.alkemy.org/public/api/members/${id}`;
-  const urlCreate = `http://ongapi.alkemy.org/public/api/members`;
+  const [apiResponse, setApiResponse] = useState({});
   const [initialValues, setInitialValues] = useState({
     name: '',
     image: '',
@@ -66,7 +65,6 @@ function MembersCreateEdit() {
 
   useEffect(
     () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
       files.forEach((file) => URL.revokeObjectURL(file.preview));
     },
     [files],
@@ -92,64 +90,37 @@ function MembersCreateEdit() {
     const datosConEtiquetas = initialValues.description;
     const datosSinEtiquetas = datosConEtiquetas.replace(/<[^>]+>/g, '');
 
-    if (!id) {
-      axios
-        .post(urlCreate, {
-          name: initialValues.name,
-          image: initialValues.image,
-          description: datosSinEtiquetas,
-          facebookUrl: initialValues.facebookUrl,
-          linkedinUrl: initialValues.linkedinUrl,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            // eslint-disable-next-line no-console
-            alert('Create member successfully');
-
-            return initialValues;
-          }
-        })
-        // eslint-disable-next-line no-console
-        .catch((e) => console.log(e));
-    }
+    
     if (id) {
-      axios
-        .post(urlEdit, {
-          name: initialValues.name,
-          image: initialValues.image,
-          description: datosSinEtiquetas,
-          facebookUrl: initialValues.facebookUrl,
-          linkedinUrl: initialValues.linkedinUrl,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            // eslint-disable-next-line no-console
-            alert('Edit member successfully');
-
-            return setInitialValues(initialValues);
-          }
-        })
-        .catch((e) => alert(e));
-    }
+      const body = {
+        name: initialValues.name,
+        image: initialValues.image,
+        description: datosSinEtiquetas,
+        facebookUrl: initialValues.facebookUrl,
+        linkedinUrl: initialValues.linkedinUrl,
+      };
+        createMember(id, body).then((resp) => setApiResponse(resp.data));
+      } else {
+        editMember(body).then((resp) => setApiResponse(resp.data)); 
   };
 
-  useEffect(() => {
-    const dataEdit = async () => {
-      if (id) {
-        const initialData = await axios.get(urlEdit),
-          { name, image, description, facebookUrl, linkedinUrl } =
-            initialData.data.data;
+  const dataEdit = async () => {
+    if (id) {
+      const initialData = getMemberById(id);
+        { name, image, description, facebookUrl, linkedinUrl } =
+          initialData;
 
-        if (name) setInitialValues({ ...initialValues, name: name });
-        if (image) setInitialValues({ ...initialValues, image: image });
-        if (description)
-          setInitialValues({ ...initialValues, description: description });
-        if (facebookUrl)
-          setInitialValues({ ...initialValues, facebookUrl: facebookUrl });
-        if (linkedinUrl)
-          setInitialValues({ ...initialValues, linkedinUrl: linkedinUrl });
-      }
-    };
+      if (initialData.name) setInitialValues({ ...initialValues, name: initialData.name });
+      if (initialData.image) setInitialValues({ ...initialValues, image: initialData.image });
+      if (initialData.description)
+        setInitialValues({ ...initialValues, description: initialData.description });
+      if (initialData.facebookUrl)
+        setInitialValues({ ...initialValues, facebookUrl: initialData.facebookUrl });
+      if (initialData.linkedinUrl)
+        setInitialValues({ ...initialValues, linkedinUrl: initialData.linkedinUrl });
+    }
+  };
+  useEffect(() => {
 
     dataEdit();
   });

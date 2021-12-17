@@ -8,11 +8,23 @@ import SwiperCore, {
 } from 'swiper';
 import 'swiper/swiper-bundle.css';
 import s from '../../Styles/ToysCampaign/Slider.module.css';
-import image1 from '../../assets/foto5.jpg';
+import image1 from '../../assets/foto9.jpg';
 import image2 from '../../assets/foto8.jpg';
-import image3 from '../../assets/foto7.jpg';
+import image3 from '../../assets/foto3.jpg';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, EffectCube]);
+
+const toysCampaignSlidesInfo = [
+  { slideImage: image1, slideText: 'Regala alegría a nuestros niños' },
+  {
+    slideImage: image2,
+    slideText: 'Tendremos juegos y actividades para ellos',
+  },
+  {
+    slideImage: image3,
+    slideText: 'También puedes donar para el viaje de sus sueños',
+  },
+];
 
 const Slider = () => {
   return (
@@ -21,36 +33,22 @@ const Slider = () => {
         autoplay={{ delay: 5000 }}
         className={s.swiperContainer}
         centeredSlides={true}
-        effect="cube"
         loop={true}
+        effect="cube"
         navigation
         slidesPerView={1}
         tag="section"
         wrapperTag="div">
-        <SwiperSlide tag="div">
-          <div className={s.slideContainer}>
-            <img className={s.slideImage} src={image1} />
-            <div className={s.slideTextContainer}>
-              <p className={s.slideText}>Texto para el titulo aqui</p>
+        {toysCampaignSlidesInfo.map((slide, i) => (
+          <SwiperSlide key={i} tag="div">
+            <div className={s.slideContainer}>
+              <img className={s.slideImage} src={slide.slideImage} />
+              <div className={s.slideTextContainer}>
+                <p className={s.slideText}>{slide.slideText}</p>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide tag="li">
-          <div className={s.slideContainer}>
-            <img className={s.slideImage} src={image2} />
-            <div className={s.slideTextContainer}>
-              <p className={s.slideText}>Texto para el titulo aqui</p>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide tag="li">
-          <div className={s.slideContainer}>
-            <img className={s.slideImage} src={image1} />
-            <div className={s.slideTextContainer}>
-              <p className={s.slideText}>Texto para el titulo aqui</p>
-            </div>
-          </div>
-        </SwiperSlide>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

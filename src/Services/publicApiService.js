@@ -39,4 +39,3 @@ const publicPost = async (url, body) => {
 };
 
 export { publicGet, publicPost };
-

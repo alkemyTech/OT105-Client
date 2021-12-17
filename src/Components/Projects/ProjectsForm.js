@@ -8,7 +8,7 @@ import CardHeader from '@mui/material/CardHeader';
 import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { dropzoneConfig, isEmptyList } from '../../utils/index';
+import { dropzoneConfig, isEmptyList } from '../../Utils/index';
 import { createOrUpdateProject } from '../../Services/projectService';
 import { useDropzone } from 'react-dropzone';
 import '../FormStyles.css';

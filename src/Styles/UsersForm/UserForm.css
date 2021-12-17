@@ -1,0 +1,17 @@
+.user__custom_dropzone {
+
+    align-items: center;
+    background-color: #fafafa;
+    border-color: #eeeeee;
+    border-radius: 2px;
+    border-style: dashed;
+    border-width: 2px;
+    color: #bdbdbd;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    outline: none;
+    padding: 20px;
+    transition: border .24s ease-in-out;
+
+}

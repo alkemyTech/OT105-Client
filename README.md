@@ -32,3 +32,5 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Component Progress
 
 Folder is located in 'Loading/UserLoading.js'. To implement it's used with a typical React component, it's made purely with Material-UI.
+
+[link for more details]: Documentation/loaderIndicator.md

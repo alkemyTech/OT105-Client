@@ -34,3 +34,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 Folder is located in 'Loading/UserLoading.js'. To implement it's used with a typical React component, it's made purely with Material-UI.
 
 [link for more details]: Documentation/loaderIndicator.md
+
+## Custom Components/Services:
+
+### [Alerts](Documentation/Alerts/README.md)
+### [Loader](Documentation/Loader/Loader.md)
+

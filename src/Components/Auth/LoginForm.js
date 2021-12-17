@@ -1,33 +1,131 @@
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  Container,
+  FormControl,
+  Input,
+  InputAdornment,
+  InputLabel,
+} from '@mui/material';
+import {
+  containsSixCharacters,
+  containsOneNumber,
+  containSpecialCharacter,
+  containsOneLetter,
+  validEmail,
+} from '../../Utils/Validations/userValidations';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import '../FormStyles.css';
+const validate = (values) => {
+  let errors = {};
+
+  if (!values.password) {
+    errors.password = 'required!';
+  } else if (containsSixCharacters(values.password)) {
+    errors.password = 'at least 6 characters';
+  } else if (!containsOneNumber(values.password)) {
+    errors.password = 'at least 1 number';
+  } else if (!containSpecialCharacter(values.password)) {
+    errors.password = 'at least 1 special character';
+  } else if (!containsOneLetter(values.password)) {
+    errors.password = 'at least 1 letter';
+  }
+  if (!values.email) {
+    errors.email = 'required!';
+  } else if (!validEmail(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  return errors;
+};
 
 const LoginForm = () => {
-    const [initialValues, setInitialValues] = useState({
+  const [userValues, setUserValues] = useState({
+    email: '',
+    password: '',
+  });
+  const SignupForm = () => {
+    const formik = useFormik({
+      initialValues: {
         email: '',
-        password: ''
+        password: '',
+      },
+      validate,
+      onSubmit: (values) => {
+        setUserValues({
+          ...userValues,
+          email: values.email,
+          password: values.password,
+        });
+      },
     });
-
-    const handleChange = (e) => {
-        if(e.target.name === 'email'){
-            setInitialValues({...initialValues, email: e.target.value})
-        } if(e.target.name === 'password'){
-            setInitialValues({...initialValues, password: e.target.value})
-        }
-    }
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(initialValues);
-        localStorage.setItem('token', 'tokenValueExample')
-    }
+    const showErrors = (errorAttribute) => {
+      if (formik.touched[errorAttribute] && formik.errors[errorAttribute]) {
+        return (
+          <Alert align="justify" severity="warning" sx={{ width: '23rem' }}>
+            <AlertTitle> Warning </AlertTitle>
+            {formik.errors[errorAttribute]}
+          </Alert>
+        );
+      }
+    };
 
     return (
-        <form className="form-container" onSubmit={handleSubmit}>
-            <input className="input-field" type="text" name="email" value={initialValues.name} onChange={handleChange} placeholder="Enter email"></input>
-            <input className="input-field" type="text" name="password" value={initialValues.password} onChange={handleChange} placeholder="Enter password"></input>
-            <button className="submit-btn" type="submit">Log In</button>
-        </form>
+      <form className="login-user-form" onSubmit={formik.handleSubmit}>
+        <FormControl margin="dense" sx={{ width: '25rem' }}>
+          <InputLabel htmlFor="email">Email Address</InputLabel>
+          <Input
+            id="email"
+            margin="dense"
+            name="email"
+            placeholder="Email"
+            startAdornment={
+              <InputAdornment position="start">
+                <EmailOutlinedIcon />
+              </InputAdornment>
+            }
+            type="email"
+            value={formik.values.email}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {showErrors('email')}
+        </FormControl>
+        <FormControl sx={{ width: '25rem' }}>
+          <InputLabel htmlFor="password">password</InputLabel>
+          <Input
+            id="password"
+            margin="dense"
+            name="password"
+            placeholder="password"
+            startAdornment={
+              <InputAdornment position="start">
+                <VisibilityOutlinedIcon />
+              </InputAdornment>
+            }
+            type="password"
+            value={formik.values.password}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {showErrors('password')}
+        </FormControl>
+        <Button className="submit-btn" type="submit" variant="contained">
+          Login
+        </Button>
+      </form>
     );
-}
- 
+  };
+
+  return (
+    <Container maxWidth="sm">
+      <SignupForm />
+    </Container>
+  );
+};
+
 export default LoginForm;

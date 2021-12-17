@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const MEMBERS_URL = 'http://ongapi.alkemy.org/api/members';
+const MEMBERS_URL = process.env.REACT_APP_MEMBERS_URL;
 
 const getAllMembers = async () => {
   try {

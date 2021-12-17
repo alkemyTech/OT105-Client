@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-
-const TESTIMONIAL_URL = process.env.GET_CATEGORY_ALL;
+const TESTIMONIAL_URL = process.env.REACT_APP_MEMBERS_URL;
 
 export const createOrEditTestimonial = (id, body) => {
   if (id) {

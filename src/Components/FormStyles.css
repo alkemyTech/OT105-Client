@@ -1,6 +1,8 @@
 .bckg {
   background-color: #9ac9fb;
-  padding-block: 4rem;
+  height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .form-container {

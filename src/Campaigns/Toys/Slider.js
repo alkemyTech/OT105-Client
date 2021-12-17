@@ -30,12 +30,12 @@ const Slider = () => {
   return (
     <>
       <Swiper
-        autoplay={{ delay: 5000 }}
-        className={s.swiperContainer}
-        centeredSlides={true}
-        loop={true}
-        effect="cube"
         navigation
+        autoplay={{ delay: 5000 }}
+        centeredSlides={true}
+        className={s.swiperContainer}
+        effect="cube"
+        loop={true}
         slidesPerView={1}
         tag="section"
         wrapperTag="div">

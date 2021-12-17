@@ -1,0 +1,32 @@
+.swiperContainer {
+  width: 95%;
+}
+
+.slideContainer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.slideImage {
+  width: 100%;
+}
+
+.slideText {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .slideText {
+    display: block;
+    text-align: center;
+  }
+
+  .swiperContainer {
+    width: 50%;
+  }
+
+  .slideImage {
+    width: 80%;
+    margin: 0 auto;
+  }
+}

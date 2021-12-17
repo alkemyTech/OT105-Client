@@ -47,6 +47,12 @@ const Backoffice_ListCategories = () => {
     }
   };
 
+  const editcategory = (id) => {
+    const isedit = window.confirm(
+      `Estas seguro de querer editar la categoria "${id}"`,
+    );
+  };
+
   return (
     <div className="list-container">
       <TableContainer component={Paper}>
@@ -60,7 +66,7 @@ const Backoffice_ListCategories = () => {
               <StyledTableCell align="right">
                 <Button
                   color="error"
-                  href="/backoffice/categories/create"
+                  href="/create-category"
                   variant="contained">
                   Create
                 </Button>
@@ -76,8 +82,10 @@ const Backoffice_ListCategories = () => {
                 <StyledTableCell align="right">{row.createdAt}</StyledTableCell>
                 <StyledTableCell align="right">
                   <Button
+                    href={`/create-category/${row.id}`}
                     startIcon={<EditIcon color="primary" />}
                     variant="outlined"
+                    onClick={() => editcategory(row.id)}
                   />
                 </StyledTableCell>
                 <StyledTableCell align="right">

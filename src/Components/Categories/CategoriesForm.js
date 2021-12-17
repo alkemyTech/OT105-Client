@@ -4,15 +4,21 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
+import { useParams } from 'react-router-dom';
+
 import {
-  createCategorie,
-  editCategorie,
+  getCategoryOrCategories,
+  createCategory,
+  editCategory,
+  deleteCategory,
+  URLImageToBlob,
 } from '../../Services/CategoriesService';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
 
-const CategoriesForm = ({ id }) => {
+const CategoriesForm = () => {
+  const { id } = useParams();
   const [categoryDescription, setCategoryDescription] = useState('');
   const [image, setImage] = useState('');
   const [base64ImageFile, setBase64ImageFile] = useState('');
@@ -20,15 +26,23 @@ const CategoriesForm = ({ id }) => {
   const [apiResponse, setApiResponse] = useState({});
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
-  const getCategory = () => ({
-    name: 'Categories Test ',
-    categoryDescription: 'Test text',
-    image: '',
-  });
+  const getCategory = async () => {
+    const resp = await getCategoryOrCategories(id);
+
+    URLImageToBlob(resp.image).then((res) => {
+      const data = res;
+
+      setImage(data);
+      setBase64ImageFile(data);
+    });
+
+    return resp;
+  };
 
   const handleDrop = (acceptedFiles, fileRejections) => {
     const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
 
+    console.log(imageFileWithPreview);
     setImage(imageFileWithPreview);
     if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
   };
@@ -90,10 +104,12 @@ const CategoriesForm = ({ id }) => {
   const isEditingMode = () => id !== undefined;
 
   const updateCategorieswithCurrentData = () => {
-    const currentCategories = getCategory();
+    getCategory().then((res) => {
+      const currentCategories = res;
 
-    formik.values.name = currentCategories.name;
-    setCategoryDescription(currentCategories.categoryDescription);
+      formik.values.name = currentCategories.name;
+      setCategoryDescription(currentCategories.description);
+    });
   };
 
   const handleCKeditorChange = (e, editor) =>
@@ -129,9 +145,9 @@ const CategoriesForm = ({ id }) => {
     };
 
     if (id) {
-      editCategorie(id, body).then((resp) => setApiResponse(resp.data));
+      editCategory(id, body).then((resp) => setApiResponse(resp.data));
     } else {
-      createCategorie(body).then((resp) => setApiResponse(resp.data));
+      createCategory(body).then((resp) => setApiResponse(resp.data));
     }
   };
 
@@ -181,7 +197,10 @@ const CategoriesForm = ({ id }) => {
           <div className="thumb">
             <div className="thumbInner">
               {listHasValues(image) && (
-                <img className="thumb-image" src={image[0].preview} />
+                <img
+                  className="thumb-image"
+                  src={id ? base64ImageFile : image[0].preview}
+                />
               )}
             </div>
           </div>

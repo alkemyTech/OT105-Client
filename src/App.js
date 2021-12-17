@@ -38,6 +38,10 @@ function App() {
           {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
           <Route component={ActivitiesForm} path="/create-activity" />
           <Route component={FormContact} path="/form-contact" />
+          <Route
+            path="/create-category/:id"
+            render={() => <CategoriesForm />}
+          />
           <Route path="/create-category" render={() => <CategoriesForm />} />
           <Route component={Activities} path="/Actividades" />
           <Route component={Organization} path="/backoffice/organization" />

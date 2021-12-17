@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { emailRegex } from '../../Utils';
-import { TextField, Box, Button, Alert, Typography } from '@mui/material';
+import {
+  TextField,
+  Box,
+  Button,
+  Alert,
+  Typography,
+  Paper,
+} from '@mui/material';
 import '../FormStyles.css';
 import {
   sendContactData,
@@ -74,77 +81,84 @@ const FormContact = ({ id }) => {
   };
 
   return (
-    <Box
-      noValidate
-      className="form-container"
-      component="form"
-      onSubmit={formik.handleSubmit}>
-      <Typography component="div" variant="h5">
-        Name
-      </Typography>
-
-      <TextField
-        autoComplete="off"
-        label="Name"
-        name="name"
-        type="text"
-        value={formik.values.name}
-        variant="outlined"
-        onChange={formik.handleChange}
-      />
-
-      {formik.errors.name && showErrorMessage(formik.errors.name)}
-
-      <Typography component="div" variant="h5">
-        Email
-      </Typography>
-
-      <TextField
-        autoComplete="off"
-        label="Email"
-        name="email"
-        type="email"
-        value={formik.values.email}
-        variant="outlined"
-        onChange={formik.handleChange}
-      />
-
-      {formik.errors.email && showErrorMessage(formik.errors.email)}
-      <Typography component="div" variant="h5">
-        Phone
-      </Typography>
-
-      <TextField
-        autoComplete="off"
-        label="Phone"
-        name="phone"
-        type="text"
-        value={formik.values.phone}
-        variant="outlined"
-        onChange={formik.handleChange}
-      />
-
-      {formik.errors.phone && showErrorMessage(formik.errors.phone)}
-      <Typography component="div" variant="h5">
-        Message
-      </Typography>
-
-      <TextField
-        autoComplete="off"
-        label="Message"
-        name="message"
-        type="text"
-        value={formik.values.message}
-        variant="outlined"
-        onChange={formik.handleChange}
-      />
-
-      {formik.errors.message && showErrorMessage(formik.errors.message)}
-
-      <Button className="submit-btn" type="submit" variant="contained">
-        Enviar
-      </Button>
-    </Box>
+    <div className="bckg">
+      <Box
+        noValidate
+        className="form-container"
+        component="form"
+        onSubmit={formik.handleSubmit}>
+        <Paper
+          elevation={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '3rem',
+            gap: '2rem',
+          }}>
+          <Typography component="div" variant="h5">
+            Nombre
+          </Typography>
+          <TextField
+            autoComplete="off"
+            name="name"
+            placeholder="Dante"
+            type="text"
+            value={formik.values.name}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.errors.name && showErrorMessage(formik.errors.name)}
+          <Typography component="div" variant="h5">
+            Email
+          </Typography>
+          <TextField
+            autoComplete="off"
+            name="email"
+            placeholder="ejemplo@ejemplo.com"
+            type="email"
+            value={formik.values.email}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.errors.email && showErrorMessage(formik.errors.email)}
+          <Typography component="div" variant="h5">
+            Teléfono
+          </Typography>
+          <TextField
+            autoComplete="off"
+            name="phone"
+            placeholder="1234-5678"
+            type="text"
+            value={formik.values.phone}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.errors.phone && showErrorMessage(formik.errors.phone)}
+          <Typography component="div" variant="h5">
+            Mensaje
+          </Typography>
+          <TextField
+            autoComplete="off"
+            name="message"
+            placeholder="Escriba su mensaje aquí..."
+            type="text"
+            value={formik.values.message}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.errors.message && showErrorMessage(formik.errors.message)}
+          <Button
+            className="submit-btn"
+            sx={{
+              width: { xs: '100%', sm: '200px' },
+            }}
+            type="submit"
+            variant="contained">
+            Enviar
+          </Button>
+        </Paper>
+      </Box>
+    </div>
   );
 };
 

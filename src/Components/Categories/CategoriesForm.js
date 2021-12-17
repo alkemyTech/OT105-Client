@@ -7,12 +7,12 @@ import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 
 import {
-  getCategoryOrCategories,
+  getCategories,
   createCategory,
   editCategory,
   deleteCategory,
-  URLImageToBlob,
 } from '../../Services/CategoriesService';
+import { URLImageToBlob } from '../../Services/imageService';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
@@ -27,7 +27,7 @@ const CategoriesForm = () => {
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
   const getCategory = async () => {
-    const resp = await getCategoryOrCategories(id);
+    const resp = await getCategories(id);
 
     URLImageToBlob(resp.image).then((res) => {
       const data = res;

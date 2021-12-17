@@ -3,7 +3,7 @@ import es from 'date-fns/locale/es';
 
 const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
 
-const getCategoryOrCategories = async (categorieId) => {
+const getCategories = async (categorieId) => {
   try {
     if (categorieId == null) {
       const res = await axios.get(CATEGORIES_URL);
@@ -88,11 +88,4 @@ const URLImageToBlob = async (URLImage) => {
   }
 };
 
-export {
-  imgToBase64,
-  URLImageToBlob,
-  getCategoryOrCategories,
-  createCategory,
-  editCategory,
-  deleteCategory,
-};
+export { getCategories, createCategory, editCategory, deleteCategory };

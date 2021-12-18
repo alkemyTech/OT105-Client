@@ -40,7 +40,7 @@ function About() {
               alimentación y trabajo social.&nbsp;
             </p>
           </Typography>
-          <Typography variant="h3">{'Miembros del equipo'}</Typography>
+          <Typography variant="h3">{'Miembros del Team'}</Typography>
           <MembersList />
           <Typography variant="h3">{'Ultimos tweets '}</Typography>
           <Box

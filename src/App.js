@@ -31,6 +31,7 @@ import Donations from './Components/Donations/Donations';
 import Thanks from './Components/Donations/Thanks';
 import Error404 from './Components/Error404/Error404';
 import HomeScreen from './Components/Home';
+import Footer from './Components/Footer/Footer';
 
 function App() {
   return (
@@ -107,6 +108,7 @@ function App() {
           <Route component={Thanks} path="/thanks" />
           <Route component={Error404} path="*" />
         </Switch>
+        <Footer />
       </BrowserRouter>
     </>
   );

@@ -3,13 +3,15 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
 import Title from '../Title/Title';
+import { getWelcomeMessage } from '../../Services/homeService';
 
 const HomeScreen = () => {
   const [title, setTitle] = useState(null);
-  const titleMockup = 'Home Component';
 
   useEffect(() => {
-    setTitle(titleMockup);
+    getWelcomeMessage().then((message) => {
+      setTitle(message);
+    });
   }, []);
 
   return (

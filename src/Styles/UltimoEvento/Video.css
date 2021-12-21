@@ -1,7 +1,7 @@
 .player-wrapper {
     width: 100%;
     position: relative;
-    margin: 120px auto;
+    margin: auto;
     justify-content: center;
     display: flex;
   }

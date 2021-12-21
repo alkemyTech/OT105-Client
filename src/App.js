@@ -13,6 +13,7 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import BackofficeListActivities from './Components/Activities/BackofficeListActivities';
 import NewsCreateEdit from './Components/News/NewsCreateEdit';
 import MembersCreateEdit from './Components/Members/MembersCreateEdit';
 import FormContact from './Components/Contact/FormContact';
@@ -39,6 +40,11 @@ function App() {
         <Switch>
           <Route exact component={HomeScreen} path="/" />
           <Route component={ActivitiesForm} path="/create-activity" />
+          <Route
+            component={BackofficeListActivities}
+            path="/backoffice/activities"
+          />
+          <Route component={CategoriesForm} path="/create-category" />
           <Route component={FormContact} path="/form-contact" />
           <Route
             path="/create-category/:id"

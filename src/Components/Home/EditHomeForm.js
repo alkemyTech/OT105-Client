@@ -9,19 +9,21 @@ import Swal from 'sweetalert2';
 import {
   Button,
   Typography,
+  Alert,
   Container,
   TextField,
   Paper,
   Stack,
 } from '@mui/material';
-import s from '../../Styles/EditHomeForm.module.css';
 import SlidesForm from '../Slides/SlidesForm';
 import {
-  containerStyles,
   formStyles,
   paperStyles,
+  containerStyles,
+  slidesContainer,
 } from '../../Styles/EditHomeFormStyles';
 import { productSansFont, sourceSerifProFont } from '../../Styles/fontStyles';
+import '../FormStyles.css';
 
 const validationSchema = Yup.object({
   welcomeText: Yup.string()
@@ -62,75 +64,104 @@ const EditHomeForm = () => {
     onSubmit: onFormikSubmit,
   });
 
+  const showErrorMessage = (errorMessage) => {
+    return <Alert severity="warning"> {errorMessage} </Alert>;
+  };
+
   return (
-    <Container maxWidth="md" sx={containerStyles}>
-      <Typography color="initial" sx={productSansFont} variant="h3">
-        Editar página de inicio
-      </Typography>
-      <Paper
-        elevation={3}
-        sx={{
-          padding: '2rem',
-          marginBlock: '4rem',
-        }}>
-        <form sx={formStyles} onSubmit={formik.handleSubmit}>
-          <Stack spacing={5}>
-            <TextField
-              autoFocus
-              fullWidth
-              error={
-                formik.touched.welcomeText && Boolean(formik.errors.welcomeText)
-              }
-              helperText={
-                formik.touched.welcomeText && formik.errors.welcomeText
-              }
-              id="welcomeText"
-              label="Texto de bienvenida"
-              value={formik.values.welcomeText}
-              variant="standard"
-              onChange={formik.handleChange}
-            />
-            <Button color="primary" type="submit" variant="outlined">
-              Cambiar texto de bienvenida
-            </Button>
-          </Stack>
-        </form>
-      </Paper>
-
-      <Stack spacing={5}>
-        <Paper elevation={3} sx={paperStyles}>
-          <Typography
-            align="center"
-            color="initial"
-            sx={sourceSerifProFont}
-            variant="h4">
-            Slide 1
-          </Typography>
-          <SlidesForm />
+    <div className="bckg">
+      <div style={containerStyles}>
+        <Typography
+          align="center"
+          color="initial"
+          sx={productSansFont}
+          variant="h3">
+          Editar página de inicio
+        </Typography>
+        <Paper
+          elevation={3}
+          sx={{
+            padding: '2rem',
+            marginBlock: '4rem',
+            width: {
+              s: '300px',
+              md: '600px',
+            },
+            justifySelf: 'center',
+            alignSelf: 'center',
+          }}>
+          <form sx={formStyles} onSubmit={formik.handleSubmit}>
+            <Stack spacing={5}>
+              <TextField
+                autoFocus
+                fullWidth
+                error={
+                  formik.touched.welcomeText &&
+                  Boolean(formik.errors.welcomeText)
+                }
+                id="welcomeText"
+                placeholder="Texto de bienvenida"
+                value={formik.values.welcomeText}
+                variant="outlined"
+                onChange={formik.handleChange}
+              />
+              {formik.touched.welcomeText &&
+                formik.errors.welcomeText &&
+                showErrorMessage(formik.errors.welcomeText)}
+              <Button
+                className="submit-btn"
+                sx={{
+                  width: { xs: '100%', sm: '300px' },
+                }}
+                type="submit"
+                variant="contained">
+                Cambiar texto de bienvenida
+              </Button>
+            </Stack>
+          </form>
         </Paper>
-        <Paper elevation={3} sx={paperStyles}>
-          <Typography
-            align="center"
-            color="initial"
-            sx={sourceSerifProFont}
-            variant="h4">
-            Slide 2
-          </Typography>
-          <SlidesForm />
-        </Paper>
-
-        <Paper elevation={3} sx={paperStyles}>
-          <Typography
-            align="center"
-            color="initial"
-            sx={sourceSerifProFont}
-            variant="h4">
-            Slide 3
-          </Typography>
-          <SlidesForm />
-        </Paper>
-      </Stack>
-    </Container>
+        <Container
+          style={slidesContainer}
+          sx={{
+            padding: '0',
+            gridTemplateColumns: {
+              xs: '1fr',
+              lg: '1fr 1fr 1fr',
+            },
+          }}>
+          <Paper elevation={3} sx={paperStyles}>
+            <Typography
+              align="center"
+              color="initial"
+              sx={sourceSerifProFont}
+              variant="h4">
+              Slide 1
+            </Typography>
+            <SlidesForm />
+          </Paper>
+          <Paper elevation={3} sx={paperStyles}>
+            <Typography
+              align="center"
+              color="initial"
+              sx={sourceSerifProFont}
+              variant="h4">
+              Slide 2
+            </Typography>
+            <SlidesForm />
+          </Paper>
+          <Paper elevation={3} sx={paperStyles}>
+            <Typography
+              align="center"
+              color="initial"
+              sx={sourceSerifProFont}
+              variant="h4">
+              Slide 3
+            </Typography>
+            <SlidesForm />
+          </Paper>
+        </Container>
+      </div>
+    </div>
   );
 };
 

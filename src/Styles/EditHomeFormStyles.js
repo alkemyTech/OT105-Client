@@ -6,9 +6,22 @@ const formStyles = {
 };
 
 const paperStyles = {
-  padding: '2rem',
+  paddingInline: { xs: '0.2rem', sm: '0.5rem' },
+  paddingTop: '2rem',
+  maxWidth: { xs: '275px', sm: '350px' },
 };
 
-const containerStyles = { marginBlock: '4rem' };
+const containerStyles = {
+  width: '100%',
+  margin: '0 auto',
+  display: 'flex',
+  flexDirection: 'column',
+};
 
-export { formStyles, paperStyles, containerStyles };
+const slidesContainer = {
+  display: 'grid',
+  justifyItems: 'center',
+  gap: '1rem',
+};
+
+export { formStyles, paperStyles, containerStyles, slidesContainer };

@@ -1,5 +1,5 @@
 import React from 'react';
-import './footer.css';
+import '../../Styles/footerToys.css';
 import Fab from '@mui/material/Fab';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';

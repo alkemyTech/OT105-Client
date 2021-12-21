@@ -13,6 +13,7 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import BackofficeListActivities from './Components/Activities/BackofficeListActivities';
 import NewsCreateEdit from './Components/News/NewsCreateEdit';
 import MembersCreateEdit from './Components/Members/MembersCreateEdit';
 import FormContact from './Components/Contact/FormContact';
@@ -31,6 +32,7 @@ import Donations from './Components/Donations/Donations';
 import Thanks from './Components/Donations/Thanks';
 import Error404 from './Components/Error404/Error404';
 import HomeScreen from './Components/Home';
+import Backoffice_ListCategories from './Components/Categories/Backoffice_ListCategories';
 
 function App() {
   return (
@@ -39,6 +41,16 @@ function App() {
         <Switch>
           <Route exact component={HomeScreen} path="/" />
           <Route component={ActivitiesForm} path="/create-activity" />
+          <Route
+            component={BackofficeListActivities}
+            path="/backoffice/activities"
+          />
+
+          <Route
+            component={Backoffice_ListCategories}
+            path="/backoffice/categories"
+          />
+          <Route component={CategoriesForm} path="/create-category" />
           <Route component={FormContact} path="/form-contact" />
           <Route
             path="/create-category/:id"

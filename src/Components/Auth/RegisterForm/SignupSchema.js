@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { passwordRegex, repasswordRegex } from '../../../utils/constants';
+import { passwordRegex, repasswordRegex } from '../../../Utils/constants';
 
 export const SignupSchema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),

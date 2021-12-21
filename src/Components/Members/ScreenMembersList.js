@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MemberRow from './MemberRow';
+import { SearchMembersForm } from './SearchMembersForm';
 import styles from '../../Styles/ScreenMembersListStyles';
 import {
   Typography,
@@ -12,9 +13,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Avatar,
-  Button,
-  ButtonGroup,
   Box,
   Fab,
   CircularProgress,
@@ -86,7 +84,8 @@ const ScreenMembersList = () => {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ marginTop: '2rem' }}>
+      <Container maxWidth="md" sx={{ marginTop: '2rem' }}>
+        <SearchMembersForm />
         <Box
           alignItems="center"
           display="flex"

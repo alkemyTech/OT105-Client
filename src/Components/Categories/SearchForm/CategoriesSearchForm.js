@@ -1,12 +1,19 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
+import {
+  getCategories,
+  getCategoriesbyTerm,
+} from '../../../Services/CategoriesService';
+import style from '../../../Styles/Categories/CategoriesSearch/CategoriesSearchForm.module.css';
 
-const CategoriesSearchForm = () => {
+const CategoriesSearchForm = ({ setCategories }) => {
   const handleChange = (e) => {
     if (e.target.value.length > 2) {
-      console.log('Busqueda por termino');
+      const searchTerm = e.target.value;
+
+      getCategoriesbyTerm(searchTerm).then((data) => setCategories(data));
     } else {
-      console.log('Busqueda generica');
+      getCategories().then((data) => setCategories(data));
     }
   };
 
@@ -22,17 +29,18 @@ const CategoriesSearchForm = () => {
 
       timeoutId = setTimeout(() => {
         fn.apply(context, args);
-      }, 500);
+      }, 300);
     };
   };
 
   const debouncedHandleChange = debounceFn(handleChange);
 
   return (
-    <div>
+    <div className={style.searchBarContainer}>
       <TextField
-        id="outlined-basic"
-        label="Buscar categoria"
+        sx={{ width: '100%' }}
+        autoComplete="off"
+        label="Filtrar categoria"
         variant="outlined"
         onChange={debouncedHandleChange}
       />

@@ -19,6 +19,18 @@ const getCategories = async (categorieId) => {
   }
 };
 
+const getCategoriesbyTerm = async (term) => {
+  try {
+    const response = await axios(`${CATEGORIES_URL}?search=${term}`);
+
+    return response.data.data;
+
+    //return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
 const createCategory = async (categorie) => {
   try {
     const res = await axios.post(CATEGORIES_URL, categorie);
@@ -88,4 +100,10 @@ const URLImageToBlob = async (URLImage) => {
   }
 };
 
-export { getCategories, createCategory, editCategory, deleteCategory };
+export {
+  getCategories,
+  createCategory,
+  editCategory,
+  deleteCategory,
+  getCategoriesbyTerm,
+};

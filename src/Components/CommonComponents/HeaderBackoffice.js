@@ -1,22 +1,58 @@
-import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
+import { useState } from 'react';
+import Sidebar from './SidebarBackoffice';
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  IconButton,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const HeaderBackoffice = () => {
+const drawerWidth = 240;
+
+const HeaderBackoffice = ({ children }) => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: '#9AC9FB' }}>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{ backgroundColor: '#9AC9FB', zIndex: { xl: '1201' } }}>
         <Toolbar sx={{ justifyContent: 'left' }}>
           <IconButton
             aria-label="menu"
             color="inherit"
             edge="start"
             size="large"
-            sx={{ mr: 2 }}>
+            sx={{ mr: 2, display: { xl: 'none' } }}
+            onClick={handleDrawerToggle}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h5">Backoffice</Typography>
         </Toolbar>
       </AppBar>
+      <Sidebar
+        drawerWidth={drawerWidth}
+        handleDrawerToggle={handleDrawerToggle}
+        isOpen={drawerOpen}
+      />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { xl: `calc(100% - ${drawerWidth}px)` },
+        }}>
+        <Toolbar />
+        {children}
+      </Box>
     </Box>
   );
 };

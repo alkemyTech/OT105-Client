@@ -32,6 +32,8 @@ import Donations from './Components/Donations/Donations';
 import Thanks from './Components/Donations/Thanks';
 import Error404 from './Components/Error404/Error404';
 import HomeScreen from './Components/Home';
+import CustomAppBar from './Components/CustomComponents/CustomAppBar/CustomAppBar';
+
 import Backoffice_ListCategories from './Components/Categories/Backoffice_ListCategories';
 
 function App() {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MemberRow from './MemberRow';
-import { SearchMembersForm } from './SearchMembersForm';
+import { MembersSearchForm } from './MembersSearchForm';
 import styles from '../../Styles/ScreenMembersListStyles';
 import {
   Typography,
@@ -35,18 +35,18 @@ const ScreenMembersList = () => {
   return (
     <>
       <Container maxWidth="md" sx={{ marginTop: '2rem' }}>
-        <SearchMembersForm
-          updateLoadingState={updateLoadingState}
-          updateMembersList={updateMembersList}
-        />
+        <Typography align="center" sx={{ marginBlock: '2rem' }} variant="h3">
+          Miembros
+        </Typography>
         <Box
           alignItems="center"
           display="flex"
           justifyContent="space-between"
-          sx={{ paddingInline: '1.3rem' }}>
-          <Typography sx={{ marginBlock: '2rem' }} variant="h3">
-            Miembros
-          </Typography>
+          sx={{ paddingInline: '1.3rem', paddingBlock: '2rem' }}>
+          <MembersSearchForm
+            updateLoadingState={updateLoadingState}
+            updateMembersList={updateMembersList}
+          />
           <Link to="/backoffice/members/create">
             <Fab aria-label="add" color="primary">
               <AddIcon />

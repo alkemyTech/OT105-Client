@@ -26,7 +26,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-export const SearchMembersForm = ({
+export const MembersSearchForm = ({
   updateMembersList,
   updateLoadingState,
 }) => {

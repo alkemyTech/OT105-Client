@@ -29,7 +29,7 @@ const CategoriesSearchForm = ({ setCategories }) => {
 
       timeoutId = setTimeout(() => {
         fn.apply(context, args);
-      }, 300);
+      }, 500);
     };
   };
 

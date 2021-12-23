@@ -5,6 +5,7 @@ import { Alert } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';
 import '../../Styles/UsersForm/CreateEditUserFormStyle.css';
+import Map from '../Maps/GoogleMaps';
 
 const UserForm = ({ user = null }) => {
   const [success, setSuccess] = useState({
@@ -15,6 +16,7 @@ const UserForm = ({ user = null }) => {
     name: '',
     email: '',
     roleId: '',
+    address: '',
   });
   const userValues = user
     ? { ...user, role: user.role_id }
@@ -24,6 +26,7 @@ const UserForm = ({ user = null }) => {
         password: '',
         role: '',
         image: '',
+        address: '',
       };
 
   const handleSubmit = async (values, formik) => {};
@@ -100,7 +103,15 @@ const UserForm = ({ user = null }) => {
 
           <label htmlFor="userImage">User image</label>
           <CustomDropzone setImage64={setImage} />
-
+          <label htmlFor="adress">Direccion</label>
+          <Field
+            className="input-field"
+            id="adress"
+            name="adress"
+            placeholder="User adress"
+            type="text"
+          />
+          <Map address={initialValues.address} />
           <button className="submit-btn" type="submit">
             {user ? 'Edit User' : 'Create User'}
           </button>

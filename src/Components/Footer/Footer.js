@@ -25,8 +25,6 @@ const Footer = () => {
           display: { xs: 'flex' },
           justifyContent: { xs: 'center' },
           alignItems: { xs: 'center' },
-          /*eslint no-dupe-keys: "error"*/
-          // justifyContent: { xs: 'space-evenly' },
           flexDirection: { xs: 'column' },
           backgroundColor: '#28527A',
           color: 'white',
@@ -36,8 +34,6 @@ const Footer = () => {
             display: { xs: 'grid', sm: 'flex' },
             justifyContent: { xs: 'center' },
             alignItems: { xs: 'center' },
-            /*eslint no-dupe-keys: "error"*/
-            // justifyContent: { xs: 'space-around' },
           }}>
           <Box
             sx={{

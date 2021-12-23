@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
+  Alert,
+  Box,
   Button,
+  Container,
   Paper,
   Table,
   TableBody,
   TableContainer,
   TableHead,
   TableRow,
-  Alert,
+  Toolbar,
+  Typography,
+  TableCell,
+  IconButton,
+  Tooltip,
+  TablePagination,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,6 +28,18 @@ import style from '../../Styles/Categories/CategoriesList/Backoffice_ListCategor
 
 const Backoffice_ListCategories = () => {
   const [categories, setCategories] = useState(null);
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const emptyRowsToAvoidLayoutJump =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
+
+  const rowHeight = 53;
+
   const deletecategory = (id) => {
     const isDelete = window.confirm(
       `Estas seguro de querer eliminar la categoria "${id}"`,
@@ -56,53 +77,84 @@ const Backoffice_ListCategories = () => {
       ) : null}
       <div>
         {listHasValues(categories) && (
-          <TableContainer component={Paper}>
-            <Table aria-label="caption table" sx={{ minWidth: 650 }}>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="center">Name</StyledTableCell>
-                  <StyledTableCell align="center">CreatedAt</StyledTableCell>
-                  <StyledTableCell align="center">Edit</StyledTableCell>
-                  <StyledTableCell align="center">Delete</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Button
-                      color="error"
-                      href="/create-category"
-                      variant="contained">
-                      Create
-                    </Button>
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {categories?.map((row) => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell align="center" component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.created_at}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Button
-                        href={`/create-category/${row.id}`}
-                        startIcon={<EditIcon color="primary" />}
-                        variant="outlined"
-                        onClick={() => editcategory(row.id)}
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Button
-                        startIcon={<DeleteIcon color="primary" />}
-                        variant="outlined"
-                        onClick={() => deletecategory(row.id)}
-                      />
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Container sx={{ my: '1rem' }}>
+            <Box>
+              <Paper>
+                <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
+                  <Typography
+                    component="div"
+                    id="tableTitle"
+                    sx={{ mr: 'auto' }}
+                    variant="h6">
+                    Categorias
+                  </Typography>
+                  <Button
+                    component={Link}
+                    to="/create-category"
+                    variant="contained">
+                    Nueva Categoria
+                  </Button>
+                </Toolbar>
+                <TableContainer component={Paper}>
+                  <Table aria-label="tableTitle" sx={{ minWidth: 650 }}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="left">Nombre</TableCell>
+                        <TableCell align="center">Creado</TableCell>
+                        <TableCell align="right">Acciones</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {categories.map((row) => (
+                        <StyledTableRow key={row.id} hover tabIndex={-1}>
+                          <StyledTableCell
+                            component="th"
+                            scope="row"
+                            align="left">
+                            {row.name}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {row.created_at}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            <Tooltip title="Editar">
+                              <IconButton
+                                component={Link}
+                                to={`/create-category/${row.id}`}
+                                variant="contained">
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Eliminar">
+                              <IconButton>
+                                <DeleteIcon color="error" />
+                              </IconButton>
+                            </Tooltip>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                      {emptyRowsToAvoidLayoutJump > 0 && (
+                        <TableRow
+                          style={{
+                            height: rowHeight * emptyRowsToAvoidLayoutJump,
+                          }}>
+                          <TableCell colSpan={3} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  component="div"
+                  count={categories.length}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  rowsPerPageOptions={[10]}
+                  onPageChange={handleChangePage}
+                />
+              </Paper>
+            </Box>
+          </Container>
         )}
       </div>
     </div>

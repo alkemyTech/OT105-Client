@@ -1,7 +1,7 @@
 import axios from 'axios';
 import es from 'date-fns/locale/es';
 
-const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
+export const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
 
 const getCategories = async (categorieId) => {
   try {

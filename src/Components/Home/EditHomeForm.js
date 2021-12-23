@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  editWelcomeMessage,
+  getWelcomeMessage,
+} from '../../Services/homeService';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
@@ -26,7 +30,18 @@ const validationSchema = Yup.object({
 });
 
 const EditHomeForm = () => {
-  const [welcomeText, setWelcomeText] = useState('');
+  const [welcomeMessage, setWelcomeMessage] = useState('');
+
+  useEffect(() => {
+    getWelcomeMessage().then((message) => {
+      setInitialWelcomeText(message);
+    });
+  }, []);
+
+  const setInitialWelcomeText = (welcomeText) => {
+    formik.values.welcomeText = welcomeText;
+    setWelcomeMessage(welcomeText);
+  };
 
   const onFormikSubmit = (values, { setSubmitting }) => {
     Swal.fire({
@@ -34,13 +49,14 @@ const EditHomeForm = () => {
       icon: 'success',
       confirmButtonText: 'Hecho',
     });
-    setWelcomeText(values.welcomeText);
+
+    editWelcomeMessage(values.welcomeText);
     setSubmitting(false);
   };
 
   const formik = useFormik({
     initialValues: {
-      welcomeText: '',
+      welcomeText: welcomeMessage,
     },
     validationSchema,
     onSubmit: onFormikSubmit,

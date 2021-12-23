@@ -1,7 +1,7 @@
 import axios from 'axios';
 import es from 'date-fns/locale/es';
 
-const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
+export const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
 
 const getCategories = async (categorieId) => {
   try {
@@ -14,6 +14,18 @@ const getCategories = async (categorieId) => {
 
       return res.data.data;
     }
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+const getCategoriesbyTerm = async (term) => {
+  try {
+    const response = await axios(`${CATEGORIES_URL}?search=${term}`);
+
+    return response.data.data;
+
+    //return response;
   } catch (err) {
     return err.response.data;
   }
@@ -88,4 +100,10 @@ const URLImageToBlob = async (URLImage) => {
   }
 };
 
-export { getCategories, createCategory, editCategory, deleteCategory };
+export {
+  getCategories,
+  createCategory,
+  editCategory,
+  deleteCategory,
+  getCategoriesbyTerm,
+};

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { errorAlert } from './alertsService';
 
 const CONTACTS_URL = process.env.REACT_APP_CONTACTS;
 
@@ -8,7 +9,12 @@ const getContactInfo = async () => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert(
+      'Error',
+      err.response.data.message || 'Error al obtener el mensaje de bienvenida',
+    );
+
+    return 'Mensaje de muestra';
   }
 };
 
@@ -18,7 +24,9 @@ const sendContactData = async (data) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.response.data.message);
+
+    return err.response.data || err;
   }
 };
 
@@ -28,7 +36,9 @@ const editContactData = async (id, data) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.response.data.message);
+
+    return err.response.data || err;
   }
 };
 
@@ -38,7 +48,9 @@ const deleteContactData = async (id) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.response.data.message);
+
+    return err.response.data || err;
   }
 };
 

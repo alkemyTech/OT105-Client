@@ -10,48 +10,55 @@ import {
   ListItemText,
   Toolbar,
 } from '@mui/material';
-import InboxIcon from '@mui/icons-material/MoveToInbox'; //BUscar iconss
+import CampaignIcon from '@mui/icons-material/Campaign';
+import CategoryIcon from '@mui/icons-material/Category';
+import BadgeIcon from '@mui/icons-material/Badge';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import BusinessIcon from '@mui/icons-material/Business';
+import BurstModeIcon from '@mui/icons-material/BurstMode';
+import ModeCommentIcon from '@mui/icons-material/ModeComment';
+import GroupIcon from '@mui/icons-material/Group';
 
 const routes = [
   {
     name: 'Actividades',
     path: '/backoffice/activities',
-    icon: () => <InboxIcon />,
+    icon: () => <CampaignIcon />,
   },
   {
     name: 'Categorías',
     path: '/backoffice/categories',
-    icon: () => <InboxIcon />,
+    icon: () => <CategoryIcon />,
   },
   {
     name: 'Miembros',
     path: '/backoffice/members',
-    icon: () => <InboxIcon />,
+    icon: () => <BadgeIcon />,
   },
   {
     name: 'Novedades',
     path: '/backoffice/news',
-    icon: () => <InboxIcon />,
+    icon: () => <NewspaperIcon />,
   },
   {
     name: 'Organización',
     path: '/backoffice/organization',
-    icon: () => <InboxIcon />,
+    icon: () => <BusinessIcon />,
   },
   {
     name: 'Slides',
     path: '/backoffice/slides',
-    icon: () => <InboxIcon />,
+    icon: () => <BurstModeIcon />,
   },
   {
     name: 'Testimonios',
     path: '/backoffice/testimonies',
-    icon: () => <InboxIcon />,
+    icon: () => <ModeCommentIcon />,
   },
   {
     name: 'Usuarios',
     path: '/backoffice/users',
-    icon: () => <InboxIcon />,
+    icon: () => <GroupIcon />,
   },
 ];
 

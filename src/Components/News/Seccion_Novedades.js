@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NewsSearchBar from './NewsSearchBar';
 
 const NewsMock = [
   {
@@ -39,6 +40,7 @@ const Seccion_Novedades = () => {
   return (
     <div>
       <Title titleText={'Novedades'} />
+      <NewsSearchBar />
       <div
         justify="center"
         style={{ width: '800px', margin: '20px auto', display: 'flex' }}>

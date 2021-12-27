@@ -1,9 +1,5 @@
 import { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
 import {
   getAllMembers,
   getMembersByKeyword,
@@ -59,19 +55,20 @@ export const MembersSearchForm = ({
   };
 
   return (
-    <Paper
-      component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-      onSubmit={(e) => handleSubmit(e)}>
-      <InputBase
-        placeholder="Buscar miembros..."
-        sx={{ ml: 1, flex: 1 }}
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '90%',
+        margin: '0 auto',
+      }}>
+      <TextField
+        sx={{ width: '100%' }}
+        autoComplete="off"
+        label="Filtrar miembro"
+        variant="outlined"
         onChange={(e) => handleChange(e)}
       />
-      <Divider orientation="vertical" sx={{ height: 28, m: 0.5 }} />
-      <IconButton aria-label="search" sx={{ p: '10px' }} type="submit">
-        <SearchIcon />
-      </IconButton>
-    </Paper>
+    </div>
   );
 };

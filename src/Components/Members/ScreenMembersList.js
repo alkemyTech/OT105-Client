@@ -37,9 +37,7 @@ const ScreenMembersList = () => {
   return (
     <>
       <Container maxWidth="md" sx={{ marginTop: '2rem' }}>
-        <Typography align="center" sx={{ marginBlock: '2rem' }} variant="h3">
-          Miembros
-        </Typography>
+        <h1 style={{ textAlign: 'center' }}>Miembros</h1>
         <Box
           alignItems="center"
           display="flex"

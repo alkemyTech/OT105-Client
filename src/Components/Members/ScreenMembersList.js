@@ -36,7 +36,14 @@ const ScreenMembersList = () => {
 
   return (
     <>
-      <Container maxWidth="md" sx={{ marginTop: '2rem' }}>
+      <Container
+        maxWidth="md"
+        sx={{
+          marginTop: '2rem',
+          ['@media (min-width:992px)']: {
+            width: '60%',
+          },
+        }}>
         <h1 style={{ textAlign: 'center' }}>Miembros</h1>
         <Box
           alignItems="center"

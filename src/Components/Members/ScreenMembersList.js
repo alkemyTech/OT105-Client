@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MemberRow from './MemberRow';
 import { MembersSearchForm } from './MembersSearchForm';
@@ -14,8 +14,10 @@ import {
   TableCell,
   TableBody,
   Box,
-  Fab,
+  Toolbar,
+  Button,
   CircularProgress,
+  TablePagination,
 } from '@mui/material';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -47,20 +49,30 @@ const ScreenMembersList = () => {
             updateLoadingState={updateLoadingState}
             updateMembersList={updateMembersList}
           />
-          <Link to="/backoffice/members/create">
-            <Fab aria-label="add" color="primary">
-              <AddIcon />
-            </Fab>
-          </Link>
         </Box>
-
+        <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
+          <Typography
+            component="div"
+            id="tableTitle"
+            sx={{ mr: 'auto' }}
+            variant="h6">
+            Miembros
+          </Typography>
+          <Button
+            className="customTableBtn"
+            component={Link}
+            to={`/backoffice/members/create`}
+            variant="contained">
+            Añadir miembro
+          </Button>
+        </Toolbar>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center">nombre</TableCell>
-                <TableCell align="center">foto</TableCell>
-                <TableCell align="center">acciones</TableCell>
+                <TableCell align="left">Nombre</TableCell>
+                <TableCell align="center">Foto</TableCell>
+                <TableCell align="right">Acciones</TableCell>
               </TableRow>
             </TableHead>
             {isLoading ? (

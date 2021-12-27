@@ -1,37 +1,38 @@
 import React from 'react';
-import {
-  TableRow,
-  TableCell,
-  Typography,
-  Avatar,
-  Button,
-  ButtonGroup,
-} from '@mui/material';
+import { Avatar, Tooltip, IconButton } from '@mui/material';
+import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import styles from '../../Styles/ScreenMembersListStyles';
-
-export const MemberRow = ({ name, image }) => {
+import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
+import '../../Styles/TablesStyles.css';
+export const MemberRow = ({ id, name, image }) => {
   return (
-    <TableRow>
-      <TableCell align="center">
-        <Typography color="initial" variant="h5">
-          {name}
-        </Typography>
-      </TableCell>
-      <TableCell align="right">
+    <StyledTableRow key={id} hover tabIndex={-1}>
+      <StyledTableCell align="left" component="th" scope="row">
+        {name}
+      </StyledTableCell>
+      <StyledTableCell align="center">
         <Avatar alt={name} src={image} sx={styles.avatar} />
-      </TableCell>
-      <TableCell align="center">
-        <ButtonGroup
-          aria-label="outlined primary button group"
-          size="small"
-          variant="text">
-          <Button startIcon={<EditIcon />}>Editar</Button>
-          <Button startIcon={<DeleteIcon />}>Eliminar</Button>
-        </ButtonGroup>
-      </TableCell>
-    </TableRow>
+      </StyledTableCell>
+      <StyledTableCell align="right">
+        <Tooltip title="Editar">
+          <IconButton
+            // component={Link}
+            // to={`/create-category/${row.id}`}
+            variant="contained">
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Eliminar">
+          <IconButton
+          // onClick={() => deletecategory(row.id)}
+          >
+            <DeleteIcon color="error" />
+          </IconButton>
+        </Tooltip>
+      </StyledTableCell>
+    </StyledTableRow>
   );
 };
 

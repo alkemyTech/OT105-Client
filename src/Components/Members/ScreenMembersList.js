@@ -17,14 +17,13 @@ import {
   Toolbar,
   Button,
   CircularProgress,
-  TablePagination,
+  useMediaQuery,
 } from '@mui/material';
-
-import AddIcon from '@mui/icons-material/Add';
 
 const ScreenMembersList = () => {
   const [members, setMembers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const matchesMobile = useMediaQuery('(min-width:430px)');
 
   const updateLoadingState = (loadingState) => {
     setIsLoading(loadingState);
@@ -76,7 +75,7 @@ const ScreenMembersList = () => {
             <TableHead>
               <TableRow>
                 <TableCell align="left">Nombre</TableCell>
-                <TableCell align="center">Foto</TableCell>
+                {matchesMobile && <TableCell align="center">Foto</TableCell>}
                 <TableCell align="right">Acciones</TableCell>
               </TableRow>
             </TableHead>

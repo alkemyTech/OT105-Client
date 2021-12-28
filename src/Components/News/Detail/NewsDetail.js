@@ -37,7 +37,11 @@ const NewsDetail = ({ newsTitle }) => {
           </Typography>
         </Box>
         <Box component="div" className={style.image}>
-          <img src={newsDetail.image} alt="childrens at play" />
+          <img
+            src={newsDetail.image}
+            className="img-detail"
+            alt="childrens at play"
+          />
         </Box>
       </Box>
     </div>

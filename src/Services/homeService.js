@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { errorAlert } from './alertsService';
 
 const ORGANIZATION_URL = process.env.REACT_APP_GET_ORGANIZATION;
 
@@ -9,15 +10,26 @@ const getWelcomeMessage = async () => {
 
     return welcomeText;
   } catch (err) {
-    return err.response.data;
+    errorAlert(
+      'Error',
+      err.response.data.message || 'Error al obtener el mensaje de bienvenida',
+    );
+
+    return 'Mensaje de muestra';
   }
 };
 
 const getOrganizationData = async () => {
-  const response = await axios(ORGANIZATION_URL);
-  const organizationName = response.data.data.name;
+  try {
+    const response = await axios(ORGANIZATION_URL);
+    const organizationName = response.data.data.name;
 
-  return organizationName;
+    return organizationName;
+  } catch (err) {
+    errorAlert('Error', err.response.data.message);
+
+    return err.response.data || err;
+  }
 };
 
 const editWelcomeMessage = async (welcomeMessage) => {
@@ -35,7 +47,9 @@ const editWelcomeMessage = async (welcomeMessage) => {
 
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
+    errorAlert('Error', err.response.data.message);
+
+    return err.response.data || err;
   }
 };
 

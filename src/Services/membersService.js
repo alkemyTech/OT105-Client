@@ -12,6 +12,18 @@ const getAllMembers = async () => {
   }
 };
 
+const getMembersByKeyword = async (keywords) => {
+  const formattedKeywords = keywords.replaceAll(' ', '%20');
+
+  try {
+    const res = await axios.get(`${MEMBERS_URL}?search=${keywords}`);
+
+    return res.data.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
 const getMemberById = async (memberId) => {
   try {
     const res = await axios.get(`${MEMBERS_URL}/${memberId}`);
@@ -52,4 +64,11 @@ const deleteMember = async (memberId) => {
   }
 };
 
-export { getAllMembers, getMemberById, createMember, editMember, deleteMember };
+export {
+  getAllMembers,
+  getMembersByKeyword,
+  getMemberById,
+  createMember,
+  editMember,
+  deleteMember,
+};

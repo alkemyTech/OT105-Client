@@ -14,6 +14,7 @@ import {
 import { URLImageToBlob } from '../../Services/imageService';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
+
 import '../../Styles/CategoriesFormStyles.css';
 
 const ActivitiesForm = () => {

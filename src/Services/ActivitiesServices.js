@@ -1,52 +1,54 @@
 import axios from 'axios';
 
-const Url = 'http://ongapi.alkemy.org/api/activities';
+export const ACTIVITIES_URL = 'http://ongapi.alkemy.org/api/activities';
 
-export const getActivities = async () => {
+const getActivities = async (activitiesId) => {
   try {
-    const { data } = await axios.get(Url);
+    if (activitiesId == null) {
+      const res = await axios.get(ACTIVITIES_URL);
 
-    console.log(data);
-  } catch (error) {
-    console.log(error);
+      return res.data.data;
+    } else {
+      const res = await axios.get(`${ACTIVITIES_URL}/${activitiesId}`);
+
+      return res.data.data;
+    }
+  } catch (err) {
+    return err.response.data;
   }
 };
 
-export const getActivityById = async (id) => {
+const createActivity = async (activity) => {
   try {
-    const { data } = await axios.get(`${Url}/${id}`);
+    const res = await axios.post(ACTIVITIES_URL, activity);
 
-    console.log(data);
-  } catch (error) {
-    console.log(error);
+    return res.data;
+  } catch (err) {
+    return err.response.data;
   }
 };
-export const postActivity = async ({ activity }) => {
-  await axios
-    .post(Url, activity)
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-export const putActivity = async ({ activity }) => {
-  await axios
-    .put(`${Url}/${activity.id}`, activity)
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-export const deleteActivityById = async (id) => {
-  try {
-    const { data } = await axios.delete(`${Url}/${id}`);
 
-    console.log(data);
-  } catch (error) {
-    console.log(error);
+const editActivity = async (activityId, editActivity) => {
+  try {
+    const res = await axios.put(
+      `${ACTIVITIES_URL}/${activityId}`,
+      editActivity,
+    );
+
+    return res.data;
+  } catch (err) {
+    return err.response.data;
   }
 };
+
+const deleteActivity = async (activityId) => {
+  try {
+    const res = await axios.delete(`${ACTIVITIES_URL}/${activityId}`);
+
+    return res.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+export { getActivities, createActivity, editActivity, deleteActivity };

@@ -5,12 +5,10 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
-
 import {
   getCategories,
   createCategory,
   editCategory,
-  deleteCategory,
 } from '../../Services/CategoriesService';
 import { URLImageToBlob } from '../../Services/imageService';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
@@ -19,6 +17,7 @@ import '../../Styles/CategoriesFormStyles.css';
 
 const CategoriesForm = () => {
   const { id } = useParams();
+
   const [categoryDescription, setCategoryDescription] = useState('');
   const [image, setImage] = useState('');
   const [base64ImageFile, setBase64ImageFile] = useState('');

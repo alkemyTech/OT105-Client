@@ -1,25 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../CardListStyles.css';
-import {
-  deleteActivityById,
-  getActivities,
-  getActivityById,
-  postActivity,
-  putActivity,
-} from '../../Services/ActivitiesServices';
+import { getActivities } from '../../Services/ActivitiesServices';
 const ActivitiesList = () => {
-  const activitiesMock = [
-    { id: 2, name: 'Titulo de prueba', description: 'Descripcion de prueba' },
-    { id: 1, name: 'Titulo de prueba', description: 'Descripcion de prueba' },
-    { id: 3, name: 'Titulo de prueba', description: 'Descripcion de prueba' },
-  ];
+  const [activities, setActivities] = useState([{}]);
+
+  useEffect(() => {
+    getActivities().then((resp) => {
+      setActivities(resp);
+    });
+  }, []);
 
   return (
     <div>
       <h1>Listado Actividades</h1>
       <ul className="list-container">
-        {activitiesMock.length > 0 ? (
-          activitiesMock.map((activity) => {
+        {activities.length > 0 ? (
+          activities.map((activity) => {
             return (
               <li key={activity.id} className="card-info">
                 <h3>{activity.name}</h3>

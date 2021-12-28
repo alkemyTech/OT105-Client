@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import { useParams } from 'react-router-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ActivitiesForm from './Components/Activities/ActivitiesForm';
 import CategoriesForm from './Components/Categories/CategoriesForm';
@@ -41,7 +42,13 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact component={HomeScreen} path="/" />
-          <Route component={ActivitiesForm} path="/create-activity" />
+
+          <Route
+            path="/create-activity/:id"
+            render={() => <ActivitiesForm />}
+          />
+          <Route path="/create-activity" render={() => <ActivitiesForm />} />
+
           <Route
             component={BackofficeListActivities}
             path="/backoffice/activities"
@@ -51,7 +58,7 @@ function App() {
             component={Backoffice_ListCategories}
             path="/backoffice/categories"
           />
-          <Route component={CategoriesForm} path="/create-category" />
+
           <Route component={FormContact} path="/form-contact" />
           <Route
             path="/create-category/:id"

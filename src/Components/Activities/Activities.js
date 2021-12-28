@@ -1,13 +1,6 @@
 import React from 'react';
 import Title from '../Title/Title';
 import ActivitiesList from './ActivitiesList';
-import {
-  deleteActivityById,
-  getActivities,
-  getActivityById,
-  postActivity,
-  putActivity,
-} from '../../Services/ActivitiesServices';
 
 function Activities() {
   return (

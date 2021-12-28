@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Typography,
@@ -20,30 +20,10 @@ import {
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-
-let activitiesMock = [
-  {
-    id: 2,
-    name: 'Titulo de prueba',
-    image: 'imagen de prueba',
-    createdAt: '01/05/2021',
-  },
-  {
-    id: 1,
-    name: 'Titulo de prueba',
-    image: 'imagen de prueba',
-    createdAt: '01/05/2021',
-  },
-  {
-    id: 3,
-    name: 'Titulo de prueba',
-    image: 'imagen de prueba',
-    createdAt: '01/05/2021',
-  },
-];
+import { getActivities } from '../../Services/ActivitiesServices';
 
 function BackofficeListActivities() {
-  const [activities, setActivities] = useState(activitiesMock);
+  const [activities, setActivities] = useState([{}]);
   const deleteActiviti = (id) => {
     const isDelete = window.confirm(
       `Estas seguro de querer eliminar la tarea "${id}"`,
@@ -57,6 +37,12 @@ function BackofficeListActivities() {
       return setActivities(result);
     }
   };
+
+  useEffect(() => {
+    getActivities().then((resp) => {
+      setActivities(resp);
+    });
+  }, []);
 
   return (
     <div>
@@ -94,7 +80,7 @@ function BackofficeListActivities() {
                     {row.name}
                   </TableCell>
                   <TableCell align="right">{row.image}</TableCell>
-                  <TableCell align="right">{row.createdAt}</TableCell>
+                  <TableCell align="right">{row.created_at}</TableCell>
                   <TableCell align="right">
                     <Link to={`/balckoffice/activities/create/${row.id}`}>
                       <Button

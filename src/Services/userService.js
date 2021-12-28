@@ -59,3 +59,13 @@ export const getUsersById = async (id) => {
     return errorAlert();
   }
 };
+
+export const getUsersByKeyword = async (keyword) => {
+  try {
+    const response = await axios.get(`${USER_URL}?search=${keyword}`);
+
+    return response.data;
+  } catch (error) {
+    console.error(error.config);
+  }
+};

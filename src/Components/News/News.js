@@ -11,22 +11,54 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
-function createData(name, image, createdAt) {
-  return { name, image, createdAt };
-}
+
+let NewsMock = [
+  {
+    id: 2,
+    name: 'Titulo de prueba',
+    image: 'imagen de prueba',
+    createdAt: '01/05/2021',
+  },
+  {
+    id: 1,
+    name: 'Titulo de prueba',
+    image: 'imagen de prueba',
+    createdAt: '01/05/2021',
+  },
+  {
+    id: 3,
+    name: 'Titulo de prueba',
+    image: 'imagen de prueba',
+    createdAt: '01/05/2021',
+  },
+];
 
 function News() {
-  const [data, setData] = useState([
-    createData('Frozen yoghurt', 'image1', '12/12/12'),
-    createData('Ice cream sandwich', 'image2', '12/12/12'),
-    createData('Eclair', 'image3', '12/2/12'),
-    createData('Cupcake', 'image4', '12/5/12'),
-    createData('Gingerbread', 'image5', '12/4/12'),
-  ]);
+  const [news, setNews] = useState(NewsMock);
+
+  const deleteNews = (id) => {
+    const isDelete = window.confirm(
+      `Estas seguro de querer eliminar la categoria "${id}"`,
+    );
+
+    if (isDelete) {
+      let result = news.filter((e) => {
+        return e.id !== id;
+      });
+
+      return setNews(result);
+    }
+  };
+
+  const editNews = (id) => {
+    const isedit = window.confirm(
+      `Estas seguro de querer editar la categoria "${id}"`,
+    );
+  };
 
   const tableBody =
-    data && data.length
-      ? data.map((row) => {
+    news && news.length
+      ? news.map((row) => {
           return (
             <TableRow
               key={row.name}
@@ -38,12 +70,21 @@ function News() {
               <TableCell align="right">{row.createdAt}</TableCell>
               <TableCell align="right">
                 <IconButton>
-                  <EditIcon />
+                  <Button
+                    href={`/create-category/${row.id}`}
+                    startIcon={<EditIcon color="primary" />}
+                    variant="outlined"
+                    onClick={() => editNews(row.id)}
+                  />
                 </IconButton>
               </TableCell>
               <TableCell align="right">
                 <IconButton>
-                  <DeleteIcon />
+                  <Button
+                    startIcon={<DeleteIcon color="primary" />}
+                    variant="outlined"
+                    onClick={() => deleteNews(row.id)}
+                  />
                 </IconButton>
               </TableCell>
             </TableRow>

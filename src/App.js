@@ -41,6 +41,7 @@ function App() {
     <>
       <BrowserRouter>
         <Switch>
+          <Route component={News} path="/backoffice/listNews" />
           <Route exact component={HomeScreen} path="/" />
           <Route component={ActivitiesForm} path="/create-activity" />
           <Route
@@ -120,7 +121,6 @@ function App() {
           />
           <Route component={Thanks} path="/thanks" />
           <Route component={Error404} path="*" />
-          <Route component={News} path="/backoffice/news" />
         </Switch>
         <Footer />
       </BrowserRouter>

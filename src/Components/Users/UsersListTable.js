@@ -21,7 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SortableTableCell from './SortableTableCell';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
-import { getAllUsers } from '../../Services/userService';
+import { getAllUsers, deleteUsers } from '../../Services/userService';
 import UsersSearchForm from './UsersSearchForm';
 
 const UsersListTable = () => {
@@ -73,11 +73,14 @@ const UsersListTable = () => {
     return page === pages && page !== 0;
   };
 
-  const deleteUser = (id) => {
-    const newUsersList = usersList.filter((user) => user.id !== id);
+  const deleteUser = async (id) => {
+    const response = await deleteUsers(id);
 
-    setUsersList(newUsersList);
+    if (response.data.success) {
+      const newUsersList = usersList.filter((user) => user.id !== id);
 
+      setUsersList(newUsersList);
+    }
     if (isLastItemOnPage()) {
       setPage(page - 1);
     }

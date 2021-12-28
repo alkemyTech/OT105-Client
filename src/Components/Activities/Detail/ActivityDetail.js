@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Title from '../../Title/Title';
 import { CircularProgress, Container, Typography } from '@mui/material';
-import { getActivityById } from '../../../Services/activitiesService';
+import { getActivities } from '../../../Services/ActivitiesServices';
 
 export default function ActivityDetail({ match }) {
   const [activityDetails, setActivityDetails] = useState({});
@@ -10,7 +10,7 @@ export default function ActivityDetail({ match }) {
   const activityId = match.params.id;
 
   useEffect(() => {
-    getActivityById(activityId)
+    getActivities(activityId)
       .then((res) => {
         if (res.success === true) {
           setSuccess(true);

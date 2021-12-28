@@ -7,7 +7,7 @@ import SwiperCore, {
   EffectCube,
 } from 'swiper';
 import 'swiper/swiper-bundle.css';
-import '../../Components/SlideHome.css';
+import '../SlideHome.css';
 import { getAllSlides } from '../../Services/slidesService';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, EffectCube]);
@@ -23,8 +23,10 @@ const SlideHome = () => {
     slides?.map((slide) => (
       <SwiperSlide key={slide.id} tag="li">
         <div className="slideContainer">
-          <img className="slideImege" src={slide.image} />
-          <div className="slideContainer2">
+          <div className="img-container__slide">
+            <img className="slideImege" src={slide.image} />
+          </div>
+          <div className="info-container__slide">
             <h4 className="slideTitle">{slide.name}</h4>
             <p className="slideDescription">{slide.description}</p>
           </div>

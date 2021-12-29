@@ -13,101 +13,24 @@ import {
   Button,
   Container,
   Toolbar,
-  Typography,
   IconButton,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SortableTableCell from './SortableTableCell';
-
-const mockedUsers = [
-  {
-    id: 1,
-    name: 'Leanne Graham',
-    username: 'Bret',
-    email: 'Sincere@april.biz',
-  },
-  {
-    id: 2,
-    name: 'Ervin Howell',
-    username: 'Antonette',
-    email: 'Shanna@melissa.tv',
-  },
-  {
-    id: 3,
-    name: 'Clementine Bauch',
-    username: 'Samantha',
-    email: 'Nathan@yesenia.net',
-  },
-  {
-    id: 4,
-    name: 'Patricia Lebsack',
-    username: 'Karianne',
-    email: 'Karley_Dach@jasper.info',
-  },
-  {
-    id: 5,
-    name: 'Chelsey Dietrich',
-    username: 'Kamren',
-    email: 'Lucio_Hettinger@annie.ca',
-  },
-  {
-    id: 6,
-    name: 'Mrs. Dennis Schulist',
-    username: 'Leopoldo_Corkery',
-    email: 'Karley_Dach@jasper.info',
-  },
-  {
-    id: 7,
-    name: 'Kurtis Weissnat',
-    username: 'Elwyn.Skiles',
-    email: 'Telly.Hoeger@billy.biz',
-  },
-  {
-    id: 8,
-    name: 'Nicholas Runolfsdottir V',
-    username: 'Maxime_Nienow',
-    email: 'Sherwood@rosamond.me',
-  },
-  {
-    id: 9,
-    name: 'Glenna Reichert',
-    username: 'Delphine',
-    email: 'Chaim_McDermott@dana.io',
-  },
-  {
-    id: 10,
-    name: 'Clementina DuBuque',
-    username: 'Moriah.Stanton',
-    email: 'Rey.Padberg@karina.biz',
-  },
-  {
-    id: 11,
-    name: 'Patricia Reichert',
-    username: 'Karianne',
-    email: 'Julianne.OConner@kory.org',
-  },
-  {
-    id: 12,
-    name: 'Clementine Howell',
-    username: 'Samantha',
-    email: 'Sherwood@rosamond.me',
-  },
-  {
-    id: 13,
-    name: 'Chelsey Weissnat',
-    username: 'Kamren',
-    email: 'Chaim_McDermott@dana.io',
-  },
-];
+import LoadSpinner from '../CommonComponents/LoaderSpinner';
+import { getAllUsers, deleteUsers } from '../../Services/userService';
+import UsersSearchForm from './UsersSearchForm';
 
 const UsersListTable = () => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
-  const [usersList, setUsersList] = useState(mockedUsers);
-  const [sortedUsersList, setSortedUsersList] = useState(mockedUsers);
+  const [usersList, setUsersList] = useState([]);
+  const [sortedUsersList, setSortedUsersList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const rowsPerPage = 10;
 
   const descendingComparator = (a, b, orderBy) => {
@@ -150,11 +73,14 @@ const UsersListTable = () => {
     return page === pages && page !== 0;
   };
 
-  const deleteUser = (id) => {
-    const newUsersList = usersList.filter((user) => user.id !== id);
+  const deleteUser = async (id) => {
+    const response = await deleteUsers(id);
 
-    setUsersList(newUsersList);
+    if (response.data.success) {
+      const newUsersList = usersList.filter((user) => user.id !== id);
 
+      setUsersList(newUsersList);
+    }
     if (isLastItemOnPage()) {
       setPage(page - 1);
     }
@@ -174,18 +100,31 @@ const UsersListTable = () => {
     setSortedUsersList(newSortedUsersList);
   }, [order, orderBy, page, usersList]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const response = await getAllUsers();
+      const newUserList = response.data.data;
+
+      setUsersList(newUserList);
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Container sx={{ my: '1rem' }}>
+      <Typography align="center" id="tableTitle" marginY={4} variant="h3">
+        Usuarios
+      </Typography>
       <Box>
         <Paper>
           <Toolbar>
-            <Typography
-              component="div"
-              id="tableTitle"
-              sx={{ mr: 'auto' }}
-              variant="h6">
-              Lista de Usuarios
-            </Typography>
+            <UsersSearchForm
+              setIsLoading={setIsLoading}
+              setUsersList={setUsersList}
+            />
             <Button
               component={Link}
               to="/backoffice/users/create"
@@ -217,51 +156,66 @@ const UsersListTable = () => {
                   <TableCell align="right">Acciones</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {sortedUsersList.map((row) => {
-                  return (
-                    <TableRow key={row.id} hover tabIndex={-1}>
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell>{row.email}</TableCell>
-                      <TableCell align="right">
-                        <Tooltip title="Editar">
-                          <IconButton
-                            component={Link}
-                            to={`/backoffice/users/edit/${row.id}`}
-                            variant="contained">
-                            <EditIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Eliminar">
-                          <IconButton onClick={() => deleteUser(row.id)}>
-                            <DeleteIcon color="error" />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-                {emptyRowsToAvoidLayoutJump > 0 && (
+              {isLoading ? (
+                <TableBody>
                   <TableRow
                     style={{
-                      height: rowHeight * emptyRowsToAvoidLayoutJump,
+                      height: rowHeight * 10,
                     }}>
-                    <TableCell colSpan={3} />
+                    <TableCell colSpan={3}>
+                      <LoadSpinner />
+                    </TableCell>
                   </TableRow>
-                )}
-              </TableBody>
+                </TableBody>
+              ) : (
+                <TableBody>
+                  {sortedUsersList.map((row) => {
+                    return (
+                      <TableRow key={row.id} hover tabIndex={-1}>
+                        <TableCell component="th" scope="row">
+                          {row.name}
+                        </TableCell>
+                        <TableCell>{row.email}</TableCell>
+                        <TableCell align="right">
+                          <Tooltip title="Editar">
+                            <IconButton
+                              component={Link}
+                              to={`/backoffice/users/edit/${row.id}`}
+                              variant="contained">
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Eliminar">
+                            <IconButton onClick={() => deleteUser(row.id)}>
+                              <DeleteIcon color="error" />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  {emptyRowsToAvoidLayoutJump > 0 && (
+                    <TableRow
+                      style={{
+                        height: rowHeight * emptyRowsToAvoidLayoutJump,
+                      }}>
+                      <TableCell colSpan={3} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              )}
             </Table>
           </TableContainer>
-          <TablePagination
-            component="div"
-            count={usersList.length}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[10]}
-            onPageChange={handleChangePage}
-          />
+          {!isLoading && (
+            <TablePagination
+              component="div"
+              count={usersList.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={[10]}
+              onPageChange={handleChangePage}
+            />
+          )}
         </Paper>
       </Box>
     </Container>

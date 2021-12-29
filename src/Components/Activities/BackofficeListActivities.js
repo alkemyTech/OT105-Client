@@ -20,6 +20,7 @@ import {
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import { ActivitiesSearchForm } from './ActivitiesSearchForm';
 
 let activitiesMock = [
   {
@@ -44,6 +45,11 @@ let activitiesMock = [
 
 function BackofficeListActivities() {
   const [activities, setActivities] = useState(activitiesMock);
+
+  const updateActivitiesList = (updatedActivities) => {
+    setActivities(updatedActivities);
+  };
+
   const deleteActiviti = (id) => {
     const isDelete = window.confirm(
       `Estas seguro de querer eliminar la tarea "${id}"`,
@@ -73,6 +79,10 @@ function BackofficeListActivities() {
             <AddIcon />
           </Fab>
         </Link>
+        <ActivitiesSearchForm
+          // updateLoadingState={updateLoadingState}
+          updateActivitiesList={updateActivitiesList}
+        />
       </Box>
       <TableContainer component={Paper}>
         <Table aria-label="caption table" sx={{ minWidth: 650 }}>

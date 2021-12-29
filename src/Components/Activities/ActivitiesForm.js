@@ -1,46 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
-import TextField from '@mui/material/TextField';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import CardHeader from '@mui/material/CardHeader';
-import Box from '@mui/material/Box';
-import { Alert } from '@mui/material';
+import { dropzoneConfig, isEmptyList, listHasValues } from '../../Utils';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
-import { dropzoneConfig, isEmptyList } from '../../Utils';
+import { useFormik } from 'formik';
+import { useParams } from 'react-router-dom';
+import {
+  getActivities,
+  createActivity,
+  editActivity,
+} from '../../Services/ActivitieService';
+import { URLImageToBlob } from '../../Services/imageService';
+import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
-import '../../Styles/ActivitiesForm.css';
-import { createOrUpdateActivity } from '../../Services/activitiesService';
 
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
-  margin: 'auto',
-  width: 'auto',
-  height: 100,
-  padding: 4,
-  boxSizing: 'border-box',
-};
+import '../../Styles/CategoriesFormStyles.css';
 
-const ActivitiesForm = ({ id }) => {
-  const [formValues, setFormValues] = useState({
-    name: id ? id.data.name : '',
-    description: id ? id.data.description : '',
-    image: id ? id.data.image : null,
-  });
-
-  const [filesImages, setFilesImages] = useState([]);
-  const [base64ImageFile, setBase64ImageFile] = useState('');
-  const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
+const ActivitiesForm = () => {
+  const { id } = useParams();
   const [activitiesDescription, setActivitiesDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [base64ImageFile, setBase64ImageFile] = useState('');
+  const [imageError, setImageError] = useState(false);
+  const [apiResponse, setApiResponse] = useState({});
+  const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
+
+  const getActivity = async () => {
+    const resp = await getActivities(id);
+
+    URLImageToBlob(resp.image).then((res) => {
+      const data = res;
+
+      setImage(data);
+      setBase64ImageFile(data);
+    });
+
+    return resp;
+  };
 
   const handleDrop = (acceptedFiles, fileRejections) => {
     const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
 
-    setFilesImages(imageFileWithPreview);
+    console.log(imageFileWithPreview);
+    setImage(imageFileWithPreview);
     if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
   };
 
@@ -63,148 +65,157 @@ const ActivitiesForm = ({ id }) => {
     );
   };
 
-  const handleCKeditorChange = (e, editor) => {
-    const data = editor.getData();
-
-    setActivitiesDescription(data);
-  };
-
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
     multiple: multipleFiles,
-    maxFiles: maxFiles,
+    maxFiles,
     accept: validImages,
     onDrop: (acceptedFiles, fileRejections) =>
       handleDrop(acceptedFiles, fileRejections),
   });
 
-  const imagePreview = filesImages.map((file) => (
-    <div key={file.name} style={thumb}>
-      <div className="thumb-inner">
-        <img className="img" src={file.preview} />
-      </div>
-    </div>
-  ));
+  const imageValidation = () => {
+    if (listHasValues(fileRejections)) {
+      setImageError(true);
 
-  const showError = (errors, attribute) => (
-    <ErrorMessage
-      component={() => <Alert severity="warning">{errors[attribute]}</Alert>}
-      name={attribute}
-    />
-  );
+      return;
+    }
+    setImageError(false);
+  };
 
-  useEffect(
-    () => () => {
-      filesImages.forEach((file) => URL.revokeObjectURL(file.preview));
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.name) {
+      errors.name = 'El nombre es requerido';
+    } else if (values.name.length < 4) {
+      errors.name = 'El nombre debe contener al menos 4 caracteres';
+    }
+    if (!activitiesDescription) {
+      errors.description = 'La descripción es requerida';
+    }
+    if (!base64ImageFile) {
+      errors.image = 'La imagen es requerida';
+    }
+
+    return errors;
+  };
+
+  const isEditingMode = () => id !== undefined;
+
+  const updateActivitieswithCurrentData = () => {
+    getActivity().then((res) => {
+      const currentActivities = res;
+
+      formik.values.name = currentActivities.name;
+      setActivitiesDescription(currentActivities.description);
+    });
+  };
+
+  const handleCKeditorChange = (e, editor) =>
+    setActivitiesDescription(editor.getData());
+
+  const showErrorMessage = (errorMessage) => {
+    return <Alert severity="warning"> {errorMessage} </Alert>;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      activitiesDescription: '',
+      image: '',
     },
-    [filesImages],
-  );
+    validate,
+    onSubmit: (values) => handleSubmitbecategory(values),
+  });
 
-  const handleClick = (values) => {
-    let data = {
-      name: values.name,
+  useEffect(() => {
+    imageValidation();
+  }, [fileRejections]);
+
+  useEffect(() => {
+    if (isEditingMode()) updateActivitieswithCurrentData();
+  }, []);
+
+  const handleSubmitbecategory = async () => {
+    const body = {
+      name: formik.values.name,
       description: activitiesDescription,
       image: base64ImageFile,
     };
 
-    createOrUpdateActivity(id, data);
+    if (id) {
+      editActivity(id, body).then((resp) => setApiResponse(resp.data));
+    } else {
+      createActivity(body).then((resp) => setApiResponse(resp.data));
+    }
   };
 
   return (
-    <Formik
-      initialValues={formValues}
-      validate={(values) => {
-        let errors = {};
+    <Box
+      noValidate
+      className="form-container"
+      component="form"
+      onSubmit={formik.handleSubmit}>
+      <Typography component="div" variant="h5">
+        Name
+      </Typography>
 
-        if (!values.name) {
-          errors.name = 'please submit a email';
-        }
-        if (!values.image) {
-          errors.image = 'please submit a image';
-        }
+      <TextField
+        autoComplete="off"
+        label="Name"
+        name="name"
+        type="text"
+        value={formik.values.name}
+        variant="outlined"
+        onChange={formik.handleChange}
+      />
 
-        return errors;
-      }}
-      onSubmit={(values) => {
-        handleClick(values);
-      }}>
-      {({
-        values,
-        handleChange,
-        errors,
-        touched,
-        handleBlur,
-        handleSubmit,
-        handleReset,
-      }) => {
-        return (
-          <Card sx={{ margin: '20px auto', width: '600px', height: '100%' }}>
-            <CardHeader title={id ? 'EDIT ACTIVITY' : 'CREATE ACTIVITY'} />
-            <Form
-              sx={{
-                padding: '60px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '600px',
-                height: '100%',
-              }}
-              onSubmit={handleSubmit}>
-              <h4 className="title">Title</h4>
-              <Field
-                fullWidth
-                component={TextField}
-                error={Boolean(touched.name && errors.name)}
-                id="name"
-                label="Name"
-                name="name"
-                placeholder="Activity Title"
-                sx={{ margin: '20px auto', width: '80%', display: 'flex' }}
-                type="text"
-                value={values.name}
-                variant="outlined"
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-              {errors && showError(errors, 'name')}
-              <h4 className="title">Description</h4>
-              <section style={{ width: '80%', margin: '20px auto' }}>
-                <CKEditor
-                  required
-                  data={activitiesDescription}
-                  editor={ClassicEditor}
-                  label="Description"
-                  onChange={(e, editor) => handleCKeditorChange(e, editor)}
+      {formik.errors.name && showErrorMessage(formik.errors.name)}
+
+      <Typography component="div" variant="h5">
+        Descripcion
+      </Typography>
+
+      <CKEditor
+        data={activitiesDescription}
+        editor={ClassicEditor}
+        onChange={(e, editor) => handleCKeditorChange(e, editor)}
+      />
+
+      {formik.errors.description && showErrorMessage(formik.errors.description)}
+
+      <Typography component="div" variant="h5">
+        Imagen
+      </Typography>
+
+      <Box className="dropzone-container" component="div" {...getRootProps()}>
+        <input {...getInputProps()} />
+        <p>Arrastra o haz click aqui para agregar Imagen ( .png o .jpg )</p>
+
+        <div className="thumbs-container">
+          <div className="thumb">
+            <div className="thumbInner">
+              {listHasValues(image) && (
+                <img
+                  className="thumb-image"
+                  src={id ? base64ImageFile : image[0].preview}
                 />
-              </section>
-              <h4 className="title">Image</h4>
-              <section className="form">
-                <div
-                  {...getRootProps({ className: 'dropzone' })}
-                  style={{ margin: '10px auto' }}>
-                  <input
-                    {...getInputProps({
-                      onChange: handleChange,
-                      id: 'image',
-                      name: 'image',
-                      error: errors.image,
-                      value: values.image,
-                      display: 'block',
-                    })}
-                  />
-                  <p style={{ textAlign: 'center' }}>
-                    Drag and drop some files here, or click to select files
-                  </p>
-                  <aside className="thumbs-container">{imagePreview}</aside>
-                </div>
-              </section>
-              {errors && showError(errors, 'image')}
-              <Button type="submit" variant="outlined">
-                Send
-              </Button>
-            </Form>
-          </Card>
-        );
-      }}
-    </Formik>
+              )}
+            </div>
+          </div>
+        </div>
+      </Box>
+
+      {formik.errors.image && showErrorMessage(formik.errors.image)}
+
+      {imageError && (
+        <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
+      )}
+
+      <Button className="submit-btn" type="submit" variant="contained">
+        Enviar
+      </Button>
+    </Box>
   );
 };
 

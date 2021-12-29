@@ -4,12 +4,13 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
-import { urlEditNews, urlCreateNews } from '../../Services/NewsService';
+import { createNews, editNews, getNewsById } from '../../Services/NewsService';
 import { TextField, Box, Button, Alert, Typography } from '@mui/material';
 import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
+import { URLImageToBlob } from '../../Services/imageService';
 
-const NewsCreateEdit = ({ id }) => {
+const NewsCreateEdit = ({ match }) => {
   const [categoryDescription, setCategoryDescription] = useState('');
   const [image, setImage] = useState('');
   const [base64ImageFile, setBase64ImageFile] = useState('');
@@ -17,11 +18,7 @@ const NewsCreateEdit = ({ id }) => {
   const [apiResponse, setApiResponse] = useState({});
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
-  const getCategory = () => ({
-    title: 'Categories Test ',
-    categoryDescription: 'Test text',
-    image: '',
-  });
+  const id = match.params.id;
 
   const handleDrop = (acceptedFiles, fileRejections) => {
     const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
@@ -86,11 +83,16 @@ const NewsCreateEdit = ({ id }) => {
 
   const isEditingMode = () => id !== undefined;
 
-  const updateCategorieswithCurrentData = () => {
-    const currentCategories = getCategory();
+  const updateCategorieswithCurrentData = async () => {
+    let currentNews = await getNewsById(id);
 
-    formik.values.title = currentCategories.title;
-    setCategoryDescription(currentCategories.categoryDescription);
+    formik.values.title = currentNews.name;
+    setCategoryDescription(currentNews.content);
+
+    URLImageToBlob(currentNews.image).then((res) => {
+      setImage(res);
+      setBase64ImageFile(res);
+    });
   };
 
   const handleCKeditorChange = (e, editor) =>
@@ -120,15 +122,15 @@ const NewsCreateEdit = ({ id }) => {
 
   const handleSubmitbecategory = async () => {
     const body = {
-      title: formik.values.title,
-      description: categoryDescription,
+      name: formik.values.title,
+      content: categoryDescription,
       image: base64ImageFile,
     };
 
     if (id) {
-      urlCreateNews(id, body).then((resp) => setApiResponse(resp.data));
+      editNews(id, body).then((resp) => setApiResponse(resp));
     } else {
-      urlEditNews(body).then((resp) => setApiResponse(resp.data));
+      createNews(body).then((resp) => setApiResponse(resp));
     }
   };
 
@@ -178,7 +180,7 @@ const NewsCreateEdit = ({ id }) => {
           <div className="thumb">
             <div className="thumbInner">
               {listHasValues(image) && (
-                <img className="thumb-image" src={image[0].preview} />
+                <img className="thumb-image" src={image} />
               )}
             </div>
           </div>

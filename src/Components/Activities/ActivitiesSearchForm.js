@@ -61,7 +61,13 @@ export const ActivitiesSearchForm = ({
   return (
     <Paper
       component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+      sx={{
+        p: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: 400,
+        margin: '1rem',
+      }}
       onSubmit={(e) => handleSubmit(e)}>
       <InputBase
         placeholder="Buscar actividades..."

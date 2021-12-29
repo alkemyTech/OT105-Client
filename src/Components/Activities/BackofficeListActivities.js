@@ -79,11 +79,11 @@ function BackofficeListActivities() {
             <AddIcon />
           </Fab>
         </Link>
-        <ActivitiesSearchForm
-          // updateLoadingState={updateLoadingState}
-          updateActivitiesList={updateActivitiesList}
-        />
       </Box>
+      <ActivitiesSearchForm
+        // updateLoadingState={updateLoadingState}
+        updateActivitiesList={updateActivitiesList}
+      />
       <TableContainer component={Paper}>
         <Table aria-label="caption table" sx={{ minWidth: 650 }}>
           <caption>A basic table example with a caption</caption>

@@ -1,11 +1,11 @@
 import Axios from 'axios';
 import Swal from 'sweetalert2';
 
-const baseUrl = 'http://ongapi.alkemy.org/api/activities';
+const ACTIVITIES_URL = process.env.REACT_APP_ACTIVITIES_URL;
 
 export const getActivityById = async (id) => {
   try {
-    const { data } = await Axios.get(`${baseUrl}/${id}`);
+    const { data } = await Axios.get(`${ACTIVITIES_URL}/${id}`);
 
     return data;
   } catch (error) {
@@ -22,13 +22,13 @@ export const createOrUpdateActivity = (id, data) => {
 };
 
 const createActivity = (data) => {
-  Axios.post(baseUrl, data);
+  Axios.post(ACTIVITIES_URL, data);
   Swal.fire('success');
   console.log(data);
 };
 
 const updateActivity = async (id, data) => {
-  await Axios.patch(`${baseUrl}/${id}`, data).then(() => {
+  await Axios.patch(`${ACTIVITIES_URL}/${id}`, data).then(() => {
     console.log(data);
     Swal.fire('success');
   });

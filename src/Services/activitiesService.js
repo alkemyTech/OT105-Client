@@ -3,6 +3,26 @@ import Swal from 'sweetalert2';
 
 const ACTIVITIES_URL = process.env.REACT_APP_ACTIVITIES_URL;
 
+export const getAllActivities = async () => {
+  try {
+    const res = await Axios.get(ACTIVITIES_URL);
+
+    return res.data.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+export const getActivitiesByKeyword = async (keywords) => {
+  try {
+    const res = await Axios.get(`${ACTIVITIES_URL}?search=${keywords}`);
+
+    return res.data.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
 export const getActivityById = async (id) => {
   try {
     const { data } = await Axios.get(`${ACTIVITIES_URL}/${id}`);

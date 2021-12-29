@@ -21,9 +21,15 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { getActivities } from '../../Services/ActivitiesServices';
+import ActivitiesSearchForm from './ActivitiesSearchForm';
 
 function BackofficeListActivities() {
   const [activities, setActivities] = useState([{}]);
+
+  const updateActivitiesList = (updatedActivities) => {
+    setActivities(updatedActivities);
+  };
+
   const deleteActiviti = (id) => {
     const isDelete = window.confirm(
       `Estas seguro de querer eliminar la tarea "${id}"`,

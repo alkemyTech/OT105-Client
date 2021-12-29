@@ -1,0 +1,11 @@
+.player-wrapper {
+    width: 100%;
+    position: relative;
+    margin: auto;
+    justify-content: center;
+    display: flex;
+  }
+  .react-player {
+    justify-content: center;
+    display: flex;
+  }

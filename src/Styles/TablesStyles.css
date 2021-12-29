@@ -1,0 +1,23 @@
+.customTableCol.MuiTableCell-root,
+.customTableCol.css-1howxi1-MuiTableCell-root {
+  display: none;
+}
+
+.customTableBtn.MuiButton-root {
+  font-size: 0.5rem;
+}
+
+@media (min-width: 468px) {
+  .customTableCol.MuiTableCell-root,
+  .customTableCol.css-1howxi1-MuiTableCell-root {
+    display: table-cell;
+  }
+
+  .customTableBtn.MuiButton-root {
+    font-size: 1rem;
+  }
+}
+
+.MuiTablePagination-toolbar p {
+  display: block;
+}

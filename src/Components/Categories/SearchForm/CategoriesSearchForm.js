@@ -40,7 +40,7 @@ const CategoriesSearchForm = ({ setCategories }) => {
       <TextField
         sx={{ width: '100%' }}
         autoComplete="off"
-        label="Filtrar categoria"
+        label="Filtrar categoría"
         variant="outlined"
         onChange={debouncedHandleChange}
       />

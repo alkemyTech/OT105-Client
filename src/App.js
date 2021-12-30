@@ -53,13 +53,12 @@ function App() {
             component={Backoffice_ListCategories}
             path="/backoffice/categories"
           />
-          <Route component={CategoriesForm} path="/create-category" />
-          <Route component={FormContact} path="/form-contact" />
           <Route
             path="/create-category/:id"
             render={() => <CategoriesForm />}
           />
           <Route path="/create-category" render={() => <CategoriesForm />} />
+          <Route component={FormContact} path="/form-contact" />
           <Route component={Activities} path="/Actividades" />
           <Route component={Organization} path="/backoffice/organization" />
           <Route component={NewsForm} path="/create-news" />

@@ -217,7 +217,10 @@ const CategoriesForm = () => {
               <div className="thumb">
                 <div className="thumbInner">
                   {listHasValues(image) && (
-                    <img className="thumb-image" src={image[0].preview} />
+                    <img
+                      className="thumb-image"
+                      src={id ? base64ImageFile : image[0].preview}
+                    />
                   )}
                 </div>
               </div>

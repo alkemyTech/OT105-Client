@@ -1,13 +1,10 @@
-import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import ActivitiesForm from '../Components/Activities/ActivitiesForm';
 import CategoriesForm from '../Components/Categories/CategoriesForm';
-import NewsForm from '../Components/News/NewsForm';
 import SlidesForm from '../Components/Slides/SlidesForm';
 import TestimonialForm from '../Components/Testimonials/TestimonialsForm';
 import UserForm from '../Components/Users/UsersForm';
 import UsersListTable from '../Components/Users/UsersListTable';
-import MembersForm from '../Components/Members/MembersForm';
 import ProjectsForm from '../Components/Projects/ProjectsForm';
 import BackofficeListActivities from '../Components/Activities/BackofficeListActivities';
 import NewsCreateEdit from '../Components/News/NewsCreateEdit';

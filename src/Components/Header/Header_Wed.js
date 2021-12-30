@@ -109,10 +109,25 @@ const Header_Wed = () => {
                 ))}
               </Menu>
             </Box>
-
-            <img alt="logo" height="120px" src={organizationInformation.logo} />
-
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <div
+              style={{
+                width: '240px',
+                height: '170px',
+                margin: '10px auto',
+                display: 'flex',
+              }}>
+              <img
+                alt="logo"
+                height="100%"
+                src={organizationInformation.logo}
+                width="100%"
+              />
+            </div>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: 'none', md: 'flex', justifyContent: 'right' },
+              }}>
               {links.map((link) => (
                 <Button
                   key={link}

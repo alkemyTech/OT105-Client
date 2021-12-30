@@ -63,7 +63,8 @@ function App() {
           <Route component={Activities} path="/Actividades" />
           <Route component={Organization} path="/backoffice/organization" />
           <Route component={NewsForm} path="/create-news" />
-          <Route component={NewsCreateEdit} path="/backoffice/news" />
+          <Route component={NewsCreateEdit} path="/backoffice/news/create" />
+          <Route component={NewsCreateEdit} path="/backoffice/news/:id" />
           <Route component={Seccion_Novedades} path="/Novedades" />
           <Route
             exact

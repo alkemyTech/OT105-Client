@@ -26,7 +26,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-export const ActivitiesSearchForm = ({
+const ActivitiesSearchForm = ({
   updateActivitiesList,
   // updateLoadingState,
 }) => {
@@ -81,3 +81,5 @@ export const ActivitiesSearchForm = ({
     </Paper>
   );
 };
+
+export default ActivitiesSearchForm;

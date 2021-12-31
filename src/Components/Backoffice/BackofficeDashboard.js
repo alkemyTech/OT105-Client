@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import CustomAppBar from '../CustomComponents/CustomAppBar/CustomAppBar';
-import HeaderBackoffice from '../CommonComponents/HeaderBackoffice';
 import {
   paragraphText40,
   paragraphText45,
@@ -23,8 +22,6 @@ const BackOfficeDashBoard = () => {
 
   return (
     <>
-      <HeaderBackoffice />
-
       <Typography sx={paragraphText40} variant="p" gutterBottom component="p">
         {user.name}
       </Typography>

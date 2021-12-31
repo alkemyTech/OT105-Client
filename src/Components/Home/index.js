@@ -4,6 +4,8 @@ import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
 import Title from '../Title/Title';
 import { getWelcomeMessage } from '../../Services/homeService';
+import Seccion_Novedades from '../News/Seccion_Novedades';
+import Testimonials from '../Testimonials/Testimonials';
 
 const HomeScreen = () => {
   const [title, setTitle] = useState(null);
@@ -27,8 +29,10 @@ const HomeScreen = () => {
         <div name="sliders" />
         <Container sx={{ marginTop: '50px' }}>
           <Box sx={{ objectFit: 'contain' }}>
-            <Typography variant="h4">Últimas novedades</Typography>
-            <div name="news" />
+            {/* <Typography variant="h4">Últimas novedades</Typography>
+            <div name="news" /> */}
+            <Seccion_Novedades />
+            <Testimonials />
           </Box>
         </Container>
       </Box>

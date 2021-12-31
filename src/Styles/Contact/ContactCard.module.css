@@ -1,21 +1,27 @@
-.cardContainer{
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    box-shadow: 3px 3px 9px -4px #000000 ;
+.cardsContainer {
+  display: flex;
+  justify-content: space-between;
+  max-width: 80%;
+  margin: 100px auto;
+  gap: 20px;
+}
+.cardContainer {
+  display: flex;
+  flex: 0 1 20%;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 9px -4px #000000;
 }
 
-.cardsContainer{
-    display: flex;
-    justify-content: space-between;
-    max-width: 80%;
-    margin: 100px auto 0 auto;
-    gap: 20px;
+.titleContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  align-items: center;
 }
 
-.titleContainer{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    align-items: center;
+.contentContainer {
+  display: flex;
+  justify-content: center;
 }

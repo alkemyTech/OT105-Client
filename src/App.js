@@ -16,7 +16,6 @@ function App() {
           <Route component={BackofficeRouter} path="/backoffice" />
           <Route component={PublicRouter} path="/" />
         </Switch>
-        <Footer />
       </BrowserRouter>
     </>
   );

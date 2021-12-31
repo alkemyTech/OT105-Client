@@ -55,12 +55,6 @@ const Backoffice_ListCategories = () => {
     }
   };
 
-  const editcategory = (id) => {
-    const isedit = window.confirm(
-      `Estas seguro de querer editar la categoria "${id}"`,
-    );
-  };
-
   useEffect(() => {
     getCategories().then((data) => setCategories(data));
   }, []);
@@ -71,8 +65,8 @@ const Backoffice_ListCategories = () => {
       <CategoriesSearchForm setCategories={setCategories} />
       {!listHasValues(categories) && categories !== null ? (
         <Alert
-          sx={{ margin: '0 auto', justifyContent: 'center' }}
-          severity="warning">
+          severity="warning"
+          sx={{ margin: '0 auto', justifyContent: 'center' }}>
           Categoría no encontrada!
         </Alert>
       ) : null}
@@ -91,7 +85,7 @@ const Backoffice_ListCategories = () => {
                 <Button
                   className="customTableBtn"
                   component={Link}
-                  to={`/create-category`}
+                  to={`/backoffice/categories/create`}
                   variant="contained">
                   Nueva categoría
                 </Button>
@@ -111,9 +105,9 @@ const Backoffice_ListCategories = () => {
                     {categories.map((row) => (
                       <StyledTableRow key={row.id} hover tabIndex={-1}>
                         <StyledTableCell
+                          align="left"
                           component="th"
-                          scope="row"
-                          align="left">
+                          scope="row">
                           {row.name}
                         </StyledTableCell>
                         <StyledTableCell
@@ -125,7 +119,7 @@ const Backoffice_ListCategories = () => {
                           <Tooltip title="Editar">
                             <IconButton
                               component={Link}
-                              to={`/create-category/${row.id}`}
+                              to={`/backoffice/categories/edit/${row.id}`}
                               variant="contained">
                               <EditIcon />
                             </IconButton>

@@ -10,7 +10,7 @@
   overflow-x: hidden;
 }
 
-.toysContainer {
+.schoolContainer {
   display: flex;
   position: relative;
   z-index: 100;
@@ -79,6 +79,6 @@
 
 @media (min-width: 1280px) {
   .bckg {
-    background-color: #9ac9fbff;
+    background-color: #fafa8880;
   }
 }

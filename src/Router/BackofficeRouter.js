@@ -16,12 +16,13 @@ import SlidesBackOffice from '../Components/Slides/SlidesBackOffice';
 import Organization from '../Components/Organization/OrganizationInfo';
 import Backoffice_ListCategories from '../Components/Categories/Backoffice_ListCategories';
 import News from '../Components/News/News';
+import BackofficeLayout from '../Components/Layouts/BackofficeLayout';
 
 const BackofficeRouter = () => {
   let { path } = useRouteMatch();
 
   return (
-    <Switch>
+    <BackofficeLayout>
       <Route exact component={BackofficeDashboard} path={`${path}`} />
 
       <Route component={ActivitiesForm} path={`${path}/activities/create`} />
@@ -62,7 +63,7 @@ const BackofficeRouter = () => {
 
       <Route component={EditHomeForm} path={`${path}/home`} />
       <Route component={ProjectsForm} path={`${path}/projects/create`} />
-    </Switch>
+    </BackofficeLayout>
   );
 };
 

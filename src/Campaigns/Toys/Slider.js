@@ -31,7 +31,7 @@ const Slider = () => {
     <>
       <Swiper
         navigation
-        autoplay={{ delay: 5000 }}
+        // autoplay={{ delay: 5000 }}
         centeredSlides={true}
         className={s.swiperContainer}
         effect="cube"
@@ -42,7 +42,9 @@ const Slider = () => {
         {toysCampaignSlidesInfo.map((slide, i) => (
           <SwiperSlide key={i} tag="div">
             <div className={s.slideContainer}>
-              <img className={s.slideImage} src={slide.slideImage} />
+              <div className={s.slideImageContainer}>
+                <img className={s.slideImage} src={slide.slideImage} />
+              </div>
               <div className={s.slideTextContainer}>
                 <p className={s.slideText}>{slide.slideText}</p>
               </div>

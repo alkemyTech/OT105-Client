@@ -15,7 +15,7 @@ const ContactCard = ({ children, contactTitle, contactInfo }) => {
           {contactTitle}
         </Typography>
       </Box>
-      <Box>
+      <Box className={s.contentContainer}>
         <Typography component="p" sx={cardContent}>
           {contactInfo}
         </Typography>

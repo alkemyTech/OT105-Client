@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import Swal from 'sweetalert2';
+import { errorAlert } from './alertsService';
 
 const ACTIVITIES_URL = process.env.REACT_APP_ACTIVITIES_URL;
 
@@ -19,7 +20,9 @@ export const getActivitiesByKeyword = async (keywords) => {
 
     return res.data.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al obtener la Actividad');
+
+    return err.data || err;
   }
 };
 
@@ -28,8 +31,10 @@ export const getActivityById = async (id) => {
     const { data } = await Axios.get(`${ACTIVITIES_URL}/${id}`);
 
     return data;
-  } catch (error) {
-    return error;
+  } catch (err) {
+    errorAlert('Error', err.data || 'Error al obtener la Actividad');
+
+    return err.data || err;
   }
 };
 

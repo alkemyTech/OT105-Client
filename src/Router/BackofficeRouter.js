@@ -25,7 +25,11 @@ const BackofficeRouter = () => {
     <BackofficeLayout>
       <Route exact component={BackofficeDashboard} path={`${path}`} />
 
-      <Route component={ActivitiesForm} path={`${path}/activities/create`} />
+      <Route
+        path={`${path}/activities/edit/:id`}
+        render={() => <ActivitiesForm />}
+      />
+      <Route component={ActivitiesForm} path={`${path}/activities/create `} />
       <Route component={BackofficeListActivities} path={`${path}/activities`} />
 
       <Route

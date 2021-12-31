@@ -4,7 +4,9 @@ import { Switch } from 'react-router-dom';
 const BackofficeLayout = ({ children }) => {
   return (
     <HeaderBackoffice>
-      <Switch>{children}</Switch>
+      <div style={{ minHeight: '58vh' }}>
+        <Switch>{children}</Switch>
+      </div>
     </HeaderBackoffice>
   );
 };

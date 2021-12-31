@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { errorAlert } from './alertsService';
 
 export const ACTIVITIES_URL = 'http://ongapi.alkemy.org/api/activities';
 
@@ -14,7 +15,9 @@ const getActivities = async (activitiesId) => {
       return res.data.data;
     }
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al obtener las Actividades');
+
+    return err.data || err;
   }
 };
 
@@ -24,7 +27,9 @@ const createActivity = async (activity) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al crear la Actividad');
+
+    return err.data || err;
   }
 };
 
@@ -37,7 +42,9 @@ const editActivity = async (activityId, editActivity) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al editar la Actividad');
+
+    return err.data || err;
   }
 };
 
@@ -47,7 +54,9 @@ const deleteActivity = async (activityId) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al eliminar la Actividad');
+
+    return err.data || err;
   }
 };
 

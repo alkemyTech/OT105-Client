@@ -99,7 +99,7 @@ const Header_Wed = () => {
                 onClose={handleCloseNavMenu}>
                 {links.map((link) => (
                   <MenuItem
-                    key={link}
+                    key={link.name}
                     to={link.path}
                     onClick={handleCloseNavMenu}>
                     <Link style={linkMenu} to={link.path}>
@@ -130,7 +130,7 @@ const Header_Wed = () => {
               }}>
               {links.map((link) => (
                 <Button
-                  key={link}
+                  key={link.name}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                   to={link.path}
                   onClick={handleCloseNavMenu}>

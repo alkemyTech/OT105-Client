@@ -1,19 +1,21 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
+import { useDispatch } from 'react-redux';
 import {
-  getCategories,
-  getCategoriesbyTerm,
-} from '../../../Services/CategoriesService';
+  getAllCategories,
+  filterCategoriesbyTerm,
+} from '../../../features/categories/categoriesAsyncThunks';
+import TextField from '@mui/material/TextField';
 import style from '../../../Styles/Categories/CategoriesSearch/CategoriesSearchForm.module.css';
 
-const CategoriesSearchForm = ({ setCategories }) => {
+const CategoriesSearchForm = () => {
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     if (e.target.value.length > 2) {
       const searchTerm = e.target.value;
 
-      getCategoriesbyTerm(searchTerm).then((data) => setCategories(data));
+      dispatch(filterCategoriesbyTerm(searchTerm));
     } else {
-      getCategories().then((data) => setCategories(data));
+      dispatch(getAllCategories());
     }
   };
 
@@ -38,9 +40,9 @@ const CategoriesSearchForm = ({ setCategories }) => {
   return (
     <div className={style.searchBarContainer}>
       <TextField
-        sx={{ width: '100%' }}
         autoComplete="off"
         label="Filtrar categoría"
+        sx={{ width: '100%' }}
         variant="outlined"
         onChange={debouncedHandleChange}
       />

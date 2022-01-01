@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,17 +21,85 @@ import {
   Tooltip,
   TablePagination,
 } from '@mui/material';
-import { getCategories } from '../../Services/CategoriesService';
 import CategoriesSearchForm from './SearchForm/CategoriesSearchForm';
+import {
+  getAllCategories,
+  deleteCategorybyId,
+} from '../../features/categories/categoriesAsyncThunks';
+import SortableTableCell from '../Users/SortableTableCell';
 import { listHasValues } from '../../Utils';
 import style from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import '../../Styles/TablesStyles.css';
 
+const categoriess = [
+  {
+    created_at: '2021-12-30T20:30:50.000000Z',
+    deleted_at: null,
+    description: '<p>Fiestas de la comunidad</p>',
+    group_id: null,
+    id: 1426,
+    image: 'http://ongapi.alkemy.org/storage/awpnHjlP3Z.png',
+    name: 'Fiestas',
+    parent_category_id: null,
+    updated_at: '2021-12-30T20:30:50.000000Z',
+  },
+  {
+    created_at: '2021-12-30T20:32:22.000000Z',
+    deleted_at: null,
+    description: '<p>Fiestas de la comunidad</p>',
+    group_id: null,
+    id: 1427,
+    image: 'http://ongapi.alkemy.org/storage/KEmDiYVnlc.png',
+    name: 'Fiesta',
+    parent_category_id: null,
+    updated_at: '2021-12-30T20:32:22.000000Z',
+  },
+  {
+    created_at: '2021-12-30T20:34:42.000000Z',
+    deleted_at: null,
+    description: '<p>Eventos de la comunidad</p>',
+    group_id: null,
+    id: 1428,
+    image: 'http://ongapi.alkemy.org/storage/3nr8XTehUM.png',
+    name: 'Evento',
+    parent_category_id: null,
+    updated_at: '2021-12-30T20:34:42.000000Z',
+  },
+];
+
 const Backoffice_ListCategories = () => {
-  const [categories, setCategories] = useState(null);
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.categories);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
+  const [sortedUsersList, setSortedUsersList] = useState([]);
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
+
+  const descendingComparator = (a, b, orderBy) => {
+    if (b['name'] < a['name']) {
+      return -1;
+    }
+    if (b['name'] > a['name']) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const getComparator = (order, orderBy) => {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  };
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -41,28 +110,56 @@ const Backoffice_ListCategories = () => {
 
   const rowHeight = 53;
 
+  const isLastItemOnPage = () => {
+    const total = categories.length - 1;
+    const pages = total / rowsPerPage;
+
+    return page === pages && page !== 0;
+  };
+
   const deletecategory = (id) => {
     const isDelete = window.confirm(
       `Estas seguro de querer eliminar la categoria "${id}"`,
     );
 
     if (isDelete) {
-      let result = categories.filter((e) => {
-        return e.id !== id;
-      });
+      dispatch(deleteCategorybyId(id));
+    }
 
-      return setCategories(result);
+    if (isLastItemOnPage()) {
+      setPage(page - 1);
+    }
+  };
+
+  const sortList = (list) => {
+    if (list) {
+      console.log(list);
+      const sortedList = list
+        .sort(getComparator(order, orderBy))
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+      return sortedList;
     }
   };
 
   useEffect(() => {
-    getCategories().then((data) => setCategories(data));
+    dispatch(getAllCategories());
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const newSortedUsersList = sortList(categories);
+
+      setSortedUsersList(newSortedUsersList);
+    });
+  }, [order, orderBy, page, categories]);
+
+  console.log(categories);
 
   return (
     <div className={style.listContainer}>
       <h1 style={{ textAlign: 'center' }}>Categorías</h1>
-      <CategoriesSearchForm setCategories={setCategories} />
+      <CategoriesSearchForm />
       {!listHasValues(categories) && categories !== null ? (
         <Alert
           severity="warning"
@@ -94,7 +191,13 @@ const Backoffice_ListCategories = () => {
                 <Table aria-label="tableTitle" sx={{ maxWidth: 900 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell align="left">Nombre</TableCell>
+                      <SortableTableCell
+                        columnLabel="Nombre"
+                        columnName="name"
+                        handleRequestSort={handleRequestSort}
+                        order={order}
+                        orderBy={orderBy}
+                      />
                       <TableCell align="center" className="customTableCol">
                         Creado
                       </TableCell>
@@ -102,8 +205,12 @@ const Backoffice_ListCategories = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {categories.map((row) => (
-                      <StyledTableRow key={row.id} hover tabIndex={-1}>
+                    {sortedUsersList?.map((row) => (
+                      <StyledTableRow
+                        key={row.id}
+                        hover
+                        sx={{ height: '3px' }}
+                        tabIndex={-1}>
                         <StyledTableCell
                           align="left"
                           component="th"

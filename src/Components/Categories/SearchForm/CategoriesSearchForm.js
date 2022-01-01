@@ -43,6 +43,7 @@ const CategoriesSearchForm = () => {
         autoComplete="off"
         label="Filtrar categoría"
         sx={{ width: '100%' }}
+        type="search"
         variant="outlined"
         onChange={debouncedHandleChange}
       />

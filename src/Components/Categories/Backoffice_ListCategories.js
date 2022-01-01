@@ -71,6 +71,7 @@ const categoriess = [
 const Backoffice_ListCategories = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
+  const [categoriesList, setCategoriesList] = useState([]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [sortedUsersList, setSortedUsersList] = useState([]);
@@ -144,11 +145,12 @@ const Backoffice_ListCategories = () => {
 
   useEffect(() => {
     dispatch(getAllCategories());
+    setCategoriesList(categories);
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
-      const newSortedUsersList = sortList(categories);
+      const newSortedUsersList = sortList(categoriesList);
 
       setSortedUsersList(newSortedUsersList);
     });
@@ -172,11 +174,7 @@ const Backoffice_ListCategories = () => {
           <Box>
             <Paper>
               <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
-                <Typography
-                  component="div"
-                  id="tableTitle"
-                  sx={{ mr: 'auto' }}
-                  variant="h6">
+                <Typography component="div" sx={{ mr: 'auto' }} variant="h6">
                   Categorías
                 </Typography>
                 <Button
@@ -187,8 +185,11 @@ const Backoffice_ListCategories = () => {
                   Nueva categoría
                 </Button>
               </Toolbar>
-              <TableContainer component={Paper}>
-                <Table aria-label="tableTitle" sx={{ maxWidth: 900 }}>
+              <TableContainer>
+                <Table
+                  aria-label="tableTitle"
+                  size="small"
+                  sx={{ maxWidth: 900 }}>
                   <TableHead>
                     <TableRow>
                       <SortableTableCell

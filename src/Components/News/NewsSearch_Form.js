@@ -58,7 +58,7 @@ export const NewsSearch_Form = ({ updateNewsList, updateLoadingState }) => {
       }}>
       <TextField
         autoComplete="off"
-        label="Filtrar News"
+        label="Filtrar novedades..."
         sx={{ width: '100%' }}
         variant="outlined"
         onChange={(e) => handleChange(e)}

@@ -7,13 +7,16 @@ const SortableTableCell = ({
   handleRequestSort,
   order,
   orderBy,
+  align = 'left',
 }) => {
   const createSortHandler = (property) => (event) => {
     handleRequestSort(event, property);
   };
 
   return (
-    <TableCell sortDirection={orderBy === columnName ? order : false}>
+    <TableCell
+      align={align}
+      sortDirection={orderBy === columnName ? order : false}>
       <TableSortLabel
         active={orderBy === columnName}
         direction={orderBy === columnName ? order : 'asc'}

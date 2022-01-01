@@ -1,4 +1,12 @@
 import React, { useState } from 'react';
+import {
+  Box,
+  Toolbar,
+  Typography,
+  Tooltip,
+  ListItemAvatar,
+  Avatar,
+} from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,9 +17,11 @@ import Paper from '@mui/material/Paper';
 import { Button, Container, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 import { NewsSearch_Form } from './NewsSearch_Form';
+import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
+import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
+import { memberAvatarStyle } from '../../Styles/MembersList/MembersListInlineStyles';
 
 function News() {
   const [news, setNews] = useState([]);
@@ -49,65 +59,82 @@ function News() {
     news && news.length
       ? news.map((row) => {
           return (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component="th" scope="row">
+            <StyledTableRow key={row.name} hover tabIndex={-1}>
+              <StyledTableCell component="th" scope="row">
                 {row.name}
-              </TableCell>
-              <TableCell align="right">{row.image}</TableCell>
-              <TableCell align="right">{row.createdAt}</TableCell>
-              <TableCell align="right">
-                <IconButton>
-                  <Button
-                    href={`/create-category/${row.id}`}
-                    startIcon={<EditIcon color="primary" />}
-                    variant="outlined"
-                    onClick={() => editNews(row.id)}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                <ListItemAvatar sx={{ marginTop: 0 }}>
+                  <Avatar
+                    alt={row.name}
+                    src={row.image}
+                    sx={memberAvatarStyle}
                   />
-                </IconButton>
-              </TableCell>
-              <TableCell align="right">
-                <IconButton>
-                  <Button
-                    startIcon={<DeleteIcon color="primary" />}
-                    variant="outlined"
-                    onClick={() => deleteNews(row.id)}
-                  />
-                </IconButton>
-              </TableCell>
-            </TableRow>
+                </ListItemAvatar>
+              </StyledTableCell>
+              <StyledTableCell align="right">{row.created_at}</StyledTableCell>
+              <StyledTableCell align="right">
+                <Tooltip title="Editar">
+                  <IconButton
+                    component={Link}
+                    to={`/backoffice/users/edit/${row.id}`}
+                    variant="contained">
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Eliminar">
+                  <IconButton onClick={() => deleteNews(row.id)}>
+                    <DeleteIcon color="error" />
+                  </IconButton>
+                </Tooltip>
+              </StyledTableCell>
+            </StyledTableRow>
           );
         })
       : null;
 
   return (
-    <Container className="container-table" maxWidth="md">
-      <Grid container justifyContent="flex-end">
-        <Link to="/backoffice/news/create">
-          <Button variant="contained">+ New</Button>
-        </Link>
-      </Grid>
+    <div className={s.listContainer}>
+      <h1 style={{ textAlign: 'center' }}>Novedades</h1>
       <NewsSearch_Form
         updateLoadingState={updateLoadingState}
         updateNewsList={updateNewsList}
       />
-
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table" sx={{ minWidth: 650 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>News</TableCell>
-              <TableCell align="right">Image</TableCell>
-              <TableCell align="right">Created at</TableCell>
-              <TableCell align="right">Edit</TableCell>
-              <TableCell align="right">Delete</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{tableBody}</TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
+      <Container sx={{ my: '1rem' }}>
+        <Box>
+          <Paper>
+            <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
+              <Typography component="div" sx={{ mr: 'auto' }} variant="h6">
+                Usuarios
+              </Typography>
+              <Button
+                className="customTableBtn"
+                component={Link}
+                to="/backoffice/news/create"
+                variant="contained">
+                Nueva novedad
+              </Button>
+            </Toolbar>
+            <TableContainer component={Paper}>
+              <Table
+                aria-labelledby="tableTitle"
+                size="small"
+                sx={{ maxWidth: 900 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell align="center">Imagen</TableCell>
+                    <TableCell align="center">Creado</TableCell>
+                    <TableCell align="right">Acciones</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>{tableBody}</TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Box>
+      </Container>
+    </div>
   );
 }
 export default News;

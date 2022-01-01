@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { InputBase, Paper, InputAdornment } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { TextField } from '@mui/material';
 import { getAllUsers, getUsersByKeyword } from '../../Services/userService';
+import style from '../../Styles/Categories/CategoriesSearch/CategoriesSearchForm.module.css';
 
 const UsersSearchForm = ({ setIsLoading, setUsersList }) => {
   const [keywords, setKeywords] = useState('');
@@ -36,27 +36,16 @@ const UsersSearchForm = ({ setIsLoading, setUsersList }) => {
   }, [keywords]);
 
   return (
-    <Paper
-      component="form"
-      sx={{
-        p: '2px 8px 2px 12px',
-        marginRight: 'auto',
-        width: '100%',
-        maxWidth: '24rem',
-      }}>
-      <InputBase
-        endAdornment={
-          <InputAdornment position="end">
-            <SearchIcon />
-          </InputAdornment>
-        }
-        placeholder="Buscar usuario..."
+    <div className={style.searchBarContainer}>
+      <TextField
+        autoComplete="off"
+        label="Filtrar usuario"
         sx={{ width: '100%' }}
         type="search"
-        value={keywords}
+        variant="outlined"
         onChange={(e) => handleChange(e)}
       />
-    </Paper>
+    </div>
   );
 };
 

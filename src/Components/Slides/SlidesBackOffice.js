@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import Table from '@mui/material/Table';
+import {
+  Table,
+  Container,
+  Box,
+  Toolbar,
+  Typography,
+  Button,
+  TableCell,
+  Tooltip,
+} from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import { IconButton } from '@mui/material';
 import TableContainer from '@mui/material/TableContainer';
@@ -8,13 +17,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Link } from 'react-router-dom';
 import '../../Styles/SlidesBackOffice.css';
 import {
   StyledTableCell,
   StyledTableRow,
 } from '../../Utils/SlidesBackOfficeStyled';
+import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 
 function SlidesBackOffice() {
   const [mockedData, setMockedData] = useState([
@@ -50,49 +59,71 @@ function SlidesBackOffice() {
   };
 
   return (
-    <div style={{ height: 400, width: '900px', margin: '20px auto' }}>
-      <Link exact className="link-button" to="/backoffice/Slides/create">
-        Create a new slide
-        <ArrowRightAltIcon />
-      </Link>
-      <TableContainer component={Paper}>
-        <Table aria-label="customized table" sx={{ minWidth: 900 }}>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Title</StyledTableCell>
-              <StyledTableCell align="right">Image</StyledTableCell>
-              <StyledTableCell align="right">Order</StyledTableCell>
-              <StyledTableCell align="right">Edit</StyledTableCell>
-              <StyledTableCell align="right">Delete</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {mockedData.map((row) => (
-              <StyledTableRow key={row.id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.Title}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.image}</StyledTableCell>
-                <StyledTableCell align="right">{row.order}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <IconButton
-                    component={Link}
-                    to={`/backoffice/Slides/edit/${row.id}`}
-                    variant="outlined">
-                    <EditIcon />
-                  </IconButton>
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <IconButton onClick={() => deleteSlide(row)}>
-                    {' '}
-                    <DeleteIcon />
-                  </IconButton>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div className={s.listContainer}>
+      <h1 style={{ textAlign: 'center' }}>Slides</h1>
+      <Container sx={{ my: '1rem' }}>
+        <Box>
+          <Paper>
+            <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
+              <Typography component="div" sx={{ mr: 'auto' }} variant="h6">
+                Slides
+              </Typography>
+              <Button
+                className="customTableBtn"
+                component={Link}
+                to="/backoffice/users/create"
+                variant="contained">
+                Nuevo slide
+              </Button>
+            </Toolbar>
+            <TableContainer>
+              <Table
+                aria-labelledby="tableTitle"
+                size="small"
+                sx={{ maxWidth: 900 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Titulo</TableCell>
+                    <TableCell align="right">Imagen</TableCell>
+                    <TableCell align="right">Orden</TableCell>
+                    <TableCell align="right">Acciones</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {mockedData.map((row) => (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.Title}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {row.image}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {row.order}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        <Tooltip title="Editar">
+                          <IconButton
+                            component={Link}
+                            to={`/backoffice/users/edit/${row.id}`}
+                            variant="contained">
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Eliminar">
+                          <IconButton onClick={() => console.log(row.id)}>
+                            <DeleteIcon color="error" />
+                          </IconButton>
+                        </Tooltip>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Box>
+      </Container>
     </div>
   );
 }

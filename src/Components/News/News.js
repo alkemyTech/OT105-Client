@@ -11,30 +11,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
-
-let NewsMock = [
-  {
-    id: 2,
-    name: 'Titulo de prueba',
-    image: 'imagen de prueba',
-    createdAt: '01/05/2021',
-  },
-  {
-    id: 1,
-    name: 'Titulo de prueba',
-    image: 'imagen de prueba',
-    createdAt: '01/05/2021',
-  },
-  {
-    id: 3,
-    name: 'Titulo de prueba',
-    image: 'imagen de prueba',
-    createdAt: '01/05/2021',
-  },
-];
+import { NewsSearch_Form } from './NewsSearch_Form';
 
 function News() {
-  const [news, setNews] = useState(NewsMock);
+  const [news, setNews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const updateLoadingState = (loadingState) => {
+    setIsLoading(loadingState);
+  };
+
+  const updateNewsList = (updatedNews) => {
+    setNews(updatedNews);
+  };
 
   const deleteNews = (id) => {
     const isDelete = window.confirm(
@@ -99,6 +88,11 @@ function News() {
           <Button variant="contained">+ New</Button>
         </Link>
       </Grid>
+      <NewsSearch_Form
+        updateLoadingState={updateLoadingState}
+        updateNewsList={updateNewsList}
+      />
+
       <TableContainer component={Paper}>
         <Table aria-label="simple table" sx={{ minWidth: 650 }}>
           <TableHead>

@@ -51,7 +51,7 @@ const MembersListItem = ({ member }) => {
                   <Tooltip arrow sx={{ padding: 0 }} title={member.linkedinUrl}>
                     <IconButton>
                       <a
-                        href={member.linkedinmUrl}
+                        href={member.linkedinUrl}
                         rel="noopener noreferrer"
                         target="_blank">
                         <LinkedInIcon className={style.socialMediaIcon} />

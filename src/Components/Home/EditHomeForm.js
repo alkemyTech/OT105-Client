@@ -18,11 +18,9 @@ import {
 import SlidesForm from '../Slides/SlidesForm';
 import {
   formStyles,
-  paperStyles,
   containerStyles,
   slidesContainer,
 } from '../../Styles/EditHomeFormStyles';
-import { productSansFont, sourceSerifProFont } from '../../Styles/fontStyles';
 import '../FormStyles.css';
 
 const validationSchema = Yup.object({

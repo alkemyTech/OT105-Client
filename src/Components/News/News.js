@@ -31,6 +31,7 @@ import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import '../../Styles/TablesStyles.css';
+import BackOfficeNewsSearch_Form from './BackOfficeNewsSearch_Form';
 
 function News() {
   const [order, setOrder] = useState('asc');
@@ -101,7 +102,7 @@ function News() {
   return (
     <div className={s.listContainer}>
       <h1 style={{ textAlign: 'center' }}>Novedades</h1>
-      <NewsSearch_Form
+      <BackOfficeNewsSearch_Form
         updateLoadingState={updateLoadingState}
         updateNewsList={updateNewsList}
       />
@@ -165,7 +166,7 @@ function News() {
                       style={{
                         height: rowHeight * 10,
                       }}>
-                      <TableCell colSpan={3}>
+                      <TableCell colSpan={6}>
                         <LoadSpinner />
                       </TableCell>
                     </TableRow>

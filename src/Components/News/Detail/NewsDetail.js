@@ -23,7 +23,6 @@ const NewsDetail = ({ newsTitle }) => {
 
   useEffect(() => {
     if (loading == true) {
-      setTimeout(updateCurrentNews(), 100000000);
       setLoading(false);
     }
   }, [loading]);

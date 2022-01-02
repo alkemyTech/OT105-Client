@@ -4,11 +4,18 @@ import '../FormStyles.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
 import CardHeader from '@mui/material/CardHeader';
-import { Alert } from '@mui/material';
+import { URLImageToBlob } from '../../Services/imageService';
+import {
+  TextField,
+  Box,
+  Button,
+  Alert,
+  Typography,
+  Paper,
+} from '@mui/material';
+import '../../Styles/CategoriesFormStyles.css';
 import { useDropzone } from 'react-dropzone';
 import { createOrEditTestimonial } from '../../Services/MemberServices';
 import thumb from './membersCreateEdit.module.css';
@@ -96,62 +103,68 @@ function MembersCreateEdit() {
   };
 
   return (
-    <Formik
-      formValues={{
-        name: '',
-        image: '',
-        description: '',
-        facebookUrl: '',
-        linkedinUrl: '',
-      }}
-      validate={(values) => {
-        let errors = {};
+    <div className="bckg">
+      <Formik
+        formValues={{
+          name: '',
+          image: '',
+          description: '',
+          facebookUrl: '',
+          linkedinUrl: '',
+        }}
+        validate={(values) => {
+          let errors = {};
 
-        if (!values.name) {
-          errors.name = 'Please submit a email';
-        }
+          if (!values.name) {
+            errors.name = 'Please submit a email';
+          }
 
-        if (values.image === null) {
-          errors.image = 'Please submit a image';
-        } else if (values.image) {
-          errors.image = false;
-        }
+          if (values.image === null) {
+            errors.image = 'Please submit a image';
+          } else if (values.image) {
+            errors.image = false;
+          }
 
-        if (!values.description) {
-          errors.description = 'Please submit a description';
-        }
-      }}
-      onSubmit={(values) => {
-        handleClick(values);
-      }}>
-      {({ errors, touched }) => {
-        return (
-          <Card sx={{ margin: '20px auto', width: '600px', height: '100%' }}>
-            <CardHeader title={id ? 'EDIT MEMBER' : 'CREATE MEMBER'} />
-            <Form
-              sx={{
-                padding: '60px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '600px',
-                height: '100%',
-              }}>
-              <h4 className="title">Name</h4>
-              <Field
-                fullWidth
-                component={TextField}
-                error={Boolean(touched.name && errors.name)}
-                id="name"
-                label="Name"
-                name="name"
-                placeholder="complet name"
-                type="text"
-                value={formValues.name}
-                onChange={(e, values) => nameChange(e, values)}
-              />
-              {errors.name && showErrorMessage(errors.name)}
-              <h4 className="name">Description</h4>
-              <section style={{ width: '80%', margin: '20px auto' }}>
+          if (!values.description) {
+            errors.description = 'Please submit a description';
+          }
+        }}
+        onSubmit={(values) => {
+          handleClick(values);
+        }}>
+        {({ errors, touched }) => {
+          return (
+            <Box noValidate className="form-container" component="form">
+              <Paper
+                elevation={3}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '3rem',
+                  gap: '2rem',
+                }}>
+                <CardHeader title={id ? 'Edit Member' : 'Create Member'} />
+
+                <Typography component="div" variant="h5">
+                  Name
+                </Typography>
+                <TextField
+                  fullWidth
+                  component={TextField}
+                  error={Boolean(touched.name && errors.name)}
+                  id="name"
+                  label="Name"
+                  name="name"
+                  placeholder="complet name"
+                  type="text"
+                  value={formValues.name}
+                  onChange={(e, values) => nameChange(e, values)}
+                />
+                {errors.name && showErrorMessage(errors.name)}
+                <Typography component="div" variant="h5">
+                  Descripcion
+                </Typography>
+
                 <CKEditor
                   required
                   component={TextField}
@@ -160,13 +173,16 @@ function MembersCreateEdit() {
                   label="Description"
                   onChange={descriptionChange}
                 />
-              </section>
-              {errors.description && showErrorMessage(errors.description)}
-              <h4 className="title">Image</h4>
-              <section className="form">
-                <div
+
+                {errors.description && showErrorMessage(errors.description)}
+                <Typography component="div" variant="h5">
+                  Image
+                </Typography>
+
+                <Box
                   {...getRootProps({ className: 'dropzone' })}
-                  style={{ margin: '10px auto' }}>
+                  className="dropzone-container"
+                  component="div">
                   <input
                     {...getInputProps({
                       id: 'image',
@@ -178,53 +194,62 @@ function MembersCreateEdit() {
                     Drag and drop some files here, or click to select files
                   </p>
                   <aside className="thumbs-container">{thumbs}</aside>
-                </div>
-              </section>
-              {errors.image && showErrorMessage(errors.image)}
-              <h4 className="title">facebookUrl</h4>
-              <Field
-                fullWidth
-                component={TextField}
-                error={Boolean(touched.facebookUrl && errors.facebookUrl)}
-                id="facebookUrl"
-                label="facebookUrl"
-                name="facebookUrl"
-                placeholder="facebookUrl"
-                sx={{ margin: '20px auto', width: '80%', display: 'flex' }}
-                type="text"
-                value={formValues.facebookUrl}
-                variant="outlined"
-                onChange={(e, value) => facebookChange(e, value)}
-              />
-              {errors.facebookUrl && showErrorMessage(errors.facebookUrl)}
-              <h4 className="title">linkedinUrl</h4>
-              <Field
-                fullWidth
-                component={TextField}
-                error={Boolean(touched.linkedinUrl && errors.linkedinUrl)}
-                id="linkedinUrl"
-                label="linkedinUrl"
-                name="linkedinUrl"
-                placeholder="linkedinUrl"
-                sx={{ margin: '20px auto', width: '80%', display: 'flex' }}
-                type="text"
-                value={formValues.linkedinUrl}
-                variant="outlined"
-                onChange={linkedInChange}
-              />
-              {errors.linkedinUrl && showErrorMessage(errors.linkedinUrl)}
-              <Button
-                className="submit-btn"
-                type="submit"
-                variant="contained"
-                onClick={() => handleClick()}>
-                Send
-              </Button>
-            </Form>
-          </Card>
-        );
-      }}
-    </Formik>
+                </Box>
+
+                {errors.image && showErrorMessage(errors.image)}
+
+                <Typography component="div" variant="h5">
+                  FacebookUrl
+                </Typography>
+
+                <TextField
+                  fullWidth
+                  component={TextField}
+                  error={Boolean(touched.facebookUrl && errors.facebookUrl)}
+                  id="facebookUrl"
+                  label="facebookUrl"
+                  name="facebookUrl"
+                  placeholder="facebookUrl"
+                  type="text"
+                  value={formValues.facebookUrl}
+                  variant="outlined"
+                  onChange={(e, value) => facebookChange(e, value)}
+                />
+                {errors.facebookUrl && showErrorMessage(errors.facebookUrl)}
+
+                <Typography component="div" variant="h5">
+                  linkedinUrl
+                </Typography>
+                <TextField
+                  fullWidth
+                  component={TextField}
+                  error={Boolean(touched.linkedinUrl && errors.linkedinUrl)}
+                  id="linkedinUrl"
+                  label="linkedinUrl"
+                  name="linkedinUrl"
+                  placeholder="linkedinUrl"
+                  type="text"
+                  value={formValues.linkedinUrl}
+                  variant="outlined"
+                  onChange={linkedInChange}
+                />
+                {errors.linkedinUrl && showErrorMessage(errors.linkedinUrl)}
+                <Button
+                  className="submit-btn"
+                  sx={{
+                    width: { xs: '100%', sm: '200px' },
+                  }}
+                  type="submit"
+                  variant="contained"
+                  onClick={() => handleClick()}>
+                  Send
+                </Button>
+              </Paper>
+            </Box>
+          );
+        }}
+      </Formik>
+    </div>
   );
 }
 

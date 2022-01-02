@@ -14,6 +14,7 @@ import {
   sendContactData,
   editContactData,
 } from '../../Services/contactsService';
+import '../../Styles/CategoriesFormStyles.css';
 
 const FormContact = ({ id }) => {
   const [apiResponse, setApiResponse] = useState({});

@@ -6,7 +6,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import { URLImageToBlob } from '../../Services/imageService';
+
 import {
   TextField,
   Box,

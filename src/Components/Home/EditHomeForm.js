@@ -72,9 +72,10 @@ const EditHomeForm = () => {
     <div className="bckg">
       <div style={containerStyles}>
         <Typography
-          align="center"
-          color="initial"
-          sx={productSansFont}
+          component="div"
+          sx={{
+            color: 'white',
+          }}
           variant="h3">
           Editar página de inicio
         </Typography>
@@ -93,8 +94,6 @@ const EditHomeForm = () => {
           <form sx={formStyles} onSubmit={formik.handleSubmit}>
             <Stack spacing={5}>
               <TextField
-                autoFocus
-                fullWidth
                 error={
                   formik.touched.welcomeText &&
                   Boolean(formik.errors.welcomeText)
@@ -130,31 +129,19 @@ const EditHomeForm = () => {
             },
           }}>
           <Paper elevation={3} sx={paperStyles}>
-            <Typography
-              align="center"
-              color="initial"
-              sx={sourceSerifProFont}
-              variant="h4">
+            <Typography component="div" variant="h5">
               Slide 1
             </Typography>
             <SlidesForm />
           </Paper>
           <Paper elevation={3} sx={paperStyles}>
-            <Typography
-              align="center"
-              color="initial"
-              sx={sourceSerifProFont}
-              variant="h4">
+            <Typography component="div" variant="h5">
               Slide 2
             </Typography>
             <SlidesForm />
           </Paper>
           <Paper elevation={3} sx={paperStyles}>
-            <Typography
-              align="center"
-              color="initial"
-              sx={sourceSerifProFont}
-              variant="h4">
+            <Typography component="div" variant="h5">
               Slide 3
             </Typography>
             <SlidesForm />

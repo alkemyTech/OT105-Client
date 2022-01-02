@@ -19,6 +19,7 @@ import BurstModeIcon from '@mui/icons-material/BurstMode';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 const routes = [
   {
@@ -65,6 +66,11 @@ const routes = [
     name: 'Usuarios',
     path: '/backoffice/users',
     icon: () => <GroupIcon />,
+  },
+  {
+    name: 'Projects',
+    path: '/projects/create',
+    icon: () => <BarChartIcon />,
   },
 ];
 

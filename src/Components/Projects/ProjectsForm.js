@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
 import CardHeader from '@mui/material/CardHeader';
-import { Alert } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { dropzoneConfig, isEmptyList } from '../../Utils/index';
 import { createOrUpdateProject } from '../../Services/projectService';
+import { CustomDropzone } from '../Users/CustomDropzone';
 import { useDropzone } from 'react-dropzone';
+import {
+  TextField,
+  Box,
+  Button,
+  Alert,
+  Typography,
+  Paper,
+} from '@mui/material';
+import '../../Styles/CategoriesFormStyles.css';
 import '../FormStyles.css';
 import '../../Styles/ProjectsForm.css';
 
@@ -111,110 +118,106 @@ const ProjectsForm = ({ id }) => {
   };
 
   return (
-    <Formik
-      initialValues={projectFormValues}
-      validate={(values) => {
-        let errors = {};
+    <div className="bckg">
+      <Formik
+        initialValues={projectFormValues}
+        validate={(values) => {
+          let errors = {};
 
-        if (!values.name) {
-          errors.name = 'These camps are required';
-        }
-        if (!values.image) {
-          errors.image = 'Please submit a image';
-        }
-        if (!projectsDescription) {
-          errors.description = 'These camps are required';
-        }
+          if (!values.name) {
+            errors.name = 'These camps are required';
+          }
+          if (!values.image) {
+            errors.image = 'Please submit a image';
+          }
+          if (!projectsDescription) {
+            errors.description = 'These camps are required';
+          }
 
-        return errors;
-      }}
-      onSubmit={(values) => {
-        handleClick(values);
-      }}>
-      {({ values, handleChange, errors, handleSubmit }) => {
-        return (
-          <Card sx={{ margin: '20px auto', width: '600px', height: '100%' }}>
-            <CardHeader title={id ? 'EDIT PROJECT' : 'CREATE PROJECT'} />
-            <Form
-              sx={{
-                padding: '60px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '600px',
-                height: '100%',
-              }}
-              onSubmit={handleSubmit}>
-              <h4 className="title">Title</h4>
-              <Field
-                fullWidth
-                component={TextField}
-                error={errors.name}
-                id="name"
-                label="Name"
-                name="name"
-                placeholder="Activity Title"
-                sx={{ margin: '20px auto', width: '80%', display: 'flex' }}
-                type="text"
-                value={values.name}
-                variant="outlined"
-                onChange={handleChange}
-              />
-              {errors.name && showError(errors, 'name')}
-              <h4 className="title">Description</h4>
-              <section style={{ width: '80%', margin: '20px auto' }}>
+          return errors;
+        }}
+        onSubmit={(values) => {
+          handleClick(values);
+        }}>
+        {({ values, handleChange, errors, handleSubmit }) => {
+          return (
+            <Box noValidate className="form-container" component="form">
+              <Paper
+                elevation={3}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '3rem',
+                  gap: '2rem',
+                }}>
+                <CardHeader title={id ? 'Edit Projects' : 'Create Projects'} />
+
+                <Typography component="div" variant="h5">
+                  Title
+                </Typography>
+                <TextField
+                  fullWidth
+                  component={TextField}
+                  error={errors.name}
+                  id="name"
+                  label="Name"
+                  name="name"
+                  placeholder="Activity Title"
+                  type="text"
+                  value={values.name}
+                  variant="outlined"
+                  onChange={handleChange}
+                />
+                {errors.name && showError(errors, 'name')}
+                <Typography component="div" variant="h5">
+                  Descripcion
+                </Typography>
                 <CKEditor
+                  data={values.description}
                   editor={ClassicEditor}
                   errors={errors.description}
                   id="description"
                   label="description"
                   name="description"
-                  data={values.description}
                   onChange={(e, editor) => {
                     handleCKeditorChange(e, editor);
                   }}
                 />
-              </section>
-              {errors.description && showError(errors, 'description')}
-              <h4 className="title">Due date</h4>
-              <Field
-                component={TextField}
-                sx={{ margin: '20x auto', display: 'flex', width: '200px' }}
-                type="date"
-                data={values.dueDate}
-                onChange={(e, data) => {
-                  handleDueDateChange(e, data);
-                }}
-              />
-              <h4 className="title">Image</h4>
-              <section className="form">
-                <div
-                  {...getRootProps({ className: 'dropzone' })}
-                  style={{ margin: '10px auto' }}>
-                  <input
-                    {...getInputProps({
-                      onChange: handleChange,
-                      id: 'image',
-                      name: 'image',
-                      error: errors.image,
-                      value: values.image,
-                      display: 'block',
-                    })}
-                  />
-                  <p style={{ textAlign: 'center' }}>
-                    Drag and drop some files here, or click to select files
-                  </p>
-                  <aside className="image-container">{imagePreview}</aside>
-                </div>
-              </section>
-              {errors.image && showError(errors, 'image')}
-              <Button type="submit" variant="outlined">
-                Send
-              </Button>
-            </Form>
-          </Card>
-        );
-      }}
-    </Formik>
+                {errors.description && showError(errors, 'description')}
+                <Typography component="div" variant="h5">
+                  Due date
+                </Typography>
+
+                <TextField
+                  component={TextField}
+                  data={values.dueDate}
+                  type="date"
+                  onChange={(e, data) => {
+                    handleDueDateChange(e, data);
+                  }}
+                />
+                <Typography component="div" variant="h5">
+                  Image
+                </Typography>
+
+                <CustomDropzone />
+
+                {errors.image && showError(errors, 'image')}
+                <Button
+                  className="submit-btn"
+                  sx={{
+                    width: { xs: '100%', sm: '200px' },
+                  }}
+                  type="submit"
+                  variant="contained">
+                  Send
+                </Button>
+              </Paper>
+            </Box>
+          );
+        }}
+      </Formik>
+    </div>
   );
 };
 

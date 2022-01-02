@@ -16,7 +16,10 @@ import {
   FormHelperText,
   FormControl,
   Tooltip,
+  Box,
   Alert,
+  Typography,
+  Paper,
 } from '@mui/material';
 import '../../Styles/Slides/SlidesForm.css';
 import * as service from '../../Services/slidesService';
@@ -158,101 +161,130 @@ const SlidesForm = () => {
   }
 
   return (
-    <Container maxWidth="md" sx={{ mb: '1rem' }}>
-      <h2>{id ? 'Edición de Slide' : 'Creación de Slide'}</h2>
-      <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.touched.name && formik.errors.name}
-          id="name"
-          label="Nombre"
-          margin="normal"
-          name="name"
-          value={formik.values.name}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-        />
-        <TextField
-          fullWidth
-          error={formik.touched.order && Boolean(formik.errors.order)}
-          helperText={formik.touched.order && formik.errors.order}
-          id="order"
-          label="Orden"
-          margin="normal"
-          name="order"
-          type="number"
-          value={formik.values.order}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-        />
-        <InputLabel sx={{ m: '0.5rem 0 1rem 0' }}>Imagen:</InputLabel>
-        <div
-          {...getRootProps({
-            className: `base-style ${isDragAccept ? 'accept-style' : ''} ${
-              isDragActive ? 'active-style' : ''
-            } ${isDragReject ? 'reject-style' : ''}`,
-          })}>
-          <input {...getInputProps()} id="image" name="image" />
-          <p>Arrastra tu imagen aquí o haz click para seleccionarla.</p>
-          <em>(Solo imágenes *.jpeg y *.png serán aceptadas)</em>
-        </div>
-        <FormControl error={Boolean(formik.errors.image)}>
-          <FormHelperText>{formik.errors.image}</FormHelperText>
-        </FormControl>
-        {formik.values.image ? (
-          <aside>
-            <h4>Archivos subidos:</h4>
-            <div className="thumb" onClick={() => removeSlideImage()}>
-              <Tooltip title="Delete">
-                <div className="thumb-inner">
-                  <div className="thumb-btn-container">
-                    <DeleteIcon fontSize="large" htmlColor="white" />
-                  </div>
-                  <img className="img-preview" src={formik.values.image} />
-                </div>
-              </Tooltip>
+    <div className="bckg">
+      <Box
+        noValidate
+        className="form-container"
+        component="form"
+        onSubmit={formik.handleSubmit}>
+        <Paper
+          elevation={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '3rem',
+            gap: '2rem',
+          }}>
+          <Typography component="div" variant="h4">
+            {id ? 'Edición de Slide' : 'Creación de Slide'}
+          </Typography>
+          <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
+            <Typography component="div" variant="h5">
+              Name
+            </Typography>
+            <TextField
+              fullWidth
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+              id="name"
+              label="Nombre"
+              margin="normal"
+              name="name"
+              value={formik.values.name}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            <Typography component="div" variant="h5">
+              Orden
+            </Typography>
+            <TextField
+              fullWidth
+              error={formik.touched.order && Boolean(formik.errors.order)}
+              helperText={formik.touched.order && formik.errors.order}
+              id="order"
+              label="Orden"
+              margin="normal"
+              name="order"
+              type="number"
+              value={formik.values.order}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            <Typography component="div" variant="h5">
+              Imagen
+            </Typography>
+            <div
+              {...getRootProps({
+                className: `base-style ${isDragAccept ? 'accept-style' : ''} ${
+                  isDragActive ? 'active-style' : ''
+                } ${isDragReject ? 'reject-style' : ''}`,
+              })}>
+              <input {...getInputProps()} id="image" name="image" />
+              <p>Arrastra tu imagen aquí o haz click para seleccionarla.</p>
+              <em>(Solo imágenes *.jpeg y *.png serán aceptadas)</em>
             </div>
-          </aside>
-        ) : null}
-        <div className="ck-content">
-          <InputLabel sx={{ m: '1rem 0' }}>Descripción:</InputLabel>
-          <CKEditor
-            config={ckeditorConfig}
-            data={formik.values.description}
-            editor={ClassicEditor}
-            onChange={(_event, editor) => {
-              formik.setFieldValue('description', editor.getData());
-            }}
-            onReady={(editor) => {
-              editor.editing.view.change((writer) => {
-                writer.setStyle(
-                  'min-height',
-                  '200px',
-                  editor.editing.view.document.getRoot(),
-                );
-              });
-            }}
-          />
-          <FormControl error={Boolean(formik.errors.description)}>
-            <FormHelperText>{formik.errors.description}</FormHelperText>
-          </FormControl>
-        </div>
-        {formik.errors.responseError && (
-          <Alert severity="error">{formik.errors.responseError}</Alert>
-        )}
-        <Button
-          fullWidth
-          color="primary"
-          disabled={formik.isSubmitting}
-          startIcon={<SaveIcon />}
-          sx={{ my: '1rem' }}
-          type="submit"
-          variant="contained">
-          {id ? 'Editar Slide' : 'Crear Slide'}
-        </Button>
-      </form>
-    </Container>
+            <FormControl error={Boolean(formik.errors.image)}>
+              <FormHelperText>{formik.errors.image}</FormHelperText>
+            </FormControl>
+            {formik.values.image ? (
+              <aside>
+                <Typography component="div" variant="h5">
+                  Archivos subidos:
+                </Typography>
+                <div className="thumb" onClick={() => removeSlideImage()}>
+                  <Tooltip title="Delete">
+                    <div className="thumb-inner">
+                      <div className="thumb-btn-container">
+                        <DeleteIcon fontSize="large" htmlColor="white" />
+                      </div>
+                      <img className="img-preview" src={formik.values.image} />
+                    </div>
+                  </Tooltip>
+                </div>
+              </aside>
+            ) : null}
+            <div className="ck-content">
+              <Typography component="div" variant="h5">
+                Descripción
+              </Typography>
+              <CKEditor
+                config={ckeditorConfig}
+                data={formik.values.description}
+                editor={ClassicEditor}
+                onChange={(_event, editor) => {
+                  formik.setFieldValue('description', editor.getData());
+                }}
+                onReady={(editor) => {
+                  editor.editing.view.change((writer) => {
+                    writer.setStyle(
+                      'min-height',
+                      '200px',
+                      editor.editing.view.document.getRoot(),
+                    );
+                  });
+                }}
+              />
+              <FormControl error={Boolean(formik.errors.description)}>
+                <FormHelperText>{formik.errors.description}</FormHelperText>
+              </FormControl>
+            </div>
+            {formik.errors.responseError && (
+              <Alert severity="error">{formik.errors.responseError}</Alert>
+            )}
+            <Button
+              className="submit-btn"
+              disabled={formik.isSubmitting}
+              sx={{
+                width: { xs: '100%', sm: '200px' },
+              }}
+              type="submit"
+              variant="contained">
+              {id ? 'Editar Slide' : 'Crear Slide'}
+            </Button>
+          </form>
+        </Paper>
+      </Box>
+    </div>
   );
 };
 

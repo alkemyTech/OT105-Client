@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { errorAlert } from './alertsService';
+
 export const urlEditNews = `http://ongapi.alkemy.org/public/api/news/`;
 export const urlCreateNews = `http://ongapi.alkemy.org/public/api/news`;
 
@@ -10,7 +12,9 @@ const getAllNews = async () => {
 
     return res.data.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al obtener las Novedades');
+
+    return err.data || err;
   }
 };
 
@@ -20,7 +24,9 @@ const getNewsByKeyword = async (keywords) => {
 
     return res.data.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al obtener la Novedad');
+
+    return err.data || err;
   }
 };
 
@@ -30,7 +36,9 @@ const getNewsById = async (newsId) => {
 
     return res.data.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al obtener la Novedad');
+
+    return err.data || err;
   }
 };
 
@@ -40,7 +48,9 @@ const createNews = async (news) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al crear la Novedad');
+
+    return err.data || err;
   }
 };
 
@@ -50,7 +60,9 @@ const editNews = async (newsId, editedNews) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al editar la Novedad');
+
+    return err.data || err;
   }
 };
 
@@ -60,7 +72,9 @@ const deleteNews = async (newsId) => {
 
     return res.data;
   } catch (err) {
-    return err.response.data;
+    errorAlert('Error', err.data || 'Error al eliminar la Novedad');
+
+    return err.data || err;
   }
 };
 

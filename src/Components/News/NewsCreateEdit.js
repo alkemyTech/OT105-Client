@@ -95,7 +95,9 @@ const NewsCreateEdit = ({ match }) => {
     let currentNews = await getNewsById(id);
 
     formik.values.title = currentNews.name;
-    setCategoryDescription(currentNews.content);
+    if (currentNews.content != null) {
+      setCategoryDescription(currentNews.content);
+    }
 
     URLImageToBlob(currentNews.image).then((res) => {
       setImage(res);

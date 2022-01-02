@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MembersList from '../Members/MembersList/MembersList';
 import Title from '../Title/Title';
-import '../../Styles/AboutStyle/AboutStyle.css';
+import s from '../../Styles/AboutStyle/AboutStyle.module.css';
 import Personas from '../../assets/foto4.jpg';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -19,8 +19,8 @@ function About() {
   return (
     <>
       <Title imageUrl={Personas} titleText={'Nosotros'} />
-      <div className="about-container">
-        <div className="container-info">
+      <div className={s.about_container}>
+        <div className={s.container_info}>
           <Typography variant="h3">{'Objetivo'}</Typography>
           <Typography variant="h5">{info}</Typography>
           <Typography variant="h3">{'Sobre nosotros'}</Typography>

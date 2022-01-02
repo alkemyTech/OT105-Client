@@ -39,7 +39,7 @@ const Seccion_Novedades = () => {
 
   return (
     <div>
-      <Title titleText={'Novedades'} />
+      <Title bckgColor="#8DCAFF" titleText={'Novedades'} />
       <div
         justify="center"
         style={{ width: '800px', margin: '20px auto', display: 'flex' }}>

@@ -25,8 +25,8 @@ import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import { getAllUsers, deleteUsers } from '../../Services/userService';
 import UsersSearchForm from './UsersSearchForm';
 import { listHasValues } from '../../Utils';
-import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
+import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 
 const UsersListTable = () => {
   const [order, setOrder] = useState('asc');

@@ -43,11 +43,6 @@ export const NewsSearch_Form = ({ updateNewsList, updateLoadingState }) => {
     }
   }, [debouncedValue]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setKeywords(e.target.value);
-  };
-
   return (
     <div
       style={{

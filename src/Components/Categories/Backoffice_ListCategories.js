@@ -27,7 +27,7 @@ import {
   deleteCategorybyId,
 } from '../../features/categories/categoriesAsyncThunks';
 import SortableTableCell from '../Users/SortableTableCell';
-import { listHasValues } from '../../Utils';
+import { listHasValues, sliceDate } from '../../Utils';
 import style from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import '../../Styles/TablesStyles.css';
@@ -70,8 +70,8 @@ const categoriess = [
 
 const Backoffice_ListCategories = () => {
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.categories);
-  const [categoriesList, setCategoriesList] = useState([]);
+  const { categories, loading } = useSelector((state) => state.categories);
+  const [categoriesList, setCategoriesList] = useState(null);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [sortedUsersList, setSortedUsersList] = useState([]);
@@ -79,10 +79,10 @@ const Backoffice_ListCategories = () => {
   const rowsPerPage = 10;
 
   const descendingComparator = (a, b, orderBy) => {
-    if (b['name'] < a['name']) {
+    if (b[orderBy] < a[orderBy]) {
       return -1;
     }
-    if (b['name'] > a['name']) {
+    if (b[orderBy] > a[orderBy]) {
       return 1;
     }
 
@@ -134,7 +134,6 @@ const Backoffice_ListCategories = () => {
 
   const sortList = (list) => {
     if (list) {
-      console.log(list);
       const sortedList = list
         .sort(getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -143,10 +142,19 @@ const Backoffice_ListCategories = () => {
     }
   };
 
+  const updateCategoriesList = () => {
+    setCategoriesList([...categories]);
+  };
+
   useEffect(() => {
     dispatch(getAllCategories());
-    setCategoriesList(categories);
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      updateCategoriesList();
+    }
+  }, [loading]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -154,9 +162,7 @@ const Backoffice_ListCategories = () => {
 
       setSortedUsersList(newSortedUsersList);
     });
-  }, [order, orderBy, page, categories]);
-
-  console.log(categories);
+  }, [order, orderBy, page, categoriesList]);
 
   return (
     <div className={style.listContainer}>
@@ -221,7 +227,7 @@ const Backoffice_ListCategories = () => {
                         <StyledTableCell
                           align="center"
                           className="customTableCol">
-                          {row.created_at}
+                          {sliceDate(row.created_at)}
                         </StyledTableCell>
                         <StyledTableCell align="right">
                           <Tooltip title="Editar">

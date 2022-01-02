@@ -12,7 +12,7 @@ import { TwitterTweet } from 'react-social-plugins';
 
 function About() {
   const mockUpText = {
-    text: 'Mejorar la calidad de vida de niños y familias en situación de vulnerabilidad en el barrio La Cava, otorgando un cambio de rumbo en cada individuo a través de la educación, salud, trabajo, deporte, responsabilidad y compromiso.',
+    text: 'Mejorar la calidad de vida de niños y familias en situación de vulnerabilidad del barrio La Cava, otorgando un cambio de rumbo en cada individuo a través de la educación, salud, trabajo, deporte, responsabilidad y compromiso.',
   };
   const [info, setInfo] = useState(mockUpText.text);
 
@@ -21,28 +21,51 @@ function About() {
       <Title imageUrl={Personas} titleText={'Nosotros'} />
       <div className={s.about_container}>
         <div className={s.container_info}>
-          <Typography variant="h3">{'Objetivo'}</Typography>
-          <Typography variant="h5">{info}</Typography>
-          <Typography variant="h3">{'Sobre nosotros'}</Typography>
-          <Typography variant="h5">
-            <p>
-              Desde 1997 en <strong>Somos Más</strong> trabajamos con los chicos
-              y chicas, mamás y papás, abuelos y vecinos del barrio La Cava
-              generando procesos de crecimiento y de inserción social. Uniendo
-              las manos de todas las familias, las que viven en el barrio y las
-              que viven fuera de él, es que podemos pensar, crear y garantizar
-              estos procesos. Somos una asociación civil sin fines de lucro que
-              se creó en 1997 con la intención de dar alimento a las familias
-              del barrio. Con el tiempo fuimos involucrándonos con la comunidad
-              y agrandando y mejorando nuestra capacidad de trabajo. Hoy somos
-              un centro comunitario que acompaña a más de 700 personas a través
-              de las áreas de: Educación, deportes, primera infancia, salud,
-              alimentación y trabajo social.&nbsp;
-            </p>
-          </Typography>
-          <Typography variant="h3">{'Miembros del Team'}</Typography>
+          <Typography variant="h4">{'Objetivo'}</Typography>
+          <Box
+            component="span"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '3rem',
+              gap: '2rem',
+              justifyContent: 'center',
+            }}>
+            <Typography variant="h5">{info}</Typography>
+          </Box>
+          <Typography variant="h4">{'Sobre nosotros'}</Typography>
+          <Box
+            component="span"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '3rem',
+              gap: '2rem',
+              justifyContent: 'center',
+            }}>
+            <Typography variant="h5">
+              <p>
+                Desde 1997 en <strong>Somos Más</strong> trabajamos con los
+                chicos y chicas, mamás y papás, abuelos y vecinos del barrio La
+                Cava generando procesos de crecimiento y de inserción social.
+                Uniendo las manos de todas las familias, las que viven en el
+                barrio y las que viven fuera de él, es que podemos pensar, crear
+                y garantizar estos procesos. Somos una asociación civil sin
+                fines de lucro que se creó en 1997 con la intención de dar
+                alimento a las familias del barrio. Con el tiempo fuimos
+                involucrándonos con la comunidad y agrandando y mejorando
+                nuestra capacidad de trabajo. Hoy somos un centro comunitario
+                que acompaña a más de 700 personas a través de las áreas de:
+                Educación, deportes, primera infancia, salud, alimentación y
+                trabajo social.&nbsp;
+              </p>
+            </Typography>
+          </Box>
+          <Typography variant="h4">{'Miembros del Team'}</Typography>
+
           <MembersList />
-          <Typography variant="h3">{'Ultimos tweets '}</Typography>
+
+          <Typography variant="h4">{'Ultimos tweets '}</Typography>
           <Box
             component="span"
             sx={{

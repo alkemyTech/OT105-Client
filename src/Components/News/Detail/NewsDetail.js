@@ -23,6 +23,7 @@ const NewsDetail = ({ newsTitle }) => {
 
   useEffect(() => {
     if (loading == true) {
+      updateCurrentNews();
       setLoading(false);
     }
   }, [loading]);

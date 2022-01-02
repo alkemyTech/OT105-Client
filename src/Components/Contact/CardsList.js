@@ -11,27 +11,46 @@ import s from '../../Styles/Contact/ContactCard.module.css';
 const CardsList = ({ contactInfo }) => {
   return (
     <Box className={s.cardsContainer}>
-      <ContactCard
-        contactInfo={contactInfo.twitter_url}
-        contactTitle="Twitter"
-        type="social">
-        <TwitterIcon fontSize="large" sx={cardIcon} />
-      </ContactCard>
-      <ContactCard
-        contactInfo={contactInfo.instagram_url}
-        contactTitle="Instagram"
-        type="social">
-        <InstagramIcon fontSize="large" sx={cardIcon} />
-      </ContactCard>
-      <ContactCard
-        contactInfo={contactInfo.facebook_url}
-        contactTitle="Facebook"
-        type="social">
-        <FacebookIcon fontSize="large" sx={cardIcon} />
-      </ContactCard>
-      <ContactCard contactInfo={contactInfo.cellphone} contactTitle="Llámanos">
-        <PhoneIcon fontSize="large" sx={cardIcon} />
-      </ContactCard>
+      <a
+        href={`http://${contactInfo.twitter_url}`}
+        rel="noopener noreferrer"
+        target="_blank">
+        <ContactCard
+          contactInfo={contactInfo.twitter_url}
+          contactTitle="Twitter"
+          type="social">
+          <TwitterIcon fontSize="large" sx={cardIcon} />
+        </ContactCard>
+      </a>
+      <a
+        href={`http://${contactInfo.instagram_url}`}
+        rel="noopener noreferrer"
+        target="_blank">
+        <ContactCard
+          contactInfo={contactInfo.instagram_url}
+          contactTitle="Instagram"
+          type="social">
+          <InstagramIcon fontSize="large" sx={cardIcon} />
+        </ContactCard>
+      </a>
+      <a
+        href={`http://${contactInfo.facebook_url}`}
+        rel="noopener noreferrer"
+        target="_blank">
+        <ContactCard
+          contactInfo={contactInfo.facebook_url}
+          contactTitle="Facebook"
+          type="social">
+          <FacebookIcon fontSize="large" sx={cardIcon} />
+        </ContactCard>
+      </a>
+      <a href={`tel:+54${contactInfo.cellphone}`}>
+        <ContactCard
+          contactInfo={contactInfo.cellphone}
+          contactTitle="Llámanos">
+          <PhoneIcon fontSize="large" sx={cardIcon} />
+        </ContactCard>
+      </a>
     </Box>
   );
 };

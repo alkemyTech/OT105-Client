@@ -6,7 +6,7 @@ import Header_Wed from '../Header/Header_Wed';
 const PublicLayout = ({ children }) => {
   return (
     <div>
-      <Header_Wed />
+      <Header_Wed isLogged={localStorage.getItem('token')} />
 
       <div style={{ minHeight: '58vh' }}>
         <Switch>{children}</Switch>

@@ -39,7 +39,7 @@ const links = [
   },
 ];
 
-const Header_Wed = () => {
+const Header_Wed = ({ isLogged }) => {
   const linkMenu = { textDecoration: 'none', color: 'black' };
   const [organizationInformation, setOrganizationInformation] = useState({});
 
@@ -103,13 +103,27 @@ const Header_Wed = () => {
                 {links.map((link) => (
                   <MenuItem
                     key={link.name}
+                    component={Link}
                     to={link.path}
                     onClick={handleCloseNavMenu}>
-                    <Link style={linkMenu} to={link.path}>
-                      {link.name}
-                    </Link>
+                    {link.name}
                   </MenuItem>
                 ))}
+                {!isLogged ? (
+                  <MenuItem
+                    component={Link}
+                    to="/login"
+                    onClick={handleCloseNavMenu}>
+                    Login
+                  </MenuItem>
+                ) : (
+                  <MenuItem
+                    component={Link}
+                    to="/logout"
+                    onClick={handleCloseNavMenu}>
+                    Logout
+                  </MenuItem>
+                )}
               </Menu>
             </Box>
 
@@ -129,6 +143,7 @@ const Header_Wed = () => {
                   gap: '1rem',
                 },
                 alignItems: 'center',
+                gap: '0',
               }}>
               {links.map((link) => (
                 <Button
@@ -138,7 +153,6 @@ const Header_Wed = () => {
                     color: 'white',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    border: '1px solid black',
                     paddingInline: '1rem',
                   }}
                   to={link.path}
@@ -146,14 +160,43 @@ const Header_Wed = () => {
                   {link.name}
                 </Button>
               ))}
-              <Button
-                color="primary"
-                component={Link}
-                sx={{ textTransform: 'none', height: '100%' }}
-                to="/login"
-                variant="contained">
-                Login
-              </Button>
+              {!isLogged ? (
+                <Button
+                  color="primary"
+                  component={Link}
+                  sx={{
+                    textTransform: 'none',
+                    height: '100%',
+                    bgcolor: 'white',
+                    ':hover': {
+                      bgcolor: '#EDF2F7',
+                      color: 'primary.info',
+                    },
+                    marginLeft: '2rem',
+                  }}
+                  to="/login"
+                  variant="outlined">
+                  Login
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  component={Link}
+                  sx={{
+                    textTransform: 'none',
+                    height: '100%',
+                    bgcolor: 'white',
+                    ':hover': {
+                      bgcolor: '#EDF2F7',
+                      color: 'primary.info',
+                    },
+                    marginLeft: '2rem',
+                  }}
+                  to="/logout"
+                  variant="outlined">
+                  Logout
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </Container>

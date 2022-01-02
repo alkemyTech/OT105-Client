@@ -4,6 +4,7 @@
   max-width: 70%;
   min-height: 70vh;
   margin: 0 auto;
+  margin-top: 30px;
   gap: 50px;
   align-items: center;
 }
@@ -36,6 +37,7 @@
 @media (min-width: 768px) {
   .newsDetail__container {
     flex-direction: row;
+    margin-top: 0;
   }
 
   .newsDetail__content {

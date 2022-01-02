@@ -9,10 +9,11 @@ import style from '../../../Styles/NewsDetail/NewsDetail.module.css';
 import { getNewsById } from '../../../Services/NewsService';
 import newsImage from '../../../assets/img/newsBackG_S.jpg';
 
-const NewsDetail = ({ newsTitle }) => {
+const NewsDetail = () => {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [newsDetail, setNewsDetail] = useState({
+    name: '',
     image: '',
     content: '',
   });
@@ -48,16 +49,16 @@ const NewsDetail = ({ newsTitle }) => {
         </Box>
       ) : (
         <div>
-          <Title imageUrl={newsDetail.image} titleText={newsDetail.nam} />
+          <Title imageUrl={newsImage} titleText={newsDetail.name} />
           <Box className={style.newsDetail__container} component="div">
             <Box className={style.newsDetail__content} component="div">
-              <Typography component="p" variant="p">
+              <Typography component="div" variant="p">
                 {ReactHtmlParser(newsDetail.content)}
               </Typography>
             </Box>
             <Box className={style.newsDetail__imageContainer} component="div">
               <img
-                alt="childrens at play"
+                alt="imagen novedad"
                 className={style.newsDetail__image}
                 src={newsDetail.image}
               />

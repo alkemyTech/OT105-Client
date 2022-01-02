@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { UserFormSchema } from './UserFormSchema';
 import { CustomDropzone } from './CustomDropzone';
-import '../../Styles/UsersForm/CreateEditUserFormStyle.css';
+import s from '../../Styles/UsersForm/CreateEditUserFormStyle.module.css';
 
 const UserForm = ({ user = null }) => {
   const [success, setSuccess] = useState({
@@ -95,7 +95,7 @@ const UserForm = ({ user = null }) => {
 
               <Field
                 as="select"
-                className="input-field"
+                className={s.input_field}
                 id="role"
                 name="role"
                 placeholder="User email"
@@ -129,7 +129,7 @@ const UserForm = ({ user = null }) => {
               <CustomDropzone setImage64={setImage} />
 
               <Button
-                className="submit-btn"
+                className={s.submit_btn}
                 sx={{
                   width: { xs: '100%', sm: '200px' },
                 }}

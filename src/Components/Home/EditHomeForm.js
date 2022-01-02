@@ -71,12 +71,7 @@ const EditHomeForm = () => {
   return (
     <div className="bckg">
       <div style={containerStyles}>
-        <Typography
-          component="div"
-          sx={{
-            color: 'white',
-          }}
-          variant="h3">
+        <Typography align="center" component="div" variant="h3">
           Editar página de inicio
         </Typography>
         <Paper
@@ -128,24 +123,11 @@ const EditHomeForm = () => {
               lg: '1fr 1fr 1fr',
             },
           }}>
-          <Paper elevation={3} sx={paperStyles}>
-            <Typography component="div" variant="h5">
-              Slide 1
-            </Typography>
-            <SlidesForm />
-          </Paper>
-          <Paper elevation={3} sx={paperStyles}>
-            <Typography component="div" variant="h5">
-              Slide 2
-            </Typography>
-            <SlidesForm />
-          </Paper>
-          <Paper elevation={3} sx={paperStyles}>
-            <Typography component="div" variant="h5">
-              Slide 3
-            </Typography>
-            <SlidesForm />
-          </Paper>
+          <SlidesForm />
+
+          <SlidesForm />
+
+          <SlidesForm />
         </Container>
       </div>
     </div>

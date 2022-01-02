@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { Redirect } from 'react-router-dom';
 import {
   Alert,
   AlertTitle,
@@ -75,49 +76,52 @@ const LoginForm = () => {
     };
 
     return (
-      <form className="login-user-form" onSubmit={formik.handleSubmit}>
-        <FormControl margin="dense" sx={{ width: '25rem' }}>
-          <InputLabel htmlFor="email">Email Address</InputLabel>
-          <Input
-            id="email"
-            margin="dense"
-            name="email"
-            placeholder="Email"
-            startAdornment={
-              <InputAdornment position="start">
-                <EmailOutlinedIcon />
-              </InputAdornment>
-            }
-            type="email"
-            value={formik.values.email}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {showErrors('email')}
-        </FormControl>
-        <FormControl sx={{ width: '25rem' }}>
-          <InputLabel htmlFor="password">password</InputLabel>
-          <Input
-            id="password"
-            margin="dense"
-            name="password"
-            placeholder="password"
-            startAdornment={
-              <InputAdornment position="start">
-                <VisibilityOutlinedIcon />
-              </InputAdornment>
-            }
-            type="password"
-            value={formik.values.password}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {showErrors('password')}
-        </FormControl>
-        <Button className="submit-btn" type="submit" variant="contained">
-          Login
-        </Button>
-      </form>
+      <>
+        {localStorage.getItem('token') && <Redirect to="/" />}
+        <form className="login-user-form" onSubmit={formik.handleSubmit}>
+          <FormControl margin="dense" sx={{ width: '25rem' }}>
+            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <Input
+              id="email"
+              margin="dense"
+              name="email"
+              placeholder="Email"
+              startAdornment={
+                <InputAdornment position="start">
+                  <EmailOutlinedIcon />
+                </InputAdornment>
+              }
+              type="email"
+              value={formik.values.email}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            {showErrors('email')}
+          </FormControl>
+          <FormControl sx={{ width: '25rem' }}>
+            <InputLabel htmlFor="password">password</InputLabel>
+            <Input
+              id="password"
+              margin="dense"
+              name="password"
+              placeholder="password"
+              startAdornment={
+                <InputAdornment position="start">
+                  <VisibilityOutlinedIcon />
+                </InputAdornment>
+              }
+              type="password"
+              value={formik.values.password}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            {showErrors('password')}
+          </FormControl>
+          <Button className="submit-btn" type="submit" variant="contained">
+            Login
+          </Button>
+        </form>
+      </>
     );
   };
 

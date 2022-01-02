@@ -1,6 +1,6 @@
 export const cardTitle = {
   fontSize: '20px',
-  marginLeft: '10px',
+  margin: '0 auto',
 };
 
 export const cardContent = {
@@ -12,4 +12,5 @@ export const cardContent = {
 
 export const cardIcon = {
   color: '#DB5752',
+  fontSize: '70px',
 };

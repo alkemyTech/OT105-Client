@@ -69,7 +69,7 @@ const routes = [
   },
   {
     name: 'Projects',
-    path: '/projects/create',
+    path: '/backoffice/projects/create',
     icon: () => <BarChartIcon />,
   },
 ];

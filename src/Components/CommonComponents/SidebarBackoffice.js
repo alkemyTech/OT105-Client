@@ -67,7 +67,12 @@ const Sidebar = ({ isOpen, handleDrawerToggle, drawerWidth }) => {
     return (
       <List>
         {routes.map((route) => (
-          <ListItem key={route.name} button component={Link} to={route.path}>
+          <ListItem
+            key={route.name}
+            button
+            component={Link}
+            to={route.path}
+            onClick={handleDrawerToggle}>
             <ListItemIcon>{route.icon()}</ListItemIcon>
             <ListItemText primary={route.name} />
           </ListItem>

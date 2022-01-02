@@ -59,7 +59,7 @@ const routes = [
   },
   {
     name: 'Testimonios',
-    path: '/backoffice/testimonies',
+    path: '/backoffice/testimonials/create',
     icon: () => <ModeCommentIcon />,
   },
   {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Title from '../Title/Title';
 import Video from './Ultimo Evento/Video';
 import Card from '@mui/material/Card';
@@ -9,37 +9,18 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
-const NewsMock = [
-  {
-    id: 1058,
-    name: 'ihuhuyyyyyyyyyyt',
-    createdAt: '2021-11-28',
-    image:
-      'https://media-exp1.licdn.com/dms/image/C4E1BAQEDDjuh9HQchg/company-background_10000/0/1610631110628?e=2159024400&v=beta&t=00JMFny1Y6JiSd8rpPDIfJ_6vNH6NhtCK_yban1zy3c',
-  },
-  {
-    id: 1151,
-    name: 'Name de prueba',
-    createdAt: '2021-12-02',
-    image:
-      'https://media-exp1.licdn.com/dms/image/C4E1BAQEDDjuh9HQchg/company-background_10000/0/1610631110628?e=2159024400&v=beta&t=00JMFny1Y6JiSd8rpPDIfJ_6vNH6NhtCK_yban1zy3c',
-  },
-  {
-    id: 1153,
-    name: 'sdfsdf',
-    createdAt: '2021-12-02',
-    image:
-      'https://media-exp1.licdn.com/dms/image/C4E1BAQEDDjuh9HQchg/company-background_10000/0/1610631110628?e=2159024400&v=beta&t=00JMFny1Y6JiSd8rpPDIfJ_6vNH6NhtCK_yban1zy3c',
-  },
-];
+import { getAllNews } from '../../Services/NewsService.js';
 
 const Seccion_Novedades = () => {
-  const [novedades, setNovedades] = useState(NewsMock);
+  const [novedades, setNovedades] = useState([]);
+
+  useEffect(() => {
+    getAllNews().then((res) => setNovedades(res));
+  }, []);
 
   return (
     <div>
-      <Title titleText={'Novedades'} />
+      <Title bckgColor="#8DCAFF" titleText={'Novedades'} />
       <div
         justify="center"
         style={{ width: '800px', margin: '20px auto', display: 'flex' }}>

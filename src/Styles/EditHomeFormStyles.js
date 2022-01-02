@@ -5,12 +5,6 @@ const formStyles = {
   flexDirection: 'column',
 };
 
-const paperStyles = {
-  paddingInline: { xs: '0.2rem', sm: '0.5rem' },
-  paddingTop: '2rem',
-  maxWidth: { xs: '275px', sm: '350px' },
-};
-
 const containerStyles = {
   width: '100%',
   margin: '0 auto',
@@ -24,4 +18,4 @@ const slidesContainer = {
   gap: '1rem',
 };
 
-export { formStyles, paperStyles, containerStyles, slidesContainer };
+export { formStyles, containerStyles, slidesContainer };

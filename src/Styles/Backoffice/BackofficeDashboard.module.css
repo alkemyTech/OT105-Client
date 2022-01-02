@@ -1,5 +1,5 @@
 .container {
-  padding: 2rem;
+  padding: 3rem;
 }
 
 .cards_container {
@@ -11,6 +11,8 @@
   gap: 3rem;
   align-items: center;
   flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 @media (max-width: 500px) {

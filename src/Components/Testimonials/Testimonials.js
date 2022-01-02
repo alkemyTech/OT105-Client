@@ -21,7 +21,7 @@ const Testimonials = () => {
 
   return (
     <div>
-      <Title titleText={'Testimonios'} />
+      <Title bckgColor="#EC4C4C" titleText={'Testimonios'} />
       <div
         justify="center"
         style={{ width: '800px', margin: '20px auto', display: 'flex' }}>

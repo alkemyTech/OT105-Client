@@ -29,7 +29,7 @@ const BackofficeRouter = () => {
         path={`${path}/activities/edit/:id`}
         render={() => <ActivitiesForm />}
       />
-      <Route component={ActivitiesForm} path={`${path}/activities/create `} />
+      <Route component={ActivitiesForm} path={`${path}/activities/create`} />
       <Route component={BackofficeListActivities} path={`${path}/activities`} />
 
       <Route

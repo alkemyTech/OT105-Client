@@ -43,11 +43,6 @@ export const NewsSearch_Form = ({ updateNewsList, updateLoadingState }) => {
     }
   }, [debouncedValue]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setKeywords(e.target.value);
-  };
-
   return (
     <div
       style={{
@@ -58,7 +53,7 @@ export const NewsSearch_Form = ({ updateNewsList, updateLoadingState }) => {
       }}>
       <TextField
         autoComplete="off"
-        label="Filtrar News"
+        label="Filtrar novedades..."
         sx={{ width: '100%' }}
         variant="outlined"
         onChange={(e) => handleChange(e)}

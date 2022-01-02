@@ -11,7 +11,6 @@ function useDebounce(value, delay) {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
-      console.log(value);
     }, delay);
 
     return () => {
@@ -49,11 +48,6 @@ export const MembersSearchForm = ({
     }
   }, [debouncedValue]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setKeywords(e.target.value);
-  };
-
   return (
     <div
       style={{
@@ -63,9 +57,9 @@ export const MembersSearchForm = ({
         margin: '0 auto',
       }}>
       <TextField
-        sx={{ width: '100%' }}
         autoComplete="off"
-        label="Filtrar miembro"
+        label="Filtrar miembro..."
+        sx={{ width: '100%' }}
         variant="outlined"
         onChange={(e) => handleChange(e)}
       />

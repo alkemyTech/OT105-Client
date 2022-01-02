@@ -6,7 +6,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import styles from '../../Styles/ScreenMembersListStyles';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import '../../Styles/TablesStyles.css';
-export const MemberRow = ({ id, name, image }) => {
+
+export const MemberRow = ({ id, name, image, deleteMember }) => {
   const matchesMobile = useMediaQuery('(min-width:430px)');
 
   return (
@@ -22,16 +23,14 @@ export const MemberRow = ({ id, name, image }) => {
       <StyledTableCell align="right">
         <Tooltip title="Editar">
           <IconButton
-            // component={Link}
-            // to={`/create-category/${row.id}`}
+            component={Link}
+            to={`/backoffice/members/edit/${id}`}
             variant="contained">
             <EditIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="Eliminar">
-          <IconButton
-          // onClick={() => deletecategory(row.id)}
-          >
+          <IconButton onClick={() => deleteMember(id)}>
             <DeleteIcon color="error" />
           </IconButton>
         </Tooltip>

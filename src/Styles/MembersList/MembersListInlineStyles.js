@@ -8,7 +8,7 @@ export const membersListStyle = {
 export const memberAvatarStyle = {
   width: 60,
   height: 60,
-  marginRight: 3,
+  margin: '0 auto',
 };
 
 export const memberNameTypography = {

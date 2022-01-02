@@ -1,5 +1,6 @@
 .customTableCol.MuiTableCell-root,
-.customTableCol.css-1howxi1-MuiTableCell-root {
+.customTableCol.css-1howxi1-MuiTableCell-root,
+.customTableCell.MuiTableCell-head {
   display: none;
 }
 
@@ -7,17 +8,26 @@
   font-size: 0.5rem;
 }
 
+.MuiTypography-h6.customTableTitle {
+  font-size: 0.8rem;
+}
+
+.MuiTablePagination-toolbar p {
+  display: block;
+}
+
 @media (min-width: 468px) {
   .customTableCol.MuiTableCell-root,
-  .customTableCol.css-1howxi1-MuiTableCell-root {
+  .customTableCol.css-1howxi1-MuiTableCell-root,
+  .customTableCell.MuiTableCell-head {
     display: table-cell;
   }
 
   .customTableBtn.MuiButton-root {
     font-size: 1rem;
   }
-}
 
-.MuiTablePagination-toolbar p {
-  display: block;
+  .MuiTypography-h6.customTableTitle {
+    font-size: 1.25rem;
+  }
 }

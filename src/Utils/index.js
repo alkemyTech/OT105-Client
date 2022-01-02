@@ -9,3 +9,12 @@ export const dropzoneConfig = {
   maxFiles: 1,
   validImages: 'image/jpeg, image/png',
 };
+
+export const sliceDate = (fullDate) => {
+  const tobeSliced = new Date(fullDate);
+  const day = tobeSliced.getDate();
+  const month = tobeSliced.getMonth() + 1;
+  const year = tobeSliced.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,17 +21,35 @@ import {
   Tooltip,
   TablePagination,
 } from '@mui/material';
-import { getCategories } from '../../Services/CategoriesService';
 import CategoriesSearchForm from './SearchForm/CategoriesSearchForm';
-import { listHasValues } from '../../Utils';
+import {
+  getAllCategories,
+  deleteCategorybyId,
+} from '../../features/categories/categoriesAsyncThunks';
+import SortableTableCell from '../Users/SortableTableCell';
+import { listHasValues, sliceDate } from '../../Utils';
+import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import style from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
+import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import '../../Styles/TablesStyles.css';
 
 const Backoffice_ListCategories = () => {
-  const [categories, setCategories] = useState(null);
+  const dispatch = useDispatch();
+  const { categories, loading } = useSelector((state) => state.categories);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
+  const [sortedUsersList, setSortedUsersList] = useState([]);
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -41,91 +60,141 @@ const Backoffice_ListCategories = () => {
 
   const rowHeight = 53;
 
+  const isLastItemOnPage = () => {
+    const total = categories.length - 1;
+    const pages = total / rowsPerPage;
+
+    return page === pages && page !== 0;
+  };
+
   const deletecategory = (id) => {
     const isDelete = window.confirm(
       `Estas seguro de querer eliminar la categoria "${id}"`,
     );
 
     if (isDelete) {
-      let result = categories.filter((e) => {
-        return e.id !== id;
-      });
+      dispatch(deleteCategorybyId(id));
+    }
 
-      return setCategories(result);
+    if (isLastItemOnPage()) {
+      setPage(page - 1);
     }
   };
 
-  const editcategory = (id) => {
-    const isedit = window.confirm(
-      `Estas seguro de querer editar la categoria "${id}"`,
-    );
+  const updateCategoriesList = () => {
+    setCategoriesList([...categories]);
   };
 
   useEffect(() => {
-    getCategories().then((data) => setCategories(data));
+    dispatch(getAllCategories());
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      updateCategoriesList();
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const newSortedUsersList = sortList(
+        categoriesList,
+        page,
+        rowsPerPage,
+        order,
+        orderBy,
+      );
+
+      setSortedUsersList(newSortedUsersList);
+    });
+  }, [order, orderBy, page, categoriesList]);
 
   return (
     <div className={style.listContainer}>
       <h1 style={{ textAlign: 'center' }}>Categorías</h1>
-      <CategoriesSearchForm setCategories={setCategories} />
+      <CategoriesSearchForm />
       {!listHasValues(categories) && categories !== null ? (
         <Alert
-          sx={{ margin: '0 auto', justifyContent: 'center' }}
-          severity="warning">
+          severity="warning"
+          sx={{ margin: '0 auto', justifyContent: 'center' }}>
           Categoría no encontrada!
         </Alert>
       ) : null}
-      {listHasValues(categories) && (
-        <Container sx={{ my: '1rem' }}>
-          <Box>
-            <Paper>
-              <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
-                <Typography
-                  component="div"
-                  id="tableTitle"
-                  sx={{ mr: 'auto' }}
-                  variant="h6">
-                  Categorías
-                </Typography>
-                <Button
-                  className="customTableBtn"
-                  component={Link}
-                  to={`/create-category`}
-                  variant="contained">
-                  Nueva categoría
-                </Button>
-              </Toolbar>
-              <TableContainer component={Paper}>
-                <Table aria-label="tableTitle" sx={{ maxWidth: 900 }}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="left">Nombre</TableCell>
-                      <TableCell align="center" className="customTableCol">
-                        Creado
-                      </TableCell>
-                      <TableCell align="right">Acciones</TableCell>
-                    </TableRow>
-                  </TableHead>
+      <Container sx={{ my: '1rem' }}>
+        <Box>
+          <Paper>
+            <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
+              <Typography
+                className="customTableTitle"
+                component="div"
+                sx={{ mr: 'auto' }}
+                variant="h6">
+                Categorías
+              </Typography>
+              <Button
+                className="customTableBtn"
+                component={Link}
+                to={`/backoffice/categories/create`}
+                variant="contained">
+                Nueva categoría
+              </Button>
+            </Toolbar>
+            <TableContainer>
+              <Table
+                aria-label="tableTitle"
+                size="small"
+                sx={{ maxWidth: 900 }}>
+                <TableHead>
+                  <TableRow>
+                    <SortableTableCell
+                      columnLabel="Nombre"
+                      columnName="name"
+                      handleRequestSort={handleRequestSort}
+                      order={order}
+                      orderBy={orderBy}
+                      responsive={false}
+                    />
+                    <TableCell align="center" className="customTableCol">
+                      Creado
+                    </TableCell>
+                    <TableCell align="right">Acciones</TableCell>
+                  </TableRow>
+                </TableHead>
+                {loading ? (
                   <TableBody>
-                    {categories.map((row) => (
-                      <StyledTableRow key={row.id} hover tabIndex={-1}>
+                    <TableRow
+                      style={{
+                        height: rowHeight * 10,
+                      }}>
+                      <TableCell colSpan={3}>
+                        <LoadSpinner />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                ) : (
+                  <TableBody>
+                    {sortedUsersList?.map((row) => (
+                      <StyledTableRow
+                        key={row.id}
+                        hover
+                        sx={{ height: '3px' }}
+                        tabIndex={-1}>
                         <StyledTableCell
+                          align="left"
                           component="th"
-                          scope="row"
-                          align="left">
+                          scope="row">
                           {row.name}
                         </StyledTableCell>
                         <StyledTableCell
                           align="center"
                           className="customTableCol">
-                          {row.created_at}
+                          {sliceDate(row.created_at)}
                         </StyledTableCell>
                         <StyledTableCell align="right">
                           <Tooltip title="Editar">
                             <IconButton
                               component={Link}
-                              to={`/create-category/${row.id}`}
+                              to={`/backoffice/categories/edit/${row.id}`}
                               variant="contained">
                               <EditIcon />
                             </IconButton>
@@ -147,20 +216,20 @@ const Backoffice_ListCategories = () => {
                       </TableRow>
                     )}
                   </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                component="div"
-                count={categories.length}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={[10]}
-                onPageChange={handleChangePage}
-              />
-            </Paper>
-          </Box>
-        </Container>
-      )}
+                )}
+              </Table>
+            </TableContainer>
+            <TablePagination
+              component="div"
+              count={categories?.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={[10]}
+              onPageChange={handleChangePage}
+            />
+          </Paper>
+        </Box>
+      </Container>
     </div>
   );
 };

@@ -16,6 +16,7 @@ import {
   IconButton,
   Tooltip,
   Typography,
+  Alert,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -23,6 +24,10 @@ import SortableTableCell from './SortableTableCell';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import { getAllUsers, deleteUsers } from '../../Services/userService';
 import UsersSearchForm from './UsersSearchForm';
+import { listHasValues } from '../../Utils';
+import { sortList } from '../../Utils/TablesUtils/sortingUtils';
+import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
+import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 
 const UsersListTable = () => {
   const [order, setOrder] = useState('asc');
@@ -32,23 +37,6 @@ const UsersListTable = () => {
   const [sortedUsersList, setSortedUsersList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const rowsPerPage = 10;
-
-  const descendingComparator = (a, b, orderBy) => {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-
-    return 0;
-  };
-
-  const getComparator = (order, orderBy) => {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -86,16 +74,14 @@ const UsersListTable = () => {
     }
   };
 
-  const sortList = (list) => {
-    const sortedList = list
-      .sort(getComparator(order, orderBy))
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
-    return sortedList;
-  };
-
   useEffect(() => {
-    const newSortedUsersList = sortList(usersList);
+    const newSortedUsersList = sortList(
+      usersList,
+      page,
+      rowsPerPage,
+      order,
+      orderBy,
+    );
 
     setSortedUsersList(newSortedUsersList);
   }, [order, orderBy, page, usersList]);
@@ -114,111 +100,134 @@ const UsersListTable = () => {
   }, []);
 
   return (
-    <Container sx={{ my: '1rem' }}>
-      <Typography align="center" id="tableTitle" marginY={4} variant="h3">
-        Usuarios
-      </Typography>
-      <Box>
-        <Paper>
-          <Toolbar>
-            <UsersSearchForm
-              setIsLoading={setIsLoading}
-              setUsersList={setUsersList}
-            />
-            <Button
-              component={Link}
-              to="/backoffice/users/create"
-              variant="contained">
-              Nuevo Usuario
-            </Button>
-          </Toolbar>
-          <TableContainer>
-            <Table
-              aria-labelledby="tableTitle"
-              size="small"
-              sx={{ minWidth: 600 }}>
-              <TableHead>
-                <TableRow>
-                  <SortableTableCell
-                    columnLabel="Nombre"
-                    columnName="name"
-                    handleRequestSort={handleRequestSort}
-                    order={order}
-                    orderBy={orderBy}
-                  />
-                  <SortableTableCell
-                    columnLabel="Email"
-                    columnName="email"
-                    handleRequestSort={handleRequestSort}
-                    order={order}
-                    orderBy={orderBy}
-                  />
-                  <TableCell align="right">Acciones</TableCell>
-                </TableRow>
-              </TableHead>
-              {isLoading ? (
-                <TableBody>
-                  <TableRow
-                    style={{
-                      height: rowHeight * 10,
-                    }}>
-                    <TableCell colSpan={3}>
-                      <LoadSpinner />
-                    </TableCell>
+    <div className={s.listContainer}>
+      <h1 style={{ textAlign: 'center' }}>Usuarios</h1>
+      <UsersSearchForm
+        setIsLoading={setIsLoading}
+        setUsersList={setUsersList}
+      />
+      {!listHasValues(sortedUsersList) && !isLoading ? (
+        <Alert
+          severity="warning"
+          sx={{ margin: '0 auto', justifyContent: 'center' }}>
+          Usuario no encontrado!
+        </Alert>
+      ) : null}
+
+      <Container sx={{ my: '1rem' }}>
+        <Box>
+          <Paper>
+            <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
+              <Typography
+                className="customTableTitle"
+                component="div"
+                sx={{ mr: 'auto' }}
+                variant="h6">
+                Usuarios
+              </Typography>
+              <Button
+                className="customTableBtn"
+                component={Link}
+                to="/backoffice/users/create"
+                variant="contained">
+                Nuevo Usuario
+              </Button>
+            </Toolbar>
+            <TableContainer>
+              <Table
+                aria-labelledby="tableTitle"
+                size="small"
+                sx={{ maxWidth: 900 }}>
+                <TableHead>
+                  <TableRow>
+                    <SortableTableCell
+                      columnLabel="Nombre"
+                      columnName="name"
+                      handleRequestSort={handleRequestSort}
+                      order={order}
+                      orderBy={orderBy}
+                      responsive={false}
+                    />
+                    <SortableTableCell
+                      align="center"
+                      columnLabel="Email"
+                      columnName="email"
+                      handleRequestSort={handleRequestSort}
+                      order={order}
+                      orderBy={orderBy}
+                      responsive={true}
+                    />
+                    <TableCell align="right">Acciones</TableCell>
                   </TableRow>
-                </TableBody>
-              ) : (
-                <TableBody>
-                  {sortedUsersList.map((row) => {
-                    return (
-                      <TableRow key={row.id} hover tabIndex={-1}>
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell>{row.email}</TableCell>
-                        <TableCell align="right">
-                          <Tooltip title="Editar">
-                            <IconButton
-                              component={Link}
-                              to={`/backoffice/users/edit/${row.id}`}
-                              variant="contained">
-                              <EditIcon />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Eliminar">
-                            <IconButton onClick={() => deleteUser(row.id)}>
-                              <DeleteIcon color="error" />
-                            </IconButton>
-                          </Tooltip>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  {emptyRowsToAvoidLayoutJump > 0 && (
+                </TableHead>
+                {isLoading ? (
+                  <TableBody>
                     <TableRow
                       style={{
-                        height: rowHeight * emptyRowsToAvoidLayoutJump,
+                        height: rowHeight * 10,
                       }}>
-                      <TableCell colSpan={3} />
+                      <TableCell colSpan={3}>
+                        <LoadSpinner />
+                      </TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-              )}
-            </Table>
-          </TableContainer>
-          {!isLoading && (
-            <TablePagination
-              component="div"
-              count={usersList.length}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              rowsPerPageOptions={[10]}
-              onPageChange={handleChangePage}
-            />
-          )}
-        </Paper>
-      </Box>
-    </Container>
+                  </TableBody>
+                ) : (
+                  <TableBody>
+                    {sortedUsersList.map((row) => {
+                      return (
+                        <StyledTableRow key={row.id} hover tabIndex={-1}>
+                          <StyledTableCell component="th" scope="row">
+                            {row.name}
+                          </StyledTableCell>
+                          <StyledTableCell
+                            align="center"
+                            className="customTableCol">
+                            {row.email}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            <Tooltip title="Editar">
+                              <IconButton
+                                component={Link}
+                                to={`/backoffice/users/edit/${row.id}`}
+                                variant="contained">
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Eliminar">
+                              <IconButton onClick={() => deleteUser(row.id)}>
+                                <DeleteIcon color="error" />
+                              </IconButton>
+                            </Tooltip>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    })}
+                    {emptyRowsToAvoidLayoutJump > 0 && (
+                      <TableRow
+                        style={{
+                          height: rowHeight * emptyRowsToAvoidLayoutJump,
+                        }}>
+                        <TableCell colSpan={3} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                )}
+              </Table>
+            </TableContainer>
+            {!isLoading && (
+              <TablePagination
+                component="div"
+                count={usersList.length}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={[10]}
+                onPageChange={handleChangePage}
+              />
+            )}
+          </Paper>
+        </Box>
+      </Container>
+    </div>
   );
 };
 

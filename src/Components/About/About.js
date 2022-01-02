@@ -12,7 +12,7 @@ import { TwitterTweet } from 'react-social-plugins';
 
 function About() {
   const mockUpText = {
-    text: 'Mejorar la calidad de vida de niños y familias en situación de vulnerabilidad en el barrio La Cava, otorgando un cambio de rumbo en cada individuo a través de la educación, salud, trabajo, deporte, responsabilidad y compromiso.',
+    text: 'Mejorar la calidad de vida de niños y familias en situación de vulnerabilidad del barrio La Cava, otorgando un cambio de rumbo en cada individuo a través de la educación, salud, trabajo, deporte, responsabilidad y compromiso.',
   };
   const [info, setInfo] = useState(mockUpText.text);
 

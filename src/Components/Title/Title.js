@@ -24,7 +24,10 @@ const Title = ({
       <Typography
         align="center"
         color={titleTextColor}
-        sx={{ fontFamily: 'Product Sans' }}
+        sx={{
+          fontFamily: 'Product Sans',
+          fontSize: { xs: '2rem', md: '3rem', lg: '3.5rem' },
+        }}
         variant={titleMuiVariant}>
         {titleText}
       </Typography>

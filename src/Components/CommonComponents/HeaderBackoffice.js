@@ -20,11 +20,14 @@ const HeaderBackoffice = ({ children }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', padding: '0' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ backgroundColor: '#9AC9FB', zIndex: { xl: '1201' } }}>
+        sx={{
+          backgroundColor: '#9AC9FB',
+          zIndex: { xl: '1201' },
+        }}>
         <Toolbar sx={{ justifyContent: 'left' }}>
           <IconButton
             aria-label="menu"
@@ -49,6 +52,7 @@ const HeaderBackoffice = ({ children }) => {
           flexGrow: 1,
           p: 3,
           width: { xl: `calc(100% - ${drawerWidth}px)` },
+          padding: '0',
         }}>
         <Toolbar />
         {children}

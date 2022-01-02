@@ -8,6 +8,7 @@ import Title from '../../Title/Title';
 import style from '../../../Styles/NewsDetail/NewsDetail.module.css';
 import { getNewsById } from '../../../Services/NewsService';
 import newsImage from '../../../assets/img/newsBackG_S.jpg';
+import LazyNewsCommentsList from '../Comments/LazyNewsCommentsList';
 
 const NewsDetail = () => {
   const [loading, setLoading] = useState(true);
@@ -64,6 +65,7 @@ const NewsDetail = () => {
               />
             </Box>
           </Box>
+          <LazyNewsCommentsList />
         </div>
       )}
     </div>

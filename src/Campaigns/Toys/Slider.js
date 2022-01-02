@@ -31,7 +31,7 @@ const Slider = () => {
     <>
       <Swiper
         navigation
-        // autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 5000 }}
         centeredSlides={true}
         className={s.swiperContainer}
         effect="cube"

@@ -10,7 +10,7 @@ import { getNewsById } from '../../../Services/NewsService';
 import newsImage from '../../../assets/img/newsBackG_S.jpg';
 
 const NewsDetail = ({ newsTitle }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [newsDetail, setNewsDetail] = useState({
     image: '',
@@ -19,18 +19,18 @@ const NewsDetail = ({ newsTitle }) => {
 
   const updateCurrentNews = () => {
     getNewsById(id).then((data) => setNewsDetail(data));
-    setLoading(true);
   };
 
   useEffect(() => {
-    if (loading == false) {
-      updateCurrentNews();
+    if (loading == true) {
+      setTimeout(updateCurrentNews(), 100000000);
+      setLoading(false);
     }
   }, [loading]);
 
   return (
     <div>
-      {loading ? (
+      {loading == true ? (
         <Box
           className={style.container}
           component="div"

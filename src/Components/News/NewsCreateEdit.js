@@ -5,10 +5,18 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
 import { createNews, editNews, getNewsById } from '../../Services/NewsService';
-import { TextField, Box, Button, Alert, Typography } from '@mui/material';
+import {
+  TextField,
+  Box,
+  Button,
+  Alert,
+  Typography,
+  Paper,
+} from '@mui/material';
 import '../FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
 import { URLImageToBlob } from '../../Services/imageService';
+import '../../Styles/CategoriesFormStyles.css';
 
 const NewsCreateEdit = ({ match }) => {
   const [categoryDescription, setCategoryDescription] = useState('');
@@ -135,68 +143,89 @@ const NewsCreateEdit = ({ match }) => {
   };
 
   return (
-    <Box
-      noValidate
-      className="form-container"
-      component="form"
-      onSubmit={formik.handleSubmit}>
-      <Typography component="div" variant="h5">
-        Title
-      </Typography>
+    <div className="bckg">
+      <Box
+        noValidate
+        className="form-container"
+        component="form"
+        onSubmit={formik.handleSubmit}>
+        <Paper
+          elevation={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '3rem',
+            gap: '2rem',
+          }}>
+          <Typography component="div" variant="h5">
+            Title
+          </Typography>
 
-      <TextField
-        autoComplete="off"
-        label="Title"
-        name="title"
-        type="text"
-        value={formik.values.title}
-        variant="outlined"
-        onChange={formik.handleChange}
-      />
+          <TextField
+            autoComplete="off"
+            label="Title"
+            name="title"
+            type="text"
+            value={formik.values.title}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
 
-      {formik.errors.title && showErrorMessage(formik.errors.title)}
+          {formik.errors.title && showErrorMessage(formik.errors.title)}
 
-      <Typography component="div" variant="h5">
-        Descripcion
-      </Typography>
+          <Typography component="div" variant="h5">
+            Descripcion
+          </Typography>
 
-      <CKEditor
-        data={categoryDescription}
-        editor={ClassicEditor}
-        onChange={(e, editor) => handleCKeditorChange(e, editor)}
-      />
+          <CKEditor
+            data={categoryDescription}
+            editor={ClassicEditor}
+            onChange={(e, editor) => handleCKeditorChange(e, editor)}
+          />
 
-      {formik.errors.description && showErrorMessage(formik.errors.description)}
+          {formik.errors.description &&
+            showErrorMessage(formik.errors.description)}
 
-      <Typography component="div" variant="h5">
-        Imagen
-      </Typography>
+          <Typography component="div" variant="h5">
+            Imagen
+          </Typography>
 
-      <Box className="dropzone-container" component="div" {...getRootProps()}>
-        <input {...getInputProps()} />
-        <p>Arrastra o haz click aqui para agregar Imagen ( .png o .jpg )</p>
+          <Box
+            className="dropzone-container"
+            component="div"
+            {...getRootProps()}>
+            <input {...getInputProps()} />
+            <p>Arrastra o haz click aqui para agregar Imagen ( .png o .jpg )</p>
 
-        <div className="thumbs-container">
-          <div className="thumb">
-            <div className="thumbInner">
-              {listHasValues(image) && (
-                <img className="thumb-image" src={image} />
-              )}
+            <div className="thumbs-container">
+              <div className="thumb">
+                <div className="thumbInner">
+                  {listHasValues(image) && (
+                    <img className="thumb-image" src={image} />
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </Box>
+
+          {formik.errors.image && showErrorMessage(formik.errors.image)}
+
+          {imageError && (
+            <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
+          )}
+
+          <Button
+            className="submit-btn"
+            sx={{
+              width: { xs: '100%', sm: '200px' },
+            }}
+            type="submit"
+            variant="contained">
+            Enviar
+          </Button>
+        </Paper>
       </Box>
-
-      {formik.errors.image && showErrorMessage(formik.errors.image)}
-
-      {imageError && (
-        <Alert severity="warning"> Solo una imagen .jpg / .png</Alert>
-      )}
-
-      <Button className="submit-btn" type="submit" variant="contained">
-        Enviar
-      </Button>
-    </Box>
+    </div>
   );
 };
 

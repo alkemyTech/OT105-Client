@@ -18,8 +18,15 @@ import BusinessIcon from '@mui/icons-material/Business';
 import BurstModeIcon from '@mui/icons-material/BurstMode';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import GroupIcon from '@mui/icons-material/Group';
+import HomeIcon from '@mui/icons-material/Home';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 const routes = [
+  {
+    name: 'Home',
+    path: '/backoffice/home',
+    icon: () => <HomeIcon />,
+  },
   {
     name: 'Actividades',
     path: '/backoffice/activities',
@@ -59,6 +66,11 @@ const routes = [
     name: 'Usuarios',
     path: '/backoffice/users',
     icon: () => <GroupIcon />,
+  },
+  {
+    name: 'Projects',
+    path: '/backoffice/projects/create',
+    icon: () => <BarChartIcon />,
   },
 ];
 

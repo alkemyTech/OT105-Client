@@ -3,10 +3,17 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
-import { TextField, Box, Button, Alert, Typography } from '@mui/material';
+import {
+  TextField,
+  Box,
+  Button,
+  Alert,
+  Typography,
+  Paper,
+} from '@mui/material';
 import { createOrEditTestimonial } from '../../Services/testimonialsService';
 import { listHasValues, dropzoneConfig, isEmptyList } from '../../Utils';
-import '../../Styles/TestimonialsFormStyles.css';
+import '../../Styles/CategoriesFormStyles.css';
 import '../FormStyles.css';
 
 const TestimonialForm = ({ id }) => {
@@ -131,66 +138,91 @@ const TestimonialForm = ({ id }) => {
   };
 
   return (
-    <Box
-      noValidate
-      className="form-container"
-      component="form"
-      onSubmit={formik.handleSubmit}>
-      <Typography component="div" variant="h5">
-        Título
-      </Typography>
+    <div className="bckg">
+      <Box
+        noValidate
+        className="form-container"
+        component="form"
+        onSubmit={formik.handleSubmit}>
+        <Typography component="div" sx={{ color: 'white' }} variant="h3">
+          Testimonials
+        </Typography>
+        <Paper
+          elevation={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '3rem',
+            gap: '2rem',
+          }}>
+          <Typography component="div" variant="h5">
+            Título
+          </Typography>
 
-      <TextField
-        autoComplete="off"
-        label="Titulo"
-        name="name"
-        type="text"
-        value={formik.values.name}
-        variant="outlined"
-        onChange={formik.handleChange}
-      />
+          <TextField
+            autoComplete="off"
+            label="Titulo"
+            name="name"
+            type="text"
+            value={formik.values.name}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
 
-      {formik.errors.name && showErrorMessage(formik.errors.name)}
+          {formik.errors.name && showErrorMessage(formik.errors.name)}
 
-      <Typography component="div" variant="h5">
-        Descripción
-      </Typography>
+          <Typography component="div" variant="h5">
+            Descripción
+          </Typography>
 
-      <CKEditor
-        data={testimonialDescription}
-        editor={ClassicEditor}
-        onChange={(e, editor) => handleCKeditorChange(e, editor)}
-      />
+          <CKEditor
+            data={testimonialDescription}
+            editor={ClassicEditor}
+            onChange={(e, editor) => handleCKeditorChange(e, editor)}
+          />
 
-      {formik.errors.description && showErrorMessage(formik.errors.description)}
+          {formik.errors.description &&
+            showErrorMessage(formik.errors.description)}
 
-      <Typography component="div" variant="h5">
-        Imagen
-      </Typography>
+          <Typography component="div" variant="h5">
+            Imagen
+          </Typography>
 
-      <Box className="dropzone-container" component="div" {...getRootProps()}>
-        <input {...getInputProps()} />
-        <p>
-          Arrastra una imagen o haz click aqui para agregarla ( .png o .jpg )
-        </p>
-        <div className="thumbs-container">
-          <div className="thumb">
-            <div className="thumbInner">
-              {listHasValues(imageFiles) && (
-                <img className="thumb-image" src={imageFiles[0].preview} />
-              )}
+          <Box
+            className="dropzone-container"
+            component="div"
+            {...getRootProps()}>
+            <input {...getInputProps()} />
+            <p>
+              Arrastra una imagen o haz click aqui para agregarla ( .png o .jpg
+              )
+            </p>
+            <div className="thumbs-container">
+              <div className="thumb">
+                <div className="thumbInner">
+                  {listHasValues(imageFiles) && (
+                    <img className="thumb-image" src={imageFiles[0].preview} />
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </Box>
+
+          {formik.errors.image && showErrorMessage(formik.errors.image)}
+          {imageError && showErrorMessage('Solo una imagen .jpg / .png')}
+
+          <Button
+            className="submit-btn"
+            sx={{
+              width: { xs: '100%', sm: '200px' },
+            }}
+            type="submit"
+            variant="contained">
+            Enviar
+          </Button>
+        </Paper>
       </Box>
-
-      {formik.errors.image && showErrorMessage(formik.errors.image)}
-      {imageError && showErrorMessage('Solo una imagen .jpg / .png')}
-
-      <Button className="submit-btn" type="submit" variant="contained">
-        Enviar
-      </Button>
-    </Box>
+    </div>
   );
 };
 

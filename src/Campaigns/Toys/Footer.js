@@ -32,7 +32,7 @@ const Footer = () => {
           <p className={s.p}>Contacto</p>
         </div>
 
-        <div classNameName="container">
+        <div className="container">
           <hr className="bg-dark border-1 border-top border-dark" />
         </div>
 

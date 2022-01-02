@@ -23,7 +23,7 @@ const links = [
   },
   {
     name: 'Nosotros',
-    path: '/AboutUs',
+    path: '/aboutus',
   },
   {
     name: 'Contacto',
@@ -39,8 +39,7 @@ const links = [
   },
 ];
 
-const Header_Wed = () => {
-  const linkStyle = { textDecoration: 'none', color: 'white' };
+const Header_Wed = ({ isLogged }) => {
   const linkMenu = { textDecoration: 'none', color: 'black' };
   const [organizationInformation, setOrganizationInformation] = useState({});
 
@@ -69,8 +68,12 @@ const Header_Wed = () => {
           color: 'white',
         }}>
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Toolbar disableGutters sx={{ paddingInline: '2rem', gap: '2rem' }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: 'flex', md: 'none' },
+              }}>
               <IconButton
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
@@ -99,46 +102,101 @@ const Header_Wed = () => {
                 onClose={handleCloseNavMenu}>
                 {links.map((link) => (
                   <MenuItem
-                    key={link}
+                    key={link.name}
+                    component={Link}
                     to={link.path}
                     onClick={handleCloseNavMenu}>
-                    <Link style={linkMenu} to={link.path}>
-                      {link.name}
-                    </Link>
+                    {link.name}
                   </MenuItem>
                 ))}
+                {!isLogged ? (
+                  <MenuItem
+                    component={Link}
+                    to="/login"
+                    onClick={handleCloseNavMenu}>
+                    Login
+                  </MenuItem>
+                ) : (
+                  <MenuItem
+                    component={Link}
+                    to="/logout"
+                    onClick={handleCloseNavMenu}>
+                    Logout
+                  </MenuItem>
+                )}
               </Menu>
             </Box>
-            <div
-              style={{
-                width: '240px',
-                height: '170px',
-                margin: '10px auto',
-                display: 'flex',
-              }}>
-              <img
-                alt="logo"
-                height="100%"
-                src={organizationInformation.logo}
-                width="100%"
-              />
-            </div>
+
+            <img
+              alt="logo"
+              src={organizationInformation.logo}
+              style={{ maxWidth: '100%', height: '150px' }}
+            />
+
             <Box
               sx={{
                 flexGrow: 1,
-                display: { xs: 'none', md: 'flex', justifyContent: 'right' },
+                display: {
+                  xs: 'none',
+                  md: 'flex',
+                  justifyContent: 'right',
+                  gap: '1rem',
+                },
+                alignItems: 'center',
+                gap: '0',
               }}>
               {links.map((link) => (
                 <Button
-                  key={link}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  key={link.name}
+                  component={Link}
+                  sx={{
+                    color: 'white',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingInline: '1rem',
+                  }}
                   to={link.path}
                   onClick={handleCloseNavMenu}>
-                  <Link style={linkStyle} to={link.path}>
-                    {link.name}
-                  </Link>
+                  {link.name}
                 </Button>
               ))}
+              {!isLogged ? (
+                <Button
+                  color="primary"
+                  component={Link}
+                  sx={{
+                    textTransform: 'none',
+                    height: '100%',
+                    bgcolor: 'white',
+                    ':hover': {
+                      bgcolor: '#EDF2F7',
+                      color: 'primary.info',
+                    },
+                    marginLeft: '2rem',
+                  }}
+                  to="/login"
+                  variant="outlined">
+                  Login
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  component={Link}
+                  sx={{
+                    textTransform: 'none',
+                    height: '100%',
+                    bgcolor: 'white',
+                    ':hover': {
+                      bgcolor: '#EDF2F7',
+                      color: 'primary.info',
+                    },
+                    marginLeft: '2rem',
+                  }}
+                  to="/logout"
+                  variant="outlined">
+                  Logout
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </Container>

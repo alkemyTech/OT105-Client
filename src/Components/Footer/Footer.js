@@ -19,98 +19,115 @@ const Footer = () => {
 
   return (
     <>
-      <div className="ContenedorWaveFooter" />
-      <TableFooter
-        sx={{
-          display: { xs: 'flex' },
-          justifyContent: { xs: 'center' },
-          alignItems: { xs: 'center' },
-          flexDirection: { xs: 'column' },
-          backgroundColor: '#28527A',
-          color: 'white',
-        }}>
-        <Container
+      <div className="ContenedorWaveFooter">
+        <TableFooter
           sx={{
-            display: { xs: 'grid', sm: 'flex' },
+            display: { xs: 'flex' },
             justifyContent: { xs: 'center' },
             alignItems: { xs: 'center' },
+            flexDirection: { xs: 'column' },
+            backgroundColor: '#28527A',
+            color: 'white',
           }}>
-          <Box
+          <Container
             sx={{
-              display: { xs: 'flex' },
+              display: { xs: 'grid', sm: 'flex' },
               justifyContent: { xs: 'center' },
               alignItems: { xs: 'center' },
-              flexDirection: { xs: 'column' },
-              width: { xs: '100%' },
-            }}>
-            <img alt="logo" height="120px" src={organizationInformation.logo} />
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'flex' },
-              width: { xs: '100%' },
-              justifyContent: { xs: 'space-evenly' },
-              alignItems: { xs: 'center' },
-              flexWrap: { xs: 'wrap' },
             }}>
             <Box
               sx={{
-                margin: '3px',
+                display: { xs: 'flex' },
+                justifyContent: { xs: 'center' },
+                alignItems: { xs: 'center' },
+                flexDirection: { xs: 'column' },
+                width: { xs: '100%' },
               }}>
-              <Link style={linkStyle} to="/school-campaign">
-                Campaña Escolar
-              </Link>
+              <img
+                alt="logo"
+                height="120px"
+                src={organizationInformation.logo}
+              />
             </Box>
             <Box
               sx={{
-                margin: '3px',
+                display: { xs: 'flex' },
+                width: { xs: '100%' },
+                justifyContent: { xs: 'space-evenly' },
+                alignItems: { xs: 'center' },
+                flexWrap: { xs: 'wrap' },
               }}>
-              <Link style={linkStyle} to="/toys-campaig">
-                Campaña Juguetes
-              </Link>
+              <Box
+                sx={{
+                  margin: '3px',
+                }}>
+                <Link style={linkStyle} to="/school-campaign">
+                  Campaña Escolar
+                </Link>
+              </Box>
+              <Box
+                sx={{
+                  margin: '3px',
+                }}>
+                <Link style={linkStyle} to="/toys-campaig">
+                  Campaña Juguetes
+                </Link>
+              </Box>
             </Box>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'flex' },
-              width: { xs: '100%' },
-              justifyContent: { xs: 'space-evenly' },
-            }}>
-            <a
-              href={`https://${organizationInformation.facebook_url}`}
-              rel="noreferrer"
-              target="_blank">
-              <FacebookIcon
-                sx={{ fontSize: 40, textDecoration: 'none', color: '#ec4c4c' }}
-              />
-            </a>
-            <a
-              href={`https://${organizationInformation.linkedin_url}`}
-              rel="noreferrer"
-              target="_blank">
-              <LinkedInIcon
-                sx={{ fontSize: 40, textDecoration: 'none', color: '#f8fc74' }}
-              />
-            </a>
-            <a
-              href={`https://${organizationInformation.instagram_url}`}
-              rel="noreferrer"
-              target="_blank">
-              <InstagramIcon
-                sx={{ fontSize: 40, textDecoration: 'none', color: '#8dcaff' }}
-              />
-            </a>
-            <a
-              href={`https://${organizationInformation.twitter_url}`}
-              rel="noreferrer"
-              target="_blank">
-              <TwitterIcon
-                sx={{ fontSize: 40, textDecoration: 'none', color: 'white' }}
-              />
-            </a>
-          </Box>
-        </Container>
-      </TableFooter>
+            <Box
+              sx={{
+                display: { xs: 'flex' },
+                width: { xs: '100%' },
+                justifyContent: { xs: 'space-evenly' },
+              }}>
+              <a
+                href={`https://${organizationInformation.facebook_url}`}
+                rel="noreferrer"
+                target="_blank">
+                <FacebookIcon
+                  sx={{
+                    fontSize: 40,
+                    textDecoration: 'none',
+                    color: '#ec4c4c',
+                  }}
+                />
+              </a>
+              <a
+                href={`https://${organizationInformation.linkedin_url}`}
+                rel="noreferrer"
+                target="_blank">
+                <LinkedInIcon
+                  sx={{
+                    fontSize: 40,
+                    textDecoration: 'none',
+                    color: '#f8fc74',
+                  }}
+                />
+              </a>
+              <a
+                href={`https://${organizationInformation.instagram_url}`}
+                rel="noreferrer"
+                target="_blank">
+                <InstagramIcon
+                  sx={{
+                    fontSize: 40,
+                    textDecoration: 'none',
+                    color: '#8dcaff',
+                  }}
+                />
+              </a>
+              <a
+                href={`https://${organizationInformation.twitter_url}`}
+                rel="noreferrer"
+                target="_blank">
+                <TwitterIcon
+                  sx={{ fontSize: 40, textDecoration: 'none', color: 'white' }}
+                />
+              </a>
+            </Box>
+          </Container>
+        </TableFooter>
+      </div>
     </>
   );
 };

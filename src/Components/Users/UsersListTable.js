@@ -25,6 +25,7 @@ import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import { getAllUsers, deleteUsers } from '../../Services/userService';
 import UsersSearchForm from './UsersSearchForm';
 import { listHasValues } from '../../Utils';
+import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 
@@ -36,23 +37,6 @@ const UsersListTable = () => {
   const [sortedUsersList, setSortedUsersList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const rowsPerPage = 10;
-
-  const descendingComparator = (a, b, orderBy) => {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-
-    return 0;
-  };
-
-  const getComparator = (order, orderBy) => {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -90,16 +74,14 @@ const UsersListTable = () => {
     }
   };
 
-  const sortList = (list) => {
-    const sortedList = list
-      .sort(getComparator(order, orderBy))
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
-    return sortedList;
-  };
-
   useEffect(() => {
-    const newSortedUsersList = sortList(usersList);
+    const newSortedUsersList = sortList(
+      usersList,
+      page,
+      rowsPerPage,
+      order,
+      orderBy,
+    );
 
     setSortedUsersList(newSortedUsersList);
   }, [order, orderBy, page, usersList]);
@@ -136,7 +118,11 @@ const UsersListTable = () => {
         <Box>
           <Paper>
             <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
-              <Typography component="div" sx={{ mr: 'auto' }} variant="h6">
+              <Typography
+                className="customTableTitle"
+                component="div"
+                sx={{ mr: 'auto' }}
+                variant="h6">
                 Usuarios
               </Typography>
               <Button
@@ -160,6 +146,7 @@ const UsersListTable = () => {
                       handleRequestSort={handleRequestSort}
                       order={order}
                       orderBy={orderBy}
+                      responsive={false}
                     />
                     <SortableTableCell
                       align="center"
@@ -168,6 +155,7 @@ const UsersListTable = () => {
                       handleRequestSort={handleRequestSort}
                       order={order}
                       orderBy={orderBy}
+                      responsive={true}
                     />
                     <TableCell align="right">Acciones</TableCell>
                   </TableRow>
@@ -191,7 +179,9 @@ const UsersListTable = () => {
                           <StyledTableCell component="th" scope="row">
                             {row.name}
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          <StyledTableCell
+                            align="center"
+                            className="customTableCol">
                             {row.email}
                           </StyledTableCell>
                           <StyledTableCell align="right">

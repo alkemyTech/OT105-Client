@@ -28,11 +28,13 @@ import {
   deleteActivity,
 } from '../../Services/ActivitiesServices';
 import ActivitiesSearchForm from './ActivitiesSearchForm';
-import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { listHasValues, sliceDate } from '../../Utils';
+import { sortList } from '../../Utils/TablesUtils/sortingUtils';
+import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import { memberAvatarStyle } from '../../Styles/MembersList/MembersListInlineStyles';
 import SortableTableCell from '../Users/SortableTableCell';
+import '../../Styles/TablesStyles.css';
 
 function BackofficeListActivities() {
   const [order, setOrder] = useState('asc');
@@ -43,23 +45,6 @@ function BackofficeListActivities() {
   const [isLoading, setIsLoading] = useState(false);
   const rowsPerPage = 10;
   const rowHeight = 53;
-
-  const descendingComparator = (a, b, orderBy) => {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-
-    return 0;
-  };
-
-  const getComparator = (order, orderBy) => {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -106,14 +91,6 @@ function BackofficeListActivities() {
     }
   };
 
-  const sortList = (list) => {
-    const sortedList = list
-      .sort(getComparator(order, orderBy))
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
-    return sortedList;
-  };
-
   useEffect(() => {
     setIsLoading(true);
     getActivities().then((resp) => {
@@ -123,7 +100,13 @@ function BackofficeListActivities() {
   }, []);
 
   useEffect(() => {
-    const newSortedActivitiesList = sortList(activities);
+    const newSortedActivitiesList = sortList(
+      activities,
+      page,
+      rowsPerPage,
+      order,
+      orderBy,
+    );
 
     setSortedActivitiesList(newSortedActivitiesList);
   }, [order, orderBy, page, activities]);
@@ -144,7 +127,11 @@ function BackofficeListActivities() {
         <Box>
           <Paper>
             <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
-              <Typography component="div" sx={{ mr: 'auto' }} variant="h6">
+              <Typography
+                className="customTableTitle"
+                component="div"
+                sx={{ mr: 'auto' }}
+                variant="h6">
                 Actividades
               </Typography>
               <Button
@@ -168,9 +155,14 @@ function BackofficeListActivities() {
                       handleRequestSort={handleRequestSort}
                       order={order}
                       orderBy={orderBy}
+                      responsive={false}
                     />
-                    <TableCell align="center">Imagen</TableCell>
-                    <TableCell align="center">Creado</TableCell>
+                    <TableCell align="center" className="customTableCol">
+                      Imagen
+                    </TableCell>
+                    <TableCell align="center" className="customTableCol">
+                      Creado
+                    </TableCell>
                     <TableCell align="right">Acciones</TableCell>
                   </TableRow>
                 </TableHead>
@@ -193,7 +185,9 @@ function BackofficeListActivities() {
                           <StyledTableCell component="th" scope="row">
                             {row.name}
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          <StyledTableCell
+                            align="center"
+                            className="customTableCol">
                             <ListItemAvatar sx={{ marginTop: 0 }}>
                               <Avatar
                                 alt={row.name}
@@ -202,7 +196,9 @@ function BackofficeListActivities() {
                               />
                             </ListItemAvatar>
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          <StyledTableCell
+                            align="center"
+                            className="customTableCol">
                             {sliceDate(row.created_at)}
                           </StyledTableCell>
                           <StyledTableCell align="right">
@@ -224,6 +220,14 @@ function BackofficeListActivities() {
                         </StyledTableRow>
                       </>
                     ))}
+                    {emptyRowsToAvoidLayoutJump > 0 && (
+                      <TableRow
+                        style={{
+                          height: rowHeight * emptyRowsToAvoidLayoutJump,
+                        }}>
+                        <TableCell colSpan={3} />
+                      </TableRow>
+                    )}
                   </TableBody>
                 )}
               </Table>

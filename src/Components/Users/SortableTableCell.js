@@ -1,5 +1,6 @@
 import { Box, TableCell, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import '../../Styles/TablesStyles.css';
 
 const SortableTableCell = ({
   columnName,
@@ -8,6 +9,7 @@ const SortableTableCell = ({
   order,
   orderBy,
   align = 'left',
+  responsive = 'false',
 }) => {
   const createSortHandler = (property) => (event) => {
     handleRequestSort(event, property);
@@ -16,6 +18,7 @@ const SortableTableCell = ({
   return (
     <TableCell
       align={align}
+      className={responsive ? 'customTableCol' : ''}
       sortDirection={orderBy === columnName ? order : false}>
       <TableSortLabel
         active={orderBy === columnName}

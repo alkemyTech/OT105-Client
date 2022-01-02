@@ -65,7 +65,11 @@ function SlidesBackOffice() {
         <Box>
           <Paper>
             <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
-              <Typography component="div" sx={{ mr: 'auto' }} variant="h6">
+              <Typography
+                className="customTableTitle"
+                component="div"
+                sx={{ mr: 'auto' }}
+                variant="h6">
                 Slides
               </Typography>
               <Button
@@ -84,8 +88,12 @@ function SlidesBackOffice() {
                 <TableHead>
                   <TableRow>
                     <TableCell>Titulo</TableCell>
-                    <TableCell align="right">Imagen</TableCell>
-                    <TableCell align="right">Orden</TableCell>
+                    <TableCell align="center" className="customTableCol">
+                      Imagen
+                    </TableCell>
+                    <TableCell align="center" className="customTableCol">
+                      Orden
+                    </TableCell>
                     <TableCell align="right">Acciones</TableCell>
                   </TableRow>
                 </TableHead>
@@ -95,10 +103,14 @@ function SlidesBackOffice() {
                       <StyledTableCell component="th" scope="row">
                         {row.Title}
                       </StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell
+                        align="center"
+                        className="customTableCol">
                         {row.image}
                       </StyledTableCell>
-                      <StyledTableCell align="right">
+                      <StyledTableCell
+                        align="center"
+                        className="customTableCol">
                         {row.order}
                       </StyledTableCell>
                       <StyledTableCell align="right">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Alert,
   Box,
   Toolbar,
   Typography,
@@ -25,8 +26,11 @@ import { NewsSearch_Form } from './NewsSearch_Form';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import SortableTableCell from '../Users/SortableTableCell';
 import { memberAvatarStyle } from '../../Styles/MembersList/MembersListInlineStyles';
-import { sliceDate } from '../../Utils';
+import { listHasValues, sliceDate } from '../../Utils';
+import { sortList } from '../../Utils/TablesUtils/sortingUtils';
+import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
+import '../../Styles/TablesStyles.css';
 
 function News() {
   const [order, setOrder] = useState('asc');
@@ -36,23 +40,6 @@ function News() {
   const [sortedNewsList, setSortedNewsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const rowsPerPage = 10;
-
-  const descendingComparator = (a, b, orderBy) => {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-
-    return 0;
-  };
-
-  const getComparator = (order, orderBy) => {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -77,16 +64,14 @@ function News() {
     return page === pages && page !== 0;
   };
 
-  const sortList = (list) => {
-    const sortedList = list
-      .sort(getComparator(order, orderBy))
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
-    return sortedList;
-  };
-
   useEffect(() => {
-    const newSortedUsersList = sortList(news);
+    const newSortedUsersList = sortList(
+      news,
+      page,
+      rowsPerPage,
+      order,
+      orderBy,
+    );
 
     setSortedNewsList(newSortedUsersList);
   }, [order, orderBy, page, news]);
@@ -120,11 +105,26 @@ function News() {
         updateLoadingState={updateLoadingState}
         updateNewsList={updateNewsList}
       />
+      {!listHasValues(sortedNewsList) && !isLoading ? (
+        <Alert
+          severity="warning"
+          sx={{
+            margin: '0 auto',
+            justifyContent: 'center',
+            marginTop: '30px',
+          }}>
+          Novedad no encontrada!
+        </Alert>
+      ) : null}
       <Container sx={{ my: '1rem' }}>
         <Box>
           <Paper>
             <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
-              <Typography component="div" sx={{ mr: 'auto' }} variant="h6">
+              <Typography
+                className="customTableTitle"
+                component="div"
+                sx={{ mr: 'auto' }}
+                variant="h6">
                 Novedades
               </Typography>
               <Button
@@ -148,50 +148,80 @@ function News() {
                       handleRequestSort={handleRequestSort}
                       order={order}
                       orderBy={orderBy}
+                      responsive={false}
                     />
-                    <TableCell align="center">Imagen</TableCell>
-                    <TableCell align="center">Creado</TableCell>
+                    <TableCell align="center" className="customTableCol">
+                      Imagen
+                    </TableCell>
+                    <TableCell align="center" className="customTableCol">
+                      Creado
+                    </TableCell>
                     <TableCell align="right">Acciones</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
-                  {sortedNewsList.map((row) => {
-                    return (
-                      <StyledTableRow key={row.id} hover tabIndex={-1}>
-                        <StyledTableCell component="th" scope="row">
-                          {row.name}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          <ListItemAvatar sx={{ marginTop: 0 }}>
-                            <Avatar
-                              alt={row.name}
-                              src={row.image}
-                              sx={memberAvatarStyle}
-                            />
-                          </ListItemAvatar>
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {sliceDate(row.created_at)}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          <Tooltip title="Editar">
-                            <IconButton
-                              component={Link}
-                              to={`/backoffice/users/edit/${row.id}`}
-                              variant="contained">
-                              <EditIcon />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Eliminar">
-                            <IconButton onClick={() => deleteNews(row.id)}>
-                              <DeleteIcon color="error" />
-                            </IconButton>
-                          </Tooltip>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })}
-                </TableBody>
+                {isLoading ? (
+                  <TableBody>
+                    <TableRow
+                      style={{
+                        height: rowHeight * 10,
+                      }}>
+                      <TableCell colSpan={3}>
+                        <LoadSpinner />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                ) : (
+                  <TableBody>
+                    {sortedNewsList.map((row) => {
+                      return (
+                        <StyledTableRow key={row.id} hover tabIndex={-1}>
+                          <StyledTableCell component="th" scope="row">
+                            {row.name}
+                          </StyledTableCell>
+                          <StyledTableCell
+                            align="center"
+                            className="customTableCol">
+                            <ListItemAvatar sx={{ marginTop: 0 }}>
+                              <Avatar
+                                alt={row.name}
+                                src={row.image}
+                                sx={memberAvatarStyle}
+                              />
+                            </ListItemAvatar>
+                          </StyledTableCell>
+                          <StyledTableCell
+                            align="center"
+                            className="customTableCol">
+                            {sliceDate(row.created_at)}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            <Tooltip title="Editar">
+                              <IconButton
+                                component={Link}
+                                to={`/backoffice/news/edit/${row.id}`}
+                                variant="contained">
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Eliminar">
+                              <IconButton onClick={() => deleteNews(row.id)}>
+                                <DeleteIcon color="error" />
+                              </IconButton>
+                            </Tooltip>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    })}
+                    {emptyRowsToAvoidLayoutJump > 0 && (
+                      <TableRow
+                        style={{
+                          height: rowHeight * emptyRowsToAvoidLayoutJump,
+                        }}>
+                        <TableCell colSpan={3} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                )}
               </Table>
             </TableContainer>
             {!isLoading && (

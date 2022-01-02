@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MemberRow from './MemberRow';
 import { MembersSearchForm } from './MembersSearchForm';
-import styles from '../../Styles/ScreenMembersListStyles';
 import {
   Alert,
   Typography,
@@ -18,12 +17,13 @@ import {
   Box,
   Toolbar,
   Button,
-  CircularProgress,
   useMediaQuery,
 } from '@mui/material';
 import SortableTableCell from '../Users/SortableTableCell';
 import { listHasValues } from '../../Utils';
+import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import { deleteMember } from '../../Services/membersService';
+import LoadSpinner from '../CommonComponents/LoaderSpinner';
 
 const ScreenMembersList = () => {
   const [order, setOrder] = useState('asc');
@@ -35,23 +35,6 @@ const ScreenMembersList = () => {
   const rowsPerPage = 10;
 
   const matchesMobile = useMediaQuery('(min-width:430px)');
-
-  const descendingComparator = (a, b, orderBy) => {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-
-    return 0;
-  };
-
-  const getComparator = (order, orderBy) => {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -76,16 +59,14 @@ const ScreenMembersList = () => {
     return page === pages && page !== 0;
   };
 
-  const sortList = (list) => {
-    const sortedList = list
-      .sort(getComparator(order, orderBy))
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
-    return sortedList;
-  };
-
   useEffect(() => {
-    const newSortedMembersList = sortList(members);
+    const newSortedMembersList = sortList(
+      members,
+      page,
+      rowsPerPage,
+      order,
+      orderBy,
+    );
 
     setSortedMembersList(newSortedMembersList);
   }, [order, orderBy, page, members]);
@@ -129,14 +110,18 @@ const ScreenMembersList = () => {
         {!listHasValues(sortedMembersList) && !isLoading ? (
           <Alert
             severity="warning"
-            sx={{ margin: '0 auto', justifyContent: 'center' }}>
+            sx={{
+              margin: '0 auto',
+              justifyContent: 'center',
+              marginBottom: '15px',
+            }}>
             Miembro no encontrado!
           </Alert>
         ) : null}
         <Toolbar sx={{ backgroundColor: '#e1e1e1' }}>
           <Typography
+            className="customTableTitle"
             component="div"
-            id="tableTitle"
             sx={{ mr: 'auto' }}
             variant="h6">
             Miembros
@@ -146,7 +131,7 @@ const ScreenMembersList = () => {
             component={Link}
             to={`/backoffice/members/create`}
             variant="contained">
-            Añadir miembro
+            Nuevo miembro
           </Button>
         </Toolbar>
         <TableContainer component={Paper}>
@@ -159,17 +144,23 @@ const ScreenMembersList = () => {
                   handleRequestSort={handleRequestSort}
                   order={order}
                   orderBy={orderBy}
+                  responsive={false}
                 />
                 {matchesMobile && <TableCell align="center">Foto</TableCell>}
                 <TableCell align="right">Acciones</TableCell>
               </TableRow>
             </TableHead>
             {isLoading ? (
-              <caption>
-                <Box sx={styles.progressBox}>
-                  <CircularProgress />
-                </Box>
-              </caption>
+              <TableBody>
+                <TableRow
+                  style={{
+                    height: rowHeight * 10,
+                  }}>
+                  <TableCell colSpan={3}>
+                    <LoadSpinner />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             ) : (
               <TableBody>
                 {sortedMembersList.map((member) => (
@@ -181,6 +172,14 @@ const ScreenMembersList = () => {
                     name={member.name}
                   />
                 ))}
+                {emptyRowsToAvoidLayoutJump > 0 && (
+                  <TableRow
+                    style={{
+                      height: rowHeight * emptyRowsToAvoidLayoutJump,
+                    }}>
+                    <TableCell colSpan={3} />
+                  </TableRow>
+                )}
               </TableBody>
             )}
           </Table>

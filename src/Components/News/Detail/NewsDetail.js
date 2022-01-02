@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react';
-
+import { useParams } from 'react-router';
+import ReactHtmlParser from 'react-html-parser';
 import { Typography, Box } from '@mui/material';
 import Title from '../../Title/Title';
 import style from '../../../Styles/NewsDetail/NewsDetail.module.css';
+import { getNewsById } from '../../../Services/NewsService';
+import newsImage from '../../../assets/img/newsBackG_S.jpg';
 
 const NewsDetail = ({ newsTitle }) => {
+  const { id } = useParams();
   const [newsDetail, setNewsDetail] = useState({
-    content: '',
     image: '',
-  });
-
-  const getNewsDetails = () => ({
-    content:
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus omnis dolor illum error quas iusto eum, rerum, ad at quis perferendis fuga. Dolorem repellat, quae qui quisquam perspiciatis numquam nesciunt!. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus omnis dolor illum error quas iusto eum, rerum, ad at quis perferendis fuga. Dolorem repellat, quae qui quisquam perspiciatis numquam nesciunt!',
-    image:
-      'https://images.unsplash.com/photo-1592060036126-1b6d5139dea4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+    content: '',
   });
 
   const updateCurrentNews = () => {
-    const currentNews = getNewsDetails();
-
-    setNewsDetail(currentNews);
+    getNewsById(id).then((data) => setNewsDetail(data));
   };
 
   useEffect(() => {
@@ -29,18 +24,18 @@ const NewsDetail = ({ newsTitle }) => {
 
   return (
     <div>
-      <Title titleText={newsTitle} imageUrl={newsDetail.image} />
-      <Box component="div" className={style.container}>
-        <Box component="div" className={style.content}>
-          <Typography variant="p" component="p">
-            {newsDetail.content}
+      <Title imageUrl={newsImage} titleText={newsDetail.name} />
+      <Box className={style.newsDetail__container} component="div">
+        <Box className={style.newsDetail__content} component="div">
+          <Typography component="p" variant="p">
+            {ReactHtmlParser(newsDetail.content)}
           </Typography>
         </Box>
-        <Box component="div" className={style.image}>
+        <Box className={style.newsDetail__imageContainer} component="div">
           <img
+            alt="news image"
+            className={style.newsDetail__image}
             src={newsDetail.image}
-            className="img-detail"
-            alt="childrens at play"
           />
         </Box>
       </Box>

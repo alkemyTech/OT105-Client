@@ -44,7 +44,7 @@ const Seccion_Novedades = () => {
               image={row.image}
             />
             <CardActions disableSpacing>
-              <IconButton aria-label="+" href={`/Novedades/${row.id}`}>
+              <IconButton aria-label="+" href={`/news/${row.id}`}>
                 <AddCircleIcon />
               </IconButton>
             </CardActions>

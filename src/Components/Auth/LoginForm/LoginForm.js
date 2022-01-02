@@ -16,10 +16,10 @@ import {
   containSpecialCharacter,
   containsOneLetter,
   validEmail,
-} from '../../Utils/Validations/userValidations';
+} from '../../../Utils/Validations/userValidations';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import '../FormStyles.css';
+import '../../FormStyles.css';
 const validate = (values) => {
   let errors = {};
 

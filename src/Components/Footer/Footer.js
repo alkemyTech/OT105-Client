@@ -6,10 +6,12 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { Container, Box, TableFooter } from '@mui/material';
 import { getOrganization } from '../../Services/organizationService';
+import NewsletterForm from './NewsletterForm';
 
 const Footer = () => {
   const linkStyle = { textDecoration: 'none', color: 'white' };
   const [organizationInformation, setOrganizationInformation] = useState({});
+  const suscribed = localStorage.getItem('suscribed');
 
   useEffect(() => {
     getOrganization().then((res) => {
@@ -126,6 +128,21 @@ const Footer = () => {
               </a>
             </Box>
           </Container>
+          <div style={{ margin: 'auto', display: 'block' }}>
+            {!suscribed && (
+              <div
+                style={{
+                  display: 'flex',
+                  margin: 'auto',
+                  width: 'fit-content',
+                }}>
+                <a style={{ textAlign: 'center' }}>
+                  ¿Desea suscribirse para recibir noticias?
+                </a>
+              </div>
+            )}
+            <NewsletterForm />
+          </div>
         </TableFooter>
       </div>
     </>

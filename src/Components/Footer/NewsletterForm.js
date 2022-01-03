@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Container,
@@ -11,10 +12,11 @@ import {
   FormControl,
   FormHelperText,
 } from '@mui/material';
+import { errorAlert } from '../../Services/alertsService';
 
 const NewsletterForm = () => {
   const [subscribed, setSubscribed] = useState(false);
-
+  const history = useHistory();
   const yupSchema = Yup.object().shape({
     email: Yup.string()
       .email('*Email inválido')
@@ -24,14 +26,21 @@ const NewsletterForm = () => {
     email: '',
   };
   const formikOnSubmit = (_values) => {
-    try {
-      setSubscribed(true);
-      setTimeout(() => localStorage.setItem('subscribed', true), 5000);
-      formik.resetForm();
-    } catch (error) {
-      formik.setFieldError('email', 'Error al suscribirse');
-    } finally {
-      formik.setSubmitting(false);
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      errorAlert('Error', 'Debes estar registrado para poder suscribirte');
+      setTimeout(() => history.push('/login'), 2000);
+    } else {
+      try {
+        setSubscribed(true);
+        setTimeout(() => localStorage.setItem('subscribed', true), 5000);
+        formik.resetForm();
+      } catch (error) {
+        formik.setFieldError('email', 'Error al suscribirse');
+      } finally {
+        formik.setSubmitting(false);
+      }
     }
   };
   const formik = useFormik({
@@ -71,7 +80,8 @@ const NewsletterForm = () => {
           </Button>
         </Grid>
         <FormHelperText
-          error={formik.touched.email && Boolean(formik.errors.email)}>
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          sx={{ color: 'white !important' }}>
           {formik.errors.email}
         </FormHelperText>
       </form>

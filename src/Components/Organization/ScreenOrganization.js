@@ -38,8 +38,6 @@ const OrganizationInfo = ({ id }) => {
         display: 'flex',
         placeContent: 'center',
         alignItems: 'center',
-        height: '100vh',
-        border: '1px solid red',
       }}>
       <Card as="span" sx={{ flexGrow: 1, maxWidth: '800px' }}>
         <Typography variant="subtitle1">Name</Typography>

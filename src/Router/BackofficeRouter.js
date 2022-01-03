@@ -13,6 +13,7 @@ import ScreenMembersList from '../Components/Members/ScreenMembersList';
 import BackofficeDashboard from '../Components/Backoffice/BackofficeDashboard';
 import SlidesBackOffice from '../Components/Slides/SlidesBackOffice';
 import ScreenOrganization from '../Components/Organization/ScreenOrganization';
+import ScreenOrganizationEditForm from '../Components/Organization/ScreenOrganizationEditForm';
 import Backoffice_ListCategories from '../Components/Categories/Backoffice_ListCategories';
 import News from '../Components/News/News';
 import BackofficeLayout from '../Components/Layouts/BackofficeLayout';
@@ -49,6 +50,10 @@ const BackofficeRouter = () => {
       <Route component={NewsCreateEdit} path={`${path}/news/create`} />
       <Route component={News} path={`${path}/news`} />
 
+      <Route
+        component={ScreenOrganizationEditForm}
+        path={`${path}/organization/edit`}
+      />
       <Route component={ScreenOrganization} path={`${path}/organization`} />
 
       <Route exact component={SlidesForm} path={`${path}/slides/edit/:id`} />

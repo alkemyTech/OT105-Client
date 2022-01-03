@@ -11,10 +11,15 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import ActivitiesSearchForm from './ActivitiesSearchForm';
 
 const ActivitiesList = () => {
   const [activities, setActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateActivitiesList = (updatedActivities) => {
+    setActivities(updatedActivities);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +35,8 @@ const ActivitiesList = () => {
 
   return (
     <Container sx={{ my: '2rem' }}>
+      <ActivitiesSearchForm updateActivitiesList={updateActivitiesList} />
+
       {isLoading ? (
         <Spinner />
       ) : activities.length > 0 ? (

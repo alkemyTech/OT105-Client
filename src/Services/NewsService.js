@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { errorAlert } from './alertsService';
 
-export const urlEditNews = `http://ongapi.alkemy.org/public/api/news/`;
-export const urlCreateNews = `http://ongapi.alkemy.org/public/api/news`;
+export const urlEditNews = process.env.REACT_APP_PUBLIC_NEWS_URL;
+export const urlCreateNews = process.env.REACT_APP_PUBLIC_NEWS_URL;
 
-const NEWS_URL = 'http://ongapi.alkemy.org/api/news';
+const NEWS_URL = process.env.REACT_APP_NEWS_URL;
 
 const getAllNews = async () => {
   try {

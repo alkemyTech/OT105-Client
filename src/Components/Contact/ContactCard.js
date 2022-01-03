@@ -15,8 +15,6 @@ const ContactCard = ({ children, contactTitle, contactInfo, type }) => {
     contact = contactInfo;
   }
 
-  console.log(contact);
-
   return (
     <Box className={s.cardContainer}>
       <Typography component="h2" sx={cardTitle}>

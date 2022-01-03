@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import {
   Alert,
   AlertTitle,
@@ -21,6 +21,8 @@ import {
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import '../../FormStyles.css';
+import Swal from 'sweetalert2';
+
 const validate = (values) => {
   let errors = {};
 
@@ -49,6 +51,9 @@ const LoginForm = () => {
     email: '',
     password: '',
   });
+
+  const history = useHistory();
+
   const SignupForm = () => {
     const formik = useFormik({
       initialValues: {
@@ -62,6 +67,41 @@ const LoginForm = () => {
           email: values.email,
           password: values.password,
         });
+
+        if (
+          values.email === 'user@user.com' &&
+          values.password === 'user@1234'
+        ) {
+          localStorage.setItem('token', 1);
+          Swal.fire({
+            icon: 'success',
+            text: 'Logeado como usuario regular',
+          });
+          history.push('/');
+
+          return;
+        }
+        if (
+          values.email === 'admin@admin.com' &&
+          values.password === 'admin@1234'
+        ) {
+          localStorage.setItem('token', 2);
+          Swal.fire({
+            icon: 'success',
+            text: 'Logeado como administrador',
+          });
+          history.push('/');
+
+          return;
+        } else {
+          Swal.fire({
+            icon: 'error',
+            text: 'Email y/o contraseña incorrectos',
+          });
+          setUserValues({ email: '', password: '' });
+
+          return;
+        }
       },
     });
     const showErrors = (errorAttribute) => {

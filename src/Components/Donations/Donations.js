@@ -33,7 +33,7 @@ const Donations = ({ donationsTitle, donationsSubtitle }) => {
           borderRadius: '100px',
           ['@media (max-width:380px)']: { width: '10rem' },
         }}>
-        <CardActionArea>
+        <CardActionArea href="https://mpago.la/1Wub6i7">
           <CardContent>
             <img
               alt="mercadopago logo"

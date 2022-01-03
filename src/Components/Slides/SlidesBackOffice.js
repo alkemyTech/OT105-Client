@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
+  Avatar,
   Table,
   Container,
   Box,
@@ -24,38 +25,19 @@ import {
   StyledTableRow,
 } from '../../Utils/SlidesBackOfficeStyled';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
+import { getAllSlides, deleteSlide } from '../../Services/slidesService';
 
 function SlidesBackOffice() {
-  const [mockedData, setMockedData] = useState([
-    {
-      id: 1,
-      Title: 'Title 1',
-      image: 'Image 1',
-      order: 'Order 1',
-    },
-    {
-      id: 2,
-      Title: 'Title 2',
-      image: 'Image 2',
-      order: 'Order 2',
-    },
-    {
-      id: 3,
-      Title: 'Title 3',
-      image: 'Image 3',
-      order: 'Order 3',
-    },
-    {
-      id: 4,
-      Title: 'Title 4',
-      image: 'Image 4',
-      order: 'Order 4',
-    },
-  ]);
-  const deleteSlide = (row) => {
-    const filterArray = mockedData.filter((slide) => slide.id !== row.id);
+  const [slides, setSlides] = useState([]);
 
-    return setMockedData(filterArray);
+  useEffect(() => {
+    getAllSlides().then((res) => setSlides(res.data));
+  }, []);
+
+  const deleteSlide = (row) => {
+    const filterArray = slides.filter((slide) => slide.id !== row.id);
+
+    return setSlides(filterArray);
   };
 
   return (
@@ -75,7 +57,7 @@ function SlidesBackOffice() {
               <Button
                 className="customTableBtn"
                 component={Link}
-                to="/backoffice/users/create"
+                to="/backoffice/slides/create"
                 variant="contained">
                 Nuevo slide
               </Button>
@@ -98,15 +80,19 @@ function SlidesBackOffice() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {mockedData.map((row) => (
+                  {slides.map((row) => (
                     <StyledTableRow key={row.id}>
                       <StyledTableCell component="th" scope="row">
-                        {row.Title}
+                        {row.name}
                       </StyledTableCell>
                       <StyledTableCell
                         align="center"
                         className="customTableCol">
-                        {row.image}
+                        <Avatar
+                          alt={name}
+                          src={row.image}
+                          sx={{ width: 75, height: 75, margin: '0 auto' }}
+                        />
                       </StyledTableCell>
                       <StyledTableCell
                         align="center"
@@ -117,7 +103,7 @@ function SlidesBackOffice() {
                         <Tooltip title="Editar">
                           <IconButton
                             component={Link}
-                            to={`/backoffice/users/edit/${row.id}`}
+                            to={`/backoffice/slides/edit/${row.id}`}
                             variant="contained">
                             <EditIcon />
                           </IconButton>

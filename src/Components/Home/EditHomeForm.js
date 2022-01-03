@@ -10,17 +10,11 @@ import {
   Button,
   Typography,
   Alert,
-  Container,
   TextField,
   Paper,
   Stack,
 } from '@mui/material';
-import SlidesForm from '../Slides/SlidesForm';
-import {
-  formStyles,
-  containerStyles,
-  slidesContainer,
-} from '../../Styles/EditHomeFormStyles';
+import { formStyles, containerStyles } from '../../Styles/EditHomeFormStyles';
 import '../FormStyles.css';
 
 const validationSchema = Yup.object({
@@ -112,21 +106,6 @@ const EditHomeForm = () => {
             </Stack>
           </form>
         </Paper>
-        <Container
-          style={slidesContainer}
-          sx={{
-            padding: '0',
-            gridTemplateColumns: {
-              xs: '1fr',
-              lg: '1fr 1fr 1fr',
-            },
-          }}>
-          <SlidesForm />
-
-          <SlidesForm />
-
-          <SlidesForm />
-        </Container>
       </div>
     </div>
   );

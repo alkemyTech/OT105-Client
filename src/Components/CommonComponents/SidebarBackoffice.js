@@ -23,11 +23,6 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 
 const routes = [
   {
-    name: 'Home',
-    path: '/backoffice/home',
-    icon: () => <HomeIcon />,
-  },
-  {
     name: 'Actividades',
     path: '/backoffice/activities',
     icon: () => <CampaignIcon />,

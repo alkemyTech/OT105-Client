@@ -52,7 +52,7 @@ const ActivitiesList = () => {
                     justifyContent: 'space-between',
                   }}>
                   <CardActionArea
-                    href={`/actividades/${activity.id}`}
+                    href={`/activities/${activity.id}`}
                     sx={{ height: '100%' }}>
                     <CardMedia
                       component="img"

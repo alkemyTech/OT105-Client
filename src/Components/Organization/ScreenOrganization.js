@@ -5,30 +5,17 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import { ImageListItem, Typography } from '@mui/material';
+import { getOrganization } from '../../Services/organizationService';
 
 const OrganizationInfo = ({ id }) => {
-  const [organizationData, setOrganizationData] = useState({
-    name: '',
-    image: '',
-    description: '',
-  });
+  const [organizationData, setOrganizationData] = useState({});
 
   useEffect(() => {
-    getOrganizationData(id);
+    getOrganization(1).then((res) => setOrganizationData(res.data));
   }, []);
 
-  const { name, image, description } = organizationData;
-
-  const getOrganizationData = (id) => {
-    const data = {
-      name: 'Somos más',
-      image: 'https://picsum.photos/800/350',
-      description:
-        'Culpa velit sint labore pariatur nulla qui excepteur laboris reprehenderit in irure aute reprehenderit duis. Exercitation fugiat dolor eiusmod consequat id Lorem proident minim nisi est. Anim laborum elit est mollit ullamco in est consequat. Aliquip consequat laborum ullamco nisi ipsum ex reprehenderit laboris dolore nisi ad consequat mollit. Ea aliqua consequat velit veniam consectetur exercitation velit. Ut irure amet ad voluptate ad anim adipisicing est. ',
-    };
-
-    setOrganizationData(data);
-  };
+  const { name, logo, short_description, long_description, welcome_text } =
+    organizationData;
 
   return (
     <Box
@@ -40,12 +27,18 @@ const OrganizationInfo = ({ id }) => {
         alignItems: 'center',
       }}>
       <Card as="span" sx={{ flexGrow: 1, maxWidth: '800px' }}>
-        <Typography variant="subtitle1">Name</Typography>
+        <Typography variant="subtitle1">Nombre de la ONG</Typography>
         <Typography variant="h4">
           {name || 'No se encuentra el nombre'}
         </Typography>
         <Divider />
-        <Typography variant="subtitle1">Image</Typography>
+        <Typography variant="subtitle1">Texto de bienvenida</Typography>
+        <Typography variant="h4">
+          {welcome_text || 'No se encuentra el texto de bienvenida'}
+        </Typography>
+        <Divider />
+
+        <Typography variant="subtitle1">Logo</Typography>
         <ImageListItem
           sx={{
             maxHeight: '350px',
@@ -53,18 +46,23 @@ const OrganizationInfo = ({ id }) => {
             objectFit: 'cover',
             overflow: 'hidden',
           }}>
-          {image ? (
-            <img alt="imagen-de-ong" fit="" loading="lazy" src={image} />
+          {logo ? (
+            <img alt="logo-de-ong" fit="" loading="lazy" src={logo} />
           ) : (
             <Typography variant="h6">
-              <h4>No se encuentra la imagen</h4>
+              <h4>No se encuentra el logo</h4>
             </Typography>
           )}
         </ImageListItem>
         <Divider />
-        <Typography variant="subtitle1">Description</Typography>
+        <Typography variant="subtitle1">Descripción corta</Typography>
         <Typography variant="body1">
-          {description || 'No se cargó una descripción.'}
+          {short_description || 'No se cargó una descripción corta.'}
+        </Typography>
+        <Divider />
+        <Typography variant="subtitle1">Descripción larga</Typography>
+        <Typography variant="body1">
+          {long_description || 'No se cargó una descripción larga.'}
         </Typography>
         <Divider />
         <br />

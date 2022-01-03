@@ -129,7 +129,7 @@ const Footer = () => {
             </Box>
           </Container>
           <div style={{ margin: 'auto', display: 'block' }}>
-            {suscribed && (
+            {!suscribed && (
               <div
                 style={{
                   display: 'flex',

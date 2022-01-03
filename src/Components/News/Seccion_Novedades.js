@@ -1,101 +1,101 @@
 import React, { useState, useEffect } from 'react';
 import Title from '../Title/Title';
-import { TableBody, TableCell, TableRow } from '@mui/material';
 import Video from './Ultimo Evento/Video';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
-import { Avatar, Alert } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import { red } from '@mui/material/colors';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { getAllNews } from '../../Services/NewsService.js';
 import { NewsSearch_Form } from './NewsSearch_Form';
-import { listHasValues, sliceDate } from '../../Utils';
+import ActivityContent from '../Activities/ActivityContent';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
+import { listHasValues } from '../../Utils';
+import { getAllNews } from '../../Services/NewsService.js';
+import {
+  Alert,
+  Card,
+  CardMedia,
+  Container,
+  Grid,
+  CardActionArea,
+  CardContent,
+  Typography,
+} from '@mui/material';
 
 const Seccion_Novedades = () => {
   const [novedades, setNovedades] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [sortedNewsList, setSortedNewsList] = useState([]);
-  const rowHeight = 53;
 
   useEffect(() => {
     getAllNews().then((res) => setNovedades(res));
   }, []);
+
   const updateLoadingState = (loadingState) => {
     setIsLoading(loadingState);
   };
-
   const updateNewsList = (updatedNews) => {
     setNovedades(updatedNews);
   };
 
   return (
-    <div>
+    <>
       <Title bckgColor="#8DCAFF" titleText={'Novedades'} />
-      <NewsSearch_Form
-        updateLoadingState={updateLoadingState}
-        updateNewsList={updateNewsList}
-      />
-      {!listHasValues(sortedNewsList) && isLoading ? (
-        <Alert
-          severity="warning"
-          sx={{
-            margin: '0 auto',
-            justifyContent: 'center',
-            marginTop: '30px',
-          }}>
-          Novedad no encontrada!
-        </Alert>
-      ) : null}
-
-      {isLoading ? (
-        <TableBody>
-          <TableRow
-            style={{
-              height: rowHeight * 10,
+      <Container sx={{ my: '2rem' }}>
+        <NewsSearch_Form
+          updateLoadingState={updateLoadingState}
+          updateNewsList={updateNewsList}
+        />
+        {!listHasValues(novedades) && !isLoading ? (
+          <Alert
+            severity="warning"
+            sx={{
+              margin: '0 auto',
+              justifyContent: 'center',
+              marginTop: '30px',
             }}>
-            <TableCell colSpan={3}>
-              <LoadSpinner sx={{ justifyContent: 'center' }} />
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      ) : (
-        <div
-          justify="center"
-          style={{ width: '800px', margin: '20px auto', display: 'flex' }}>
-          {novedades.map((row) => (
-            <Card
-              key={row.id}
-              sx={{ width: '345px !important', margin: 'auto 10px' }}>
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="recipe" sx={{ bgcolor: red[500] }}>
-                    {row.id}
-                  </Avatar>
-                }
-                subheader={row.createdAt}
-                title={row.name}
-              />
-              <CardMedia
-                alt="img"
-                component="img"
-                height="194"
-                image={row.image}
-              />
-              <CardActions disableSpacing>
-                <IconButton aria-label="+" href={`/news/${row.id}`}>
-                  <AddCircleIcon />
-                </IconButton>
-              </CardActions>
-            </Card>
-          ))}
-        </div>
-      )}
-      <Video />
-    </div>
+            Novedad no encontrada!
+          </Alert>
+        ) : null}
+
+        {isLoading ? (
+          <LoadSpinner sx={{ justifyContent: 'center' }} />
+        ) : (
+          <Grid container columnSpacing={2} rowSpacing={4} sx={{ my: '1rem' }}>
+            {novedades.map((novedad) => {
+              return (
+                <Grid key={novedad.id} item md={4} sm={6} xs={12}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                    }}>
+                    <CardActionArea
+                      href={`/news/${novedad.id}`}
+                      sx={{ height: '100%' }}>
+                      <CardMedia
+                        component="img"
+                        height="160"
+                        image={novedad.image}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5">
+                          {novedad.name}
+                        </Typography>
+                        <ActivityContent
+                          content={
+                            novedad.content?.length > 200
+                              ? novedad.content.slice(0, 200) + '...'
+                              : novedad.content
+                          }
+                        />
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        )}
+        <Video />
+      </Container>
+    </>
   );
 };
 

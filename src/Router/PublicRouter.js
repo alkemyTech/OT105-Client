@@ -22,7 +22,7 @@ const PublicRouter = () => {
   let { path } = useRouteMatch();
 
   return (
-    <Suspense fallback={<LoaderSpinner />}>
+    <Suspense fallback={<LoaderSpinner full />}>
       <PublicLayout>
         <Switch>
           <Route exact component={HomeScreen} path={`${path}`} />

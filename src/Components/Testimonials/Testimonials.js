@@ -1,59 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import Title from '../Title/Title';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import { red } from '@mui/material/colors';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LoadSpinner from '../CommonComponents/LoaderSpinner';
+import ActivityContent from '../Activities/ActivityContent';
 import { getAllTestimonials } from '../../Services/testimonialsService';
+import { format, parseISO } from 'date-fns';
+import {
+  Avatar,
+  Card,
+  CardHeader,
+  Container,
+  Grid,
+  CardContent,
+} from '@mui/material';
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getAllTestimonials().then((response) =>
-      setTestimonials(response.data.data),
-    );
+    const fetchData = async () => {
+      setIsLoading(true);
+      const response = await getAllTestimonials();
+
+      setTestimonials(response.data.data);
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   return (
     <div>
       <Title bckgColor="#EC4C4C" titleText={'Testimonios'} />
-      <div
-        justify="center"
-        style={{ width: '800px', margin: '20px auto', display: 'flex' }}>
-        {testimonials?.slice(4, 8).map((row) => {
-          return (
-            <Card
-              key={row.id}
-              sx={{ width: '345px !important', margin: 'auto 10px' }}>
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="recipe" sx={{ bgcolor: red[500] }}>
-                    {row.id}
-                  </Avatar>
-                }
-                subheader={row.createdAt}
-                title={row.name}
-              />
-              <CardMedia
-                alt="img"
-                component="img"
-                height="194"
-                image={row.image}
-              />
-              <CardActions disableSpacing>
-                <IconButton aria-label="+" href={`/Testimonials/${row.id}`}>
-                  <AddCircleIcon />
-                </IconButton>
-              </CardActions>
-            </Card>
-          );
-        })}
-      </div>
+      <Container sx={{ my: '2rem' }}>
+        {isLoading ? (
+          <LoadSpinner sx={{ justifyContent: 'center' }} />
+        ) : (
+          <Grid container columnSpacing={2} rowSpacing={4} sx={{ my: '1rem' }}>
+            {testimonials?.slice(0, 6).map((testimony) => {
+              return (
+                <Grid key={testimony.id} item md={4} sm={6} xs={12}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                    }}>
+                    <CardContent>
+                      <ActivityContent
+                        content={
+                          testimony.description?.length > 200
+                            ? testimony.description.slice(0, 200) + '...'
+                            : testimony.description
+                        }
+                      />
+                    </CardContent>
+                    <CardHeader
+                      avatar={
+                        <Avatar
+                          aria-label="user avatar"
+                          src={testimony.image}
+                        />
+                      }
+                      subheader={format(
+                        parseISO(testimony.created_at),
+                        'dd/MMM/yyyy',
+                      )}
+                      title={testimony.name}
+                    />
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        )}
+      </Container>
     </div>
   );
 };

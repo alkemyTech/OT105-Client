@@ -1,128 +1,121 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { useDropzone } from 'react-dropzone';
 import {
-  Alert,
-  AlertTitle,
   Button,
+  Typography,
+  Alert,
+  TextField,
+  Paper,
+  Stack,
   Container,
   FormControl,
-  Input,
-  InputLabel,
-  TextField,
 } from '@mui/material';
-import validate from './validate';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import CloseIcon from '@mui/icons-material/Close';
+import validationSchema from './validationSchema';
+import Swal from 'sweetalert2';
+import { getOrganization } from '../../Services/organizationService';
+import LoaderSpinner from '../CommonComponents/LoaderSpinner';
 
 function ScreenOrganizationEditForm() {
-  const [open, setOpen] = useState(true);
+  const [organizationData, setOrganizationData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
-  const Edit = () => {
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-      accept: 'image/jpeg, image/png',
-      onDrop: (acceptedFiles) => {
-        console.log(acceptedFiles);
-      },
+  console.log(organizationData);
+
+  useEffect(() => {
+    getOrganization().then((res) => {
+      formik.values.name = res.data.name;
+      // formik.values.logo = res.data.logo;
+      formik.values.welcome_text = res.data.welcome_text;
+      formik.values.short_description = res.data.short_description;
+      formik.values.long_description = res.data.long_description;
+      formik.values.facebook_url = res.data.facebook_url;
+      formik.values.instagram_url = res.data.instagram_url;
+      formik.values.linkedin_url = res.data.linkedin_url;
+      setOrganizationData(res.data);
+      setIsLoading(false);
     });
-    const files = acceptedFiles.map((file) => (
-      <li key={file.path}>
-        {file.path} - {file.size} bytes
-      </li>
-    ));
-    const handleChange = (e, editor) => {
-      const data = editor.getData();
+  }, []);
 
-      formik.setFieldValue('shortDescription', data);
-    };
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    accept: 'image/jpeg, image/png',
+    onDrop: (acceptedFiles) => {
+      console.log(acceptedFiles);
+    },
+  });
+  const files = acceptedFiles.map((file) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+  const handleChange = (e, editor) => {
+    const data = editor.getData();
 
-    const formik = useFormik({
-      initialValues: {
-        name: '',
-        logo: '',
-        shortDescription: '',
-        longDescription: '',
-        link1: '',
-        link2: '',
-        link3: '',
-      },
-      validate,
-      onSubmit: (values) => {},
-    });
+    formik.setFieldValue('short_description', data);
+  };
 
-    const showErrors = (errorAttribute) => {
-      if (formik.touched[errorAttribute] && formik.errors[errorAttribute]) {
-        return (
-          <Alert
-            align="justify"
-            severity="warning"
-            sx={{ width: '23rem', height: '2rem' }}>
-            <AlertTitle> {formik.errors[errorAttribute]} </AlertTitle>
-          </Alert>
-        );
-      }
-    };
-    const showErrorCollapse = (errorAttribute) => {
-      if (formik.touched[errorAttribute] && formik.errors[errorAttribute]) {
-        return (
-          <Collapse in={open}>
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}>
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              align="justify"
-              severity="warning"
-              sx={{ width: '23rem' }}>
-              <AlertTitle>Warning</AlertTitle>
-              {formik.errors[errorAttribute]}
-            </Alert>
-          </Collapse>
-        );
-      }
-    };
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      logo: '',
+      welcome_text: '',
+      long_description: '',
+      short_description: '',
+      facebook_url: '',
+      instagram_url: '',
+      linkedin_url: '',
+    },
+    validationSchema,
+    onSubmit: (values) => {},
+  });
 
-    return (
-      <form
-        style={{
-          width: '100%',
-          height: 'auto',
-          border: '#2E86C1 2px solid',
-          display: 'flex',
-          flexDirection: 'column',
-          marginTop: '10%',
-          padding: '35px',
-          gap: '30px',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onSubmit={formik.handleSubmit}>
-        <FormControl margin="dense">
-          <InputLabel htmlFor="name">Company name</InputLabel>
-          <Input
+  const showErrorMessage = (errorMessage) => {
+    return <Alert severity="warning"> {errorMessage} </Alert>;
+  };
+
+  if (isLoading) {
+    return <LoaderSpinner />;
+  }
+
+  return (
+    <div className="bckg">
+      <Paper
+        elevation={3}
+        sx={{
+          padding: '2rem',
+          marginBlock: '4rem',
+          marginInline: 'auto',
+          width: {
+            xs: '400px',
+            sm: '600px',
+          },
+          justifySelf: 'center',
+          alignSelf: 'center',
+        }}>
+        <Typography align="center" component="div" variant="h4">
+          Editar datos de la organización
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <Typography component="div" variant="h5">
+            Nombre de la ONG
+          </Typography>
+          <TextField
+            error={formik.touched.name && Boolean(formik.errors.name)}
             id="name"
-            margin="dense"
-            name="name"
-            sx={{ width: '25rem' }}
-            type="text"
+            placeholder="Somos más"
             value={formik.values.name}
-            onBlur={formik.handleBlur}
+            variant="outlined"
             onChange={formik.handleChange}
           />
-          {showErrors('name')}
-        </FormControl>
-        <InputLabel>Logo</InputLabel>
-        <FormControl>
+          {formik.touched.name &&
+            formik.errors.name &&
+            showErrorMessage(formik.errors.name)}
+          <Typography component="div" variant="h5">
+            Logo
+          </Typography>
+
           <div {...getRootProps()}>
             <input
               id="logo"
@@ -138,89 +131,109 @@ function ScreenOrganizationEditForm() {
             <h4>Files</h4>
             <ul>{files}</ul>
           </aside>
-          {showErrorCollapse('logo')}
-        </FormControl>
-        <Container sx={{ width: '28rem' }}>
-          <CKEditor
-            required
-            data={formik.values.shortDescription}
-            editor={ClassicEditor}
-            id="shortDescription"
-            name="shortDescription"
-            type="text"
-            onChange={formik.handleChange}
-          />
-          {showErrors('shortDescription')}
-        </Container>
-        <FormControl margin="dense">
+          <Typography component="div" variant="h5">
+            Texto de bienvenida
+          </Typography>
           <TextField
-            multiline
-            id="longDescription"
-            name="longDescription"
-            placeholder="Long description"
-            rows={4}
-            sx={{ width: '25rem' }}
-            type="text"
-            value={formik.values.longDescription}
-            onBlur={formik.handleBlur}
+            error={
+              formik.touched.welcome_text && Boolean(formik.errors.welcome_text)
+            }
+            id="welcome_text"
+            placeholder="Texto de bienvenida"
+            value={formik.values.welcome_text}
+            variant="outlined"
             onChange={formik.handleChange}
           />
-          {showErrors('longDescription')}
-        </FormControl>
-        <InputLabel> social media links</InputLabel>
-        <FormControl margin="dense">
-          <TextField
-            id="link1"
-            margin="dense"
-            name="link1"
-            placeholder="link1"
-            size="small"
-            sx={{ width: '25rem' }}
-            type="url"
-            value={formik.values.link1}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {showErrors('link1')}
-          <TextField
-            id="link2"
-            margin="dense"
-            name="link2"
-            placeholder="link2"
-            size="small"
-            sx={{ width: '25rem' }}
-            type="url"
-            value={formik.values.link2}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {showErrors('link2')}
-          <TextField
-            id="link3"
-            margin="dense"
-            name="link3"
-            placeholder="link3"
-            size="small"
-            sx={{ width: '25rem' }}
-            type="url"
-            value={formik.values.link3}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          {showErrors('link3')}
-        </FormControl>
-        <Button className="btn" type="submit" variant="contained">
-          {' '}
-          submit
-        </Button>
-      </form>
-    );
-  };
+          {formik.touched.welcome_text &&
+            formik.errors.welcome_text &&
+            showErrorMessage(formik.errors.welcome_text)}
+          <Typography component="div" variant="h5">
+            Descripción corta
+          </Typography>
+          <Container>
+            <CKEditor
+              required
+              data={formik.values.short_description}
+              editor={ClassicEditor}
+              id="short_description"
+              name="short_description"
+              type="text"
+              onChange={handleChange}
+            />
+          </Container>
 
-  return (
-    <Container maxWidth="sm">
-      <Edit />
-    </Container>
+          <Typography component="div" variant="h5">
+            Descripción larga
+          </Typography>
+          <TextField
+            error={
+              formik.touched.long_description &&
+              Boolean(formik.errors.long_description)
+            }
+            id="long_description"
+            placeholder="Texto de bienvenida"
+            value={formik.values.long_description}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.touched.long_description &&
+            formik.errors.long_description &&
+            showErrorMessage(formik.errors.long_description)}
+
+          <Typography component="div" variant="h5">
+            Links a redes sociales
+          </Typography>
+
+          <TextField
+            error={
+              formik.touched.facebook_url && Boolean(formik.errors.facebook_url)
+            }
+            id="facebook_url"
+            placeholder="Facebook"
+            value={formik.values.facebook_url}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.touched.facebook_url &&
+            formik.errors.facebook_url &&
+            showErrorMessage(formik.errors.facebook_url)}
+
+          <TextField
+            error={
+              formik.touched.instagram_url &&
+              Boolean(formik.errors.instagram_url)
+            }
+            id="instagram_url"
+            placeholder="Instagram"
+            value={formik.values.instagram_url}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.touched.instagram_url &&
+            formik.errors.instagram_url &&
+            showErrorMessage(formik.errors.instagram_url)}
+
+          <TextField
+            error={
+              formik.touched.linkedin_url && Boolean(formik.errors.linkedin_url)
+            }
+            id="linkedin_url"
+            placeholder="Linkedin"
+            value={formik.values.linkedin_url}
+            variant="outlined"
+            onChange={formik.handleChange}
+          />
+          {formik.touched.linkedin_url &&
+            formik.errors.linkedin_url &&
+            showErrorMessage(formik.errors.linkedin_url)}
+
+          <Button className="btn" type="submit" variant="contained">
+            submit
+          </Button>
+        </form>
+      </Paper>
+    </div>
   );
 }
+
 export default ScreenOrganizationEditForm;

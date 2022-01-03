@@ -7,22 +7,18 @@ import {
   Alert,
   TextField,
   Paper,
-  Stack,
   Container,
-  FormControl,
 } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import validationSchema from './validationSchema';
-import Swal from 'sweetalert2';
 import { getOrganization } from '../../Services/organizationService';
 import LoaderSpinner from '../CommonComponents/LoaderSpinner';
+import Swal from 'sweetalert2';
 
 function ScreenOrganizationEditForm() {
   const [organizationData, setOrganizationData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log(organizationData);
 
   useEffect(() => {
     getOrganization().then((res) => {
@@ -94,10 +90,17 @@ function ScreenOrganizationEditForm() {
           justifySelf: 'center',
           alignSelf: 'center',
         }}>
-        <Typography align="center" component="div" variant="h4">
+        <Typography
+          align="center"
+          component="div"
+          style={{ marginBottom: '3rem' }}
+          variant="h4">
           Editar datos de la organización
         </Typography>
-        <form onSubmit={formik.handleSubmit}>
+
+        <form
+          style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          onSubmit={formik.handleSubmit}>
           <Typography component="div" variant="h5">
             Nombre de la ONG
           </Typography>
@@ -106,16 +109,15 @@ function ScreenOrganizationEditForm() {
             id="name"
             placeholder="Somos más"
             value={formik.values.name}
-            variant="outlined"
             onChange={formik.handleChange}
           />
           {formik.touched.name &&
             formik.errors.name &&
             showErrorMessage(formik.errors.name)}
+
           <Typography component="div" variant="h5">
             Logo
           </Typography>
-
           <div {...getRootProps()}>
             <input
               id="logo"
@@ -131,6 +133,7 @@ function ScreenOrganizationEditForm() {
             <h4>Files</h4>
             <ul>{files}</ul>
           </aside>
+
           <Typography component="div" variant="h5">
             Texto de bienvenida
           </Typography>
@@ -141,12 +144,12 @@ function ScreenOrganizationEditForm() {
             id="welcome_text"
             placeholder="Texto de bienvenida"
             value={formik.values.welcome_text}
-            variant="outlined"
             onChange={formik.handleChange}
           />
           {formik.touched.welcome_text &&
             formik.errors.welcome_text &&
             showErrorMessage(formik.errors.welcome_text)}
+
           <Typography component="div" variant="h5">
             Descripción corta
           </Typography>
@@ -161,11 +164,15 @@ function ScreenOrganizationEditForm() {
               onChange={handleChange}
             />
           </Container>
+          {formik.touched.short_description &&
+            formik.errors.short_description &&
+            showErrorMessage(formik.errors.short_description)}
 
           <Typography component="div" variant="h5">
             Descripción larga
           </Typography>
           <TextField
+            multiline
             error={
               formik.touched.long_description &&
               Boolean(formik.errors.long_description)
@@ -173,7 +180,6 @@ function ScreenOrganizationEditForm() {
             id="long_description"
             placeholder="Texto de bienvenida"
             value={formik.values.long_description}
-            variant="outlined"
             onChange={formik.handleChange}
           />
           {formik.touched.long_description &&
@@ -183,7 +189,6 @@ function ScreenOrganizationEditForm() {
           <Typography component="div" variant="h5">
             Links a redes sociales
           </Typography>
-
           <TextField
             error={
               formik.touched.facebook_url && Boolean(formik.errors.facebook_url)
@@ -191,7 +196,6 @@ function ScreenOrganizationEditForm() {
             id="facebook_url"
             placeholder="Facebook"
             value={formik.values.facebook_url}
-            variant="outlined"
             onChange={formik.handleChange}
           />
           {formik.touched.facebook_url &&
@@ -206,7 +210,6 @@ function ScreenOrganizationEditForm() {
             id="instagram_url"
             placeholder="Instagram"
             value={formik.values.instagram_url}
-            variant="outlined"
             onChange={formik.handleChange}
           />
           {formik.touched.instagram_url &&
@@ -220,15 +223,20 @@ function ScreenOrganizationEditForm() {
             id="linkedin_url"
             placeholder="Linkedin"
             value={formik.values.linkedin_url}
-            variant="outlined"
             onChange={formik.handleChange}
           />
           {formik.touched.linkedin_url &&
             formik.errors.linkedin_url &&
             showErrorMessage(formik.errors.linkedin_url)}
 
-          <Button className="btn" type="submit" variant="contained">
-            submit
+          <Button
+            className="submit-btn"
+            sx={{
+              width: { xs: '100%', sm: '200px' },
+            }}
+            type="submit"
+            variant="contained">
+            Enviar
           </Button>
         </form>
       </Paper>

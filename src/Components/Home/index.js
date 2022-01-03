@@ -6,6 +6,7 @@ import Title from '../Title/Title';
 import { getWelcomeMessage } from '../../Services/homeService';
 import Seccion_Novedades from '../News/Seccion_Novedades';
 import Testimonials from '../Testimonials/Testimonials';
+import SlideHome from './SlideHome';
 
 const HomeScreen = () => {
   const [title, setTitle] = useState(null);
@@ -37,6 +38,7 @@ const HomeScreen = () => {
           <Box sx={{ objectFit: 'contain' }}>
             {/* <Typography variant="h4">Últimas novedades</Typography>
             <div name="news" /> */}
+            <SlideHome />
             <Paper sx={{ marginBlock: '2rem', paddingBottom: '2rem' }}>
               <Seccion_Novedades />
             </Paper>

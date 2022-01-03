@@ -1,8 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import LoaderSpinner from '../Components/CommonComponents/LoaderSpinner';
-const SchoolCampaign = lazy(() => import('../Campaigns/School/SchoolCampaign'));
-const ToysCampaign = lazy(() => import('../Campaigns/Toys/ToysCampaign'));
 const FormContact = lazy(() => import('../Components/Contact/FormContact'));
 const Seccion_Novedades = lazy(() =>
   import('../Components/News/Seccion_Novedades'),
@@ -28,18 +26,16 @@ const PublicRouter = () => {
       <PublicLayout>
         <Switch>
           <Route exact component={HomeScreen} path={`${path}`} />
-          <Route component={FormContact} path={`${path}form-contact`} />
-          <Route component={ActivityDetail} path={`${path}actividades/:id`} />
-          <Route component={Activities} path={`${path}actividades`} />
-          <Route component={Seccion_Novedades} path={`${path}novedades`} />
-          <Route component={SchoolCampaign} path={`${path}school-campaign`} />
-          <Route component={ToysCampaign} path={`${path}toys-campaign`} />
-          <Route component={Contact} path={`${path}contact`} />
           <Route
             path={`${path}news/:id`}
             render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
           />
+          <Route component={ActivityDetail} path={`${path}activities/:id`} />
           <Route component={About} path={`${path}aboutus`} />
+          <Route component={Contact} path={`${path}contact`} />
+          <Route component={FormContact} path={`${path}form-contact`} />
+          <Route component={Seccion_Novedades} path={`${path}news`} />
+          <Route component={Activities} path={`${path}activities`} />
           <Route
             path={`${path}donations`}
             render={() => (

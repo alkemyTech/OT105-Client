@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { getOrganization } from '../../Services/organizationService';
+import Swal from 'sweetalert2';
 
 const links = [
   {
@@ -40,7 +41,6 @@ const links = [
 ];
 
 const Header_Wed = ({ isLogged }) => {
-  const linkMenu = { textDecoration: 'none', color: 'black' };
   const [organizationInformation, setOrganizationInformation] = useState({});
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -51,6 +51,10 @@ const Header_Wed = ({ isLogged }) => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
   };
 
   useEffect(() => {
@@ -119,8 +123,15 @@ const Header_Wed = ({ isLogged }) => {
                 ) : (
                   <MenuItem
                     component={Link}
-                    to="/logout"
-                    onClick={handleCloseNavMenu}>
+                    to="/"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      handleLogout();
+                      Swal.fire({
+                        icon: 'success',
+                        text: 'Sesión finalizada',
+                      });
+                    }}>
                     Logout
                   </MenuItem>
                 )}
@@ -192,8 +203,15 @@ const Header_Wed = ({ isLogged }) => {
                     },
                     marginLeft: '2rem',
                   }}
-                  to="/logout"
-                  variant="outlined">
+                  to="/"
+                  variant="outlined"
+                  onClick={() => {
+                    handleLogout();
+                    Swal.fire({
+                      icon: 'success',
+                      text: 'Sesión finalizada',
+                    });
+                  }}>
                   Logout
                 </Button>
               )}

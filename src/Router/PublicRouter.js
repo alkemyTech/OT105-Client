@@ -22,6 +22,7 @@ const PublicRouter = () => {
       <Switch>
         <Route exact component={HomeScreen} path={`${path}`} />
         <Route component={FormContact} path={`${path}form-contact`} />
+        <Route component={ActivityDetail} path={`${path}actividades/:id`} />
         <Route component={Activities} path={`${path}actividades`} />
         <Route component={Seccion_Novedades} path={`${path}novedades`} />
         <Route component={SchoolCampaign} path={`${path}school-campaign`} />
@@ -32,7 +33,6 @@ const PublicRouter = () => {
           render={() => <NewsDetail newsTitle="Titulo de la noticia" />}
         />
         <Route component={About} path={`${path}aboutus`} />
-        <Route component={ActivityDetail} path={`${path}activities/:id`} />
         <Route
           path={`${path}donations`}
           render={() => (

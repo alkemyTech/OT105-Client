@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Title from '../../Title/Title';
-import { CircularProgress, Container, Typography } from '@mui/material';
+import ActivityContent from '../ActivityContent';
+import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import { getActivityById } from '../../../Services/activitiesService';
 
 export default function ActivityDetail({ match }) {
@@ -54,9 +55,9 @@ export default function ActivityDetail({ match }) {
               variant="h4">
               Detalle de actividad
             </Typography>
-            <Typography color="initial" variant="body1">
-              {activityDetails.description}
-            </Typography>
+            <Box fontSize={24} mb="3rem">
+              <ActivityContent content={activityDetails.description} />
+            </Box>
           </Container>
         </div>
       ) : (

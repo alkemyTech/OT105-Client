@@ -1,7 +1,7 @@
 import ReactHtmlParser from 'react-html-parser';
 
 const ActivityContent = ({ content }) => {
-  return <div>{ReactHtmlParser(content)}</div>;
+  return <>{ReactHtmlParser(content)}</>;
 };
 
 export default ActivityContent;

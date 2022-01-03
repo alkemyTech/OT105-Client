@@ -1,33 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import '../CardListStyles.css';
+import Spinner from '../CommonComponents/LoaderSpinner';
 import { getActivities } from '../../Services/ActivitiesServices';
+import ActivityContent from '../Activities/ActivityContent';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  Typography,
+} from '@mui/material';
+
 const ActivitiesList = () => {
-  const [activities, setActivities] = useState([{}]);
+  const [activities, setActivities] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getActivities().then((resp) => {
-      setActivities(resp);
-    });
+    const fetchData = async () => {
+      setIsLoading(true);
+      const response = await getActivities();
+
+      setActivities(response);
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   return (
-    <div>
-      <h1>Listado Actividades</h1>
-      <ul className="list-container">
-        {activities.length > 0 ? (
-          activities.map((activity) => {
+    <Container sx={{ my: '2rem' }}>
+      {isLoading ? (
+        <Spinner />
+      ) : activities.length > 0 ? (
+        <Grid container columnSpacing={2} rowSpacing={4}>
+          {activities.map((activity) => {
             return (
-              <li key={activity.id} className="card-info">
-                <h3>{activity.name}</h3>
-                <p>{activity.description}</p>
-              </li>
+              <Grid key={activity.id} item md={4} sm={6} xs={12}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}>
+                  <CardActionArea
+                    href={`/actividades/${activity.id}`}
+                    sx={{ height: '100%' }}>
+                    <CardMedia
+                      component="img"
+                      height="160"
+                      image={activity.image}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5">
+                        {activity.name}
+                      </Typography>
+                      <ActivityContent
+                        content={
+                          activity.description?.length > 200
+                            ? activity.description.slice(0, 200) + '...'
+                            : activity.description
+                        }
+                      />
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
             );
-          })
-        ) : (
-          <p>No hay actividades</p>
-        )}
-      </ul>
-    </div>
+          })}
+        </Grid>
+      ) : (
+        <Typography textAlign="center" variant="h4">
+          No hay actividades
+        </Typography>
+      )}
+    </Container>
   );
 };
 

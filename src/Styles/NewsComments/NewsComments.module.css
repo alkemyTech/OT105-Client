@@ -1,0 +1,23 @@
+.commentsContainer {
+  max-width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-bottom: 48px;
+}
+
+@media (min-width: 468px) {
+  .skeletonContainer {
+    flex-direction: row;
+  }
+  .commentsContainer {
+    max-width: 60%;
+  }
+}

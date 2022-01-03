@@ -12,7 +12,7 @@ const getAllNews = async () => {
 
     return res.data.data;
   } catch (err) {
-    errorAlert('Error', err.data || 'Error al obtener las Novedades');
+    errorAlert('Error', err.data || 'Error al obtener Novedades');
 
     return err.data || err;
   }
@@ -24,7 +24,7 @@ const getNewsByKeyword = async (keywords) => {
 
     return res.data.data;
   } catch (err) {
-    errorAlert('Error', err.data || 'Error al obtener la Novedad');
+    errorAlert('Error', err.data || 'Error al obtener Novedad');
 
     return err.data || err;
   }
@@ -36,7 +36,7 @@ const getNewsById = async (newsId) => {
 
     return res.data.data;
   } catch (err) {
-    errorAlert('Error', err.data || 'Error al obtener la Novedad');
+    errorAlert('Error', err.data || 'Error al obtener Novedad');
 
     return err.data || err;
   }
@@ -48,7 +48,7 @@ const createNews = async (news) => {
 
     return res.data;
   } catch (err) {
-    errorAlert('Error', err.data || 'Error al crear la Novedad');
+    errorAlert('Error', err.data || 'Error al crear Novedad');
 
     return err.data || err;
   }
@@ -60,7 +60,7 @@ const editNews = async (newsId, editedNews) => {
 
     return res.data;
   } catch (err) {
-    errorAlert('Error', err.data || 'Error al editar la Novedad');
+    errorAlert('Error', err.data || 'Error al editar Novedad');
 
     return err.data || err;
   }
@@ -72,7 +72,7 @@ const deleteNews = async (newsId) => {
 
     return res.data;
   } catch (err) {
-    errorAlert('Error', err.data || 'Error al eliminar la Novedad');
+    errorAlert('Error', err.data || 'Error al eliminar Novedad');
 
     return err.data || err;
   }

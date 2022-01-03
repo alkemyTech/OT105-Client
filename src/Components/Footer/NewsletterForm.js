@@ -26,9 +26,9 @@ const NewsletterForm = () => {
     email: '',
   };
   const formikOnSubmit = (_values) => {
-    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
 
-    if (!user) {
+    if (!token) {
       errorAlert('Error', 'Debes estar registrado para poder suscribirte');
       setTimeout(() => history.push('/login'), 2000);
     } else {

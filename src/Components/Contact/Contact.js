@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import CardList from './CardsList';
 import Title from '../Title/Title';
 import LeafletMap from './LeafletMap';
@@ -6,6 +7,8 @@ import { getOrganization } from '../../Services/organizationService';
 import titleImage from '../../assets/img/contact_S.jpg';
 
 const Contact = () => {
+  const [token, setToken] = useState('');
+  const history = useHistory();
   const [contactInfo, setContactInfo] = useState({
     twitter_url: '',
     instagram_url: '',
@@ -14,12 +17,21 @@ const Contact = () => {
     address: '',
   });
 
+  if (token === '2') {
+    history.push('/');
+  }
+
   const updateContactInfo = () => {
     getOrganization().then((res) => setContactInfo(res.data));
   };
 
+  const getUserRole = () => {
+    setToken(localStorage.getItem('token'));
+  };
+
   useEffect(() => {
     updateContactInfo();
+    getUserRole();
   }, []);
 
   return (

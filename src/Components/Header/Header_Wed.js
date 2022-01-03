@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import {
   Box,
@@ -41,9 +41,21 @@ const links = [
 ];
 
 const Header_Wed = ({ isLogged }) => {
+  const history = useHistory();
   const [organizationInformation, setOrganizationInformation] = useState({});
-
+  const [navLinks, setNavLinks] = useState(links);
   const [anchorElNav, setAnchorElNav] = useState(null);
+
+  const getNavLinks = () => {
+    const tobeRendered = [...links];
+
+    if (isLogged === '2') {
+      tobeRendered.splice(2, 1);
+      setNavLinks(tobeRendered);
+
+      return;
+    }
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -55,12 +67,17 @@ const Header_Wed = ({ isLogged }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    setNavLinks(links);
   };
 
   useEffect(() => {
     getOrganization().then((res) => {
       setOrganizationInformation(res.data);
     });
+  }, []);
+
+  useEffect(() => {
+    getNavLinks();
   }, []);
 
   return (
@@ -156,7 +173,7 @@ const Header_Wed = ({ isLogged }) => {
                 alignItems: 'center',
                 gap: '0',
               }}>
-              {links.map((link) => (
+              {navLinks.map((link) => (
                 <Button
                   key={link.name}
                   component={Link}

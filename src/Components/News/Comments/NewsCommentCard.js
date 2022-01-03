@@ -22,7 +22,7 @@ const NewsCommentCard = ({ comment }) => {
         title={comment.user}
       />
       <CardContent>
-        <Typography color="text.secondary" variant="body2">
+        <Typography color="text.secondary" variant="p">
           {comment.text}
         </Typography>
       </CardContent>

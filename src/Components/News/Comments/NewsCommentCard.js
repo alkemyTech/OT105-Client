@@ -4,28 +4,21 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import { commentsCard } from '../../../Styles/NewsComments/NewsCommentsStyles';
+import { commentsCardStyles } from '../../../Styles/NewsComments/NewsCommentsStyles';
+import { sliceDate } from '../../../Utils';
 
 const NewsCommentCard = ({ comment }) => {
-  const getCommentDate = () => {
-    const created = new Date(comment.created_at);
-    const day = created.getDate();
-    const month = created.getMonth();
-    const year = created.getFullYear();
-
-    return `${day}-${month}-${year}`;
-  };
+  const date = sliceDate(comment.created_at);
 
   return (
-    <Card sx={commentsCard}>
+    <Card sx={commentsCardStyles}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" sx={{ bgcolor: red[500] }}>
-            CU
+          <Avatar aria-label="recipe" sx={{ backgroundColor: '#db5752' }}>
+            SM
           </Avatar>
         }
-        subheader={getCommentDate()}
+        subheader={date}
         title={comment.user}
       />
       <CardContent>

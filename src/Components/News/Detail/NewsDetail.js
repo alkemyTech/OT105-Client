@@ -65,6 +65,11 @@ const NewsDetail = () => {
               />
             </Box>
           </Box>
+          <Box className={style.commentsTitle__container}>
+            <Typography component="h2" variant="h3">
+              COMENTARIOS
+            </Typography>
+          </Box>
           <LazyNewsCommentsList />
         </div>
       )}

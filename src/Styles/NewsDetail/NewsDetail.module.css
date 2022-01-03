@@ -21,6 +21,12 @@
   padding: 15px;
 }
 
+.commentsTitle__container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
 .newsDetail__image {
   width: 100%;
   display: block;

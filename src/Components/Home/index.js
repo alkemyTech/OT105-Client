@@ -27,25 +27,16 @@ const HomeScreen = () => {
       />
       <Box
         sx={{
-          width: '99.9%',
-          textAlign: 'center',
-          minHeight: '100vh',
-          overflow: 'hidden',
           background: '#EDF2F7',
         }}>
-        <div name="sliders" />
         <Container sx={{ marginTop: '50px' }}>
-          <Box sx={{ objectFit: 'contain' }}>
-            {/* <Typography variant="h4">Últimas novedades</Typography>
-            <div name="news" /> */}
-            <SlideHome />
-            <Paper sx={{ marginBlock: '2rem', paddingBottom: '2rem' }}>
-              <Seccion_Novedades />
-            </Paper>
-            <Paper sx={{ marginBlock: '2rem', paddingBottom: '2rem' }}>
-              <Testimonials />
-            </Paper>
-          </Box>
+          <SlideHome />
+          <Paper sx={{ marginBlock: '2rem', paddingBottom: '2rem' }}>
+            <Seccion_Novedades />
+          </Paper>
+          <Paper sx={{ marginBlock: '2rem', paddingBottom: '2rem' }}>
+            <Testimonials />
+          </Paper>
         </Container>
       </Box>
     </>

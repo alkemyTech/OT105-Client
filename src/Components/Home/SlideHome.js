@@ -9,6 +9,7 @@ import SwiperCore, {
 import 'swiper/swiper-bundle.css';
 import '../SlideHome.css';
 import { getAllSlides } from '../../Services/slidesService';
+import ActivityContent from '../Activities/ActivityContent';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, EffectCube]);
 
@@ -28,7 +29,9 @@ const SlideHome = () => {
           </div>
           <div className="info-container__slide">
             <h4 className="slideTitle">{slide.name}</h4>
-            <p className="slideDescription">{slide.description}</p>
+            <span className="slideDescription">
+              <ActivityContent content={slide.description} />
+            </span>
           </div>
         </div>
       </SwiperSlide>
@@ -45,8 +48,7 @@ const SlideHome = () => {
         slidesPerView={1}
         spaceBetween={0}
         tag="section"
-        wrapperTag="ul"
-        onInit={(swiper) => console.log('Swiper initialized')}>
+        wrapperTag="ul">
         {showSlides()}
       </Swiper>
     </>

@@ -12,10 +12,4 @@ const containerStyles = {
   flexDirection: 'column',
 };
 
-const slidesContainer = {
-  display: 'grid',
-  justifyItems: 'center',
-  gap: '1rem',
-};
-
-export { formStyles, containerStyles, slidesContainer };
+export { formStyles, containerStyles };

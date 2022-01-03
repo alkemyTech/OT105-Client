@@ -10,10 +10,9 @@ import BackofficeListActivities from '../Components/Activities/BackofficeListAct
 import NewsCreateEdit from '../Components/News/NewsCreateEdit';
 import MembersCreateEdit from '../Components/Members/MembersCreateEdit';
 import ScreenMembersList from '../Components/Members/ScreenMembersList';
-import EditHomeForm from '../Components/Home/EditHomeForm';
 import BackofficeDashboard from '../Components/Backoffice/BackofficeDashboard';
 import SlidesBackOffice from '../Components/Slides/SlidesBackOffice';
-import Organization from '../Components/Organization/OrganizationInfo';
+import ScreenOrganization from '../Components/Organization/ScreenOrganization';
 import Backoffice_ListCategories from '../Components/Categories/Backoffice_ListCategories';
 import News from '../Components/News/News';
 import BackofficeLayout from '../Components/Layouts/BackofficeLayout';
@@ -50,7 +49,7 @@ const BackofficeRouter = () => {
       <Route component={NewsCreateEdit} path={`${path}/news/create`} />
       <Route component={News} path={`${path}/news`} />
 
-      <Route component={Organization} path={`${path}/organization`} />
+      <Route component={ScreenOrganization} path={`${path}/organization`} />
 
       <Route exact component={SlidesForm} path={`${path}/slides/edit/:id`} />
       <Route exact component={SlidesForm} path={`${path}/slides/create`} />
@@ -65,7 +64,6 @@ const BackofficeRouter = () => {
       <Route component={UserForm} path={`${path}/users/create`} />
       <Route component={UsersListTable} path={`${path}/users`} />
 
-      <Route component={EditHomeForm} path={`${path}/home`} />
       <Route component={ProjectsForm} path={`${path}/projects/create`} />
     </BackofficeLayout>
   );

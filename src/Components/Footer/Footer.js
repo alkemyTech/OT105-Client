@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -20,132 +20,125 @@ const Footer = () => {
   }, []);
 
   return (
-    <>
-      <div className="ContenedorWaveFooter">
-        <TableFooter
+    <TableFooter
+      sx={{
+        display: { xs: 'flex' },
+        justifyContent: { xs: 'center' },
+        alignItems: { xs: 'center' },
+        flexDirection: { xs: 'column' },
+        backgroundColor: '#28527A',
+        color: 'white',
+        marginTop: 'auto',
+      }}>
+      <Container
+        sx={{
+          display: { xs: 'grid', sm: 'flex' },
+          justifyContent: { xs: 'center' },
+          alignItems: { xs: 'center' },
+        }}>
+        <Box
           sx={{
             display: { xs: 'flex' },
             justifyContent: { xs: 'center' },
             alignItems: { xs: 'center' },
             flexDirection: { xs: 'column' },
-            backgroundColor: '#28527A',
-            color: 'white',
+            width: { xs: '100%' },
           }}>
-          <Container
+          <img alt="logo" height="120px" src={organizationInformation.logo} />
+        </Box>
+        <Box
+          sx={{
+            display: { xs: 'flex' },
+            width: { xs: '100%' },
+            justifyContent: { xs: 'space-evenly' },
+            alignItems: { xs: 'center' },
+            flexWrap: { xs: 'wrap' },
+          }}>
+          <Box
             sx={{
-              display: { xs: 'grid', sm: 'flex' },
-              justifyContent: { xs: 'center' },
-              alignItems: { xs: 'center' },
+              margin: '3px',
             }}>
-            <Box
+            <Link style={linkStyle} to="/school-campaign">
+              Campaña Escolar
+            </Link>
+          </Box>
+          <Box
+            sx={{
+              margin: '3px',
+            }}>
+            <Link style={linkStyle} to="/toys-campaig">
+              Campaña Juguetes
+            </Link>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: { xs: 'flex' },
+            width: { xs: '100%' },
+            justifyContent: { xs: 'space-evenly' },
+          }}>
+          <a
+            href={`https://${organizationInformation.facebook_url}`}
+            rel="noreferrer"
+            target="_blank">
+            <FacebookIcon
               sx={{
-                display: { xs: 'flex' },
-                justifyContent: { xs: 'center' },
-                alignItems: { xs: 'center' },
-                flexDirection: { xs: 'column' },
-                width: { xs: '100%' },
-              }}>
-              <img
-                alt="logo"
-                height="120px"
-                src={organizationInformation.logo}
-              />
-            </Box>
-            <Box
+                fontSize: 40,
+                textDecoration: 'none',
+                color: '#ec4c4c',
+              }}
+            />
+          </a>
+          <a
+            href={`https://${organizationInformation.linkedin_url}`}
+            rel="noreferrer"
+            target="_blank">
+            <LinkedInIcon
               sx={{
-                display: { xs: 'flex' },
-                width: { xs: '100%' },
-                justifyContent: { xs: 'space-evenly' },
-                alignItems: { xs: 'center' },
-                flexWrap: { xs: 'wrap' },
-              }}>
-              <Box
-                sx={{
-                  margin: '3px',
-                }}>
-                <Link style={linkStyle} to="/school-campaign">
-                  Campaña Escolar
-                </Link>
-              </Box>
-              <Box
-                sx={{
-                  margin: '3px',
-                }}>
-                <Link style={linkStyle} to="/toys-campaig">
-                  Campaña Juguetes
-                </Link>
-              </Box>
-            </Box>
-            <Box
+                fontSize: 40,
+                textDecoration: 'none',
+                color: '#f8fc74',
+              }}
+            />
+          </a>
+          <a
+            href={`https://${organizationInformation.instagram_url}`}
+            rel="noreferrer"
+            target="_blank">
+            <InstagramIcon
               sx={{
-                display: { xs: 'flex' },
-                width: { xs: '100%' },
-                justifyContent: { xs: 'space-evenly' },
-              }}>
-              <a
-                href={`https://${organizationInformation.facebook_url}`}
-                rel="noreferrer"
-                target="_blank">
-                <FacebookIcon
-                  sx={{
-                    fontSize: 40,
-                    textDecoration: 'none',
-                    color: '#ec4c4c',
-                  }}
-                />
-              </a>
-              <a
-                href={`https://${organizationInformation.linkedin_url}`}
-                rel="noreferrer"
-                target="_blank">
-                <LinkedInIcon
-                  sx={{
-                    fontSize: 40,
-                    textDecoration: 'none',
-                    color: '#f8fc74',
-                  }}
-                />
-              </a>
-              <a
-                href={`https://${organizationInformation.instagram_url}`}
-                rel="noreferrer"
-                target="_blank">
-                <InstagramIcon
-                  sx={{
-                    fontSize: 40,
-                    textDecoration: 'none',
-                    color: '#8dcaff',
-                  }}
-                />
-              </a>
-              <a
-                href={`https://${organizationInformation.twitter_url}`}
-                rel="noreferrer"
-                target="_blank">
-                <TwitterIcon
-                  sx={{ fontSize: 40, textDecoration: 'none', color: 'white' }}
-                />
-              </a>
-            </Box>
-          </Container>
-          <div style={{ margin: 'auto', display: 'block' }}>
-            {!suscribed && (
-              <div
-                style={{
-                  display: 'flex',
-                  margin: 'auto',
-                  width: 'fit-content',
-                }}>
-                <a style={{ textAlign: 'center' }}>
-                  ¿Desea suscribirse para recibir noticias?
-                </a>
-              </div>
-            )}
-            <NewsletterForm />
+                fontSize: 40,
+                textDecoration: 'none',
+                color: '#8dcaff',
+              }}
+            />
+          </a>
+          <a
+            href={`https://${organizationInformation.twitter_url}`}
+            rel="noreferrer"
+            target="_blank">
+            <TwitterIcon
+              sx={{ fontSize: 40, textDecoration: 'none', color: 'white' }}
+            />
+          </a>
+        </Box>
+      </Container>
+      <div style={{ margin: 'auto', display: 'block' }}>
+        {!suscribed && (
+          <div
+            style={{
+              display: 'flex',
+              margin: 'auto',
+              width: 'fit-content',
+            }}>
+            <a style={{ textAlign: 'center' }}>
+              ¿Desea suscribirse para recibir noticias?
+            </a>
           </div>
-        </TableFooter>
+        )}
+        <NewsletterForm />
       </div>
-    </>
+    </TableFooter>
   );
 };
 

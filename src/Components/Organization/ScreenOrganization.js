@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import Divider from '@mui/material/Divider';
-import { ImageListItem, Typography } from '@mui/material';
+import { Typography, Button, Paper } from '@mui/material';
 import { getOrganization } from '../../Services/organizationService';
 
-const OrganizationInfo = ({ id }) => {
+const OrganizationInfo = () => {
   const [organizationData, setOrganizationData] = useState({});
 
   useEffect(() => {
@@ -18,63 +14,62 @@ const OrganizationInfo = ({ id }) => {
     organizationData;
 
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        width: '99.9%',
-        display: 'flex',
-        placeContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Card as="span" sx={{ flexGrow: 1, maxWidth: '800px' }}>
+    <div style={{ maxWidth: '800px', margin: '2rem auto' }}>
+      <Paper
+        elevation={3}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '3rem',
+          gap: '2rem',
+        }}>
         <Typography variant="subtitle1">Nombre de la ONG</Typography>
         <Typography variant="h4">
           {name || 'No se encuentra el nombre'}
         </Typography>
-        <Divider />
+
         <Typography variant="subtitle1">Texto de bienvenida</Typography>
         <Typography variant="h4">
           {welcome_text || 'No se encuentra el texto de bienvenida'}
         </Typography>
-        <Divider />
 
         <Typography variant="subtitle1">Logo</Typography>
-        <ImageListItem
-          sx={{
-            maxHeight: '350px',
-            width: '100%',
-            objectFit: 'cover',
-            overflow: 'hidden',
-          }}>
-          {logo ? (
-            <img alt="logo-de-ong" fit="" loading="lazy" src={logo} />
-          ) : (
-            <Typography variant="h6">
-              <h4>No se encuentra el logo</h4>
-            </Typography>
-          )}
-        </ImageListItem>
-        <Divider />
+
+        {logo ? (
+          <div>
+            <img
+              alt="logo-de-ong"
+              src={logo}
+              style={{ maxWidth: '100%', height: '200px' }}
+            />
+          </div>
+        ) : (
+          <Typography variant="h6">
+            <h4>No se encuentra el logo</h4>
+          </Typography>
+        )}
+
         <Typography variant="subtitle1">Descripción corta</Typography>
         <Typography variant="body1">
           {short_description || 'No se cargó una descripción corta.'}
         </Typography>
-        <Divider />
+
         <Typography variant="subtitle1">Descripción larga</Typography>
         <Typography variant="body1">
           {long_description || 'No se cargó una descripción larga.'}
         </Typography>
-        <Divider />
-        <br />
-        <Link
-          style={{ textDecoration: 'none', color: 'inherit' }}
-          to="/backoffice/organization/edit">
-          <Button size="large" variant="contained">
-            Edit
-          </Button>
-        </Link>
-      </Card>
-    </Box>
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Link
+            style={{ textDecoration: 'none', color: 'inherit' }}
+            to="/backoffice/organization/edit">
+            <Button size="large" variant="contained">
+              Editar
+            </Button>
+          </Link>
+        </div>
+      </Paper>
+    </div>
   );
 };
 

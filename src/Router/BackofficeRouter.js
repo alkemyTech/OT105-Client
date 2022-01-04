@@ -1,11 +1,10 @@
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Route, useRouteMatch } from 'react-router-dom';
 import ActivitiesForm from '../Components/Activities/ActivitiesForm';
 import CategoriesForm from '../Components/Categories/CategoriesForm';
 import SlidesForm from '../Components/Slides/SlidesForm';
 import TestimonialForm from '../Components/Testimonials/TestimonialsForm';
 import UserForm from '../Components/Users/UsersForm';
 import UsersListTable from '../Components/Users/UsersListTable';
-import ProjectsForm from '../Components/Projects/ProjectsForm';
 import BackofficeListActivities from '../Components/Activities/BackofficeListActivities';
 import NewsCreateEdit from '../Components/News/NewsCreateEdit';
 import MembersCreateEdit from '../Components/Members/MembersCreateEdit';
@@ -18,6 +17,7 @@ import Backoffice_ListCategories from '../Components/Categories/Backoffice_ListC
 import News from '../Components/News/News';
 import BackofficeLayout from '../Components/Layouts/BackofficeLayout';
 import TestimonialsListScreen from '../Components/Testimonials/TestimonialsListScreen';
+import Error404 from '../Components/Error404/Error404';
 
 const BackofficeRouter = () => {
   let { path } = useRouteMatch();
@@ -68,10 +68,11 @@ const BackofficeRouter = () => {
       <Route component={TestimonialForm} path={`${path}/testimonials/create`} />
       <Route component={TestimonialsListScreen} path={`${path}/testimonials`} />
 
+      <Route component={UserForm} path={`${path}/users/edit/:id`} />
       <Route component={UserForm} path={`${path}/users/create`} />
       <Route component={UsersListTable} path={`${path}/users`} />
 
-      <Route component={ProjectsForm} path={`${path}/projects/create`} />
+      <Route component={Error404} path="*" />
     </BackofficeLayout>
   );
 };

@@ -7,7 +7,7 @@ import SwiperCore, {
   EffectCube,
 } from 'swiper';
 import 'swiper/swiper-bundle.css';
-import '../SlideHome.css';
+import '../../Styles/SlideHome.css';
 import { getAllSlides } from '../../Services/slidesService';
 import ActivityContent from '../Activities/ActivityContent';
 

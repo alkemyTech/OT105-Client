@@ -14,7 +14,7 @@ import {
 import { createOrEditTestimonial } from '../../Services/testimonialsService';
 import { listHasValues, dropzoneConfig, isEmptyList } from '../../Utils';
 import '../../Styles/CategoriesFormStyles.css';
-import '../FormStyles.css';
+import '../../Styles/FormStyles.css';
 
 const TestimonialForm = ({ id }) => {
   const [imageFiles, setImageFiles] = useState([]);
@@ -144,9 +144,6 @@ const TestimonialForm = ({ id }) => {
         className="form-container"
         component="form"
         onSubmit={formik.handleSubmit}>
-        <Typography component="div" sx={{ color: 'white' }} variant="h3">
-          Testimonials
-        </Typography>
         <Paper
           elevation={3}
           sx={{
@@ -155,8 +152,11 @@ const TestimonialForm = ({ id }) => {
             padding: '3rem',
             gap: '2rem',
           }}>
+          <Typography component="div" variant="h4">
+            {id ? 'Editar' : 'Añadir'} testimonio
+          </Typography>
           <Typography component="div" variant="h5">
-            Título
+            Nombre del autor
           </Typography>
 
           <TextField
@@ -172,7 +172,7 @@ const TestimonialForm = ({ id }) => {
           {formik.errors.name && showErrorMessage(formik.errors.name)}
 
           <Typography component="div" variant="h5">
-            Descripción
+            Detalle de testimonio
           </Typography>
 
           <CKEditor

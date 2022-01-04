@@ -176,11 +176,11 @@ const SlidesForm = () => {
             gap: '2rem',
           }}>
           <Typography component="div" variant="h4">
-            {id ? 'Edición de Slide' : 'Creación de Slide'}
+            Formulario de {id ? 'edición' : 'creación'} de Slide
           </Typography>
           <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
             <Typography component="div" variant="h5">
-              Name
+              Título del Slide
             </Typography>
             <TextField
               fullWidth
@@ -271,16 +271,18 @@ const SlidesForm = () => {
             {formik.errors.responseError && (
               <Alert severity="error">{formik.errors.responseError}</Alert>
             )}
-            <Button
-              className="submit-btn"
-              disabled={formik.isSubmitting}
-              sx={{
-                width: { xs: '100%', sm: '200px' },
-              }}
-              type="submit"
-              variant="contained">
-              {id ? 'Editar Slide' : 'Crear Slide'}
-            </Button>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                className="submit-btn"
+                disabled={formik.isSubmitting}
+                sx={{
+                  width: { xs: '100%', sm: '200px' },
+                }}
+                type="submit"
+                variant="contained">
+                {id ? 'Actualizar Slide' : 'Crear Slide'}
+              </Button>
+            </div>
           </form>
         </Paper>
       </Box>

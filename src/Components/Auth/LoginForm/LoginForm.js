@@ -22,7 +22,7 @@ import {
 } from '../../../Utils/Validations/userValidations';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import '../../FormStyles.css';
+import '../../../Styles/FormStyles.css';
 import Swal from 'sweetalert2';
 
 const validate = (values) => {

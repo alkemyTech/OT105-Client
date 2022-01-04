@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../FormStyles.css';
-import { Field, Form, Formik } from 'formik';
+import '../../Styles/FormStyles.css';
+import { Field, Formik } from 'formik';
 import '../../Styles/CategoriesFormStyles.css';
 import {
   TextField,
@@ -61,11 +61,11 @@ const UserForm = ({ user = null }) => {
                 gap: '2rem',
               }}>
               <Typography component="div" variant="h4">
-                {user ? 'Edit User' : 'Create User'}
+                {user ? 'Editar' : 'Crear'} usuario
               </Typography>
 
               <Typography component="div" variant="h5">
-                User name
+                Nombre de usuario
               </Typography>
               <TextField
                 id="name"
@@ -78,7 +78,7 @@ const UserForm = ({ user = null }) => {
               ) : null}
 
               <Typography component="div" variant="h5">
-                User email
+                Correo electrónico
               </Typography>
               <TextField
                 id="email"
@@ -90,7 +90,7 @@ const UserForm = ({ user = null }) => {
                 <Alert severity="warning">{errors.email}</Alert>
               ) : null}
               <Typography component="div" variant="h5">
-                User role
+                Rol
               </Typography>
 
               <Field
@@ -101,7 +101,7 @@ const UserForm = ({ user = null }) => {
                 placeholder="User email"
                 type="text">
                 <option disabled value="">
-                  Select the role
+                  Seleccione rol
                 </option>
                 <option value="1">Admin</option>
                 <option value="2">User</option>
@@ -111,7 +111,7 @@ const UserForm = ({ user = null }) => {
               ) : null}
 
               <Typography component="div" variant="h5">
-                User password
+                Contraseña
               </Typography>
               <TextField
                 id="password"
@@ -124,19 +124,21 @@ const UserForm = ({ user = null }) => {
               ) : null}
 
               <Typography component="div" variant="h5">
-                User image
+                Imagen de usuario
               </Typography>
               <CustomDropzone setImage64={setImage} />
 
-              <Button
-                className={s.submit_btn}
-                sx={{
-                  width: { xs: '100%', sm: '200px' },
-                }}
-                type="submit"
-                variant="contained">
-                {user ? 'Edit User' : 'Create User'}
-              </Button>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  className="submit_btn"
+                  sx={{
+                    width: { xs: '100%', sm: '200px' },
+                  }}
+                  type="submit"
+                  variant="contained">
+                  {user ? 'Actualizar usuario' : 'Crear usuario'}
+                </Button>
+              </div>
               {success.status && (
                 <Alert severity="success">{`Usuario ${
                   user ? 'editado' : 'guardado'
@@ -144,7 +146,7 @@ const UserForm = ({ user = null }) => {
               )}
               {success.errors && (
                 <Alert severity="error">
-                  Error en el envío del formulario comprueba la información
+                  Error en el envío del formulario. Comprueba la información
                 </Alert>
               )}
             </Paper>

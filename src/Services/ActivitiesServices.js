@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorAlert } from './alertsService';
+import { errorAlert, successAlert } from './alertsService';
 
 export const ACTIVITIES_URL = 'http://ongapi.alkemy.org/api/activities';
 
@@ -25,6 +25,8 @@ const createActivity = async (activity) => {
   try {
     const res = await axios.post(ACTIVITIES_URL, activity);
 
+    successAlert('Actividad creada correctamente');
+
     return res.data;
   } catch (err) {
     errorAlert('Error', err.data || 'Error al crear la Actividad');
@@ -39,6 +41,8 @@ const editActivity = async (activityId, editActivity) => {
       `${ACTIVITIES_URL}/${activityId}`,
       editActivity,
     );
+
+    successAlert('Actividad actualizada correctamente');
 
     return res.data;
   } catch (err) {

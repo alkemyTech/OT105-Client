@@ -61,7 +61,7 @@ function About() {
               </p>
             </Typography>
           </Box>
-          <Typography variant="h4">{'Miembros del Team'}</Typography>
+          <Typography variant="h4">{'Miembros del Equipo'}</Typography>
 
           <MembersList />
 

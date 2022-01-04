@@ -2,11 +2,13 @@ import * as Yup from 'yup';
 
 export const UserFormSchema = Yup.object().shape({
   name: Yup.string()
-    .min(4, 'Name must be at least 4 characters')
-    .required('Name is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  role: Yup.string().required('Role is required'),
+    .min(4, 'El nombre debe tener al menos 4 caracteres')
+    .required('Este campo es obligatorio'),
+  email: Yup.string()
+    .email('Email inválido')
+    .required('Este campo es obligatorio'),
+  role: Yup.string().required('Este campo es obligatorio'),
   password: Yup.string()
-    .min(8, 'Password must be at least 8 characters')
-    .required('Password is required'),
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .required('Este campo es obligatorio'),
 });

@@ -28,7 +28,7 @@ import {
   deleteActivity,
 } from '../../Services/ActivitiesServices';
 import ActivitiesSearchForm from './ActivitiesSearchForm';
-import { listHasValues, sliceDate } from '../../Utils';
+import { getItemName, listHasValues, sliceDate } from '../../Utils';
 import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
@@ -74,7 +74,7 @@ function BackofficeListActivities() {
 
   const deleteActivityById = async (id) => {
     const userResponse = await questionAlert(
-      `¿Seguro que desea eliminar actividad ${id}?`,
+      `¿Seguro que desea eliminar actividad ${getItemName(id, activities)}?`,
     );
 
     if (userResponse) {

@@ -146,17 +146,7 @@ const Header_Wed = ({ isLogged }) => {
                   </MenuItem>
                 )}
                 {localStorage.getItem('token') === '2' && (
-                  <MenuItem
-                    component={Link}
-                    to="/backoffice"
-                    onClick={() => {
-                      handleCloseNavMenu();
-                      handleLogout();
-                      Swal.fire({
-                        icon: 'success',
-                        text: 'Sesión finalizada',
-                      });
-                    }}>
+                  <MenuItem component={Link} to="/backoffice">
                     Backoffice
                   </MenuItem>
                 )}

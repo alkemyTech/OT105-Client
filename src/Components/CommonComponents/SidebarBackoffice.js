@@ -63,7 +63,7 @@ const routes = [
 ];
 
 const Sidebar = ({ isOpen, handleDrawerToggle, drawerWidth }) => {
-  const LinkList = () => {
+  const LinkList = ({ mobile }) => {
     return (
       <List>
         {routes.map((route) => (
@@ -72,7 +72,7 @@ const Sidebar = ({ isOpen, handleDrawerToggle, drawerWidth }) => {
             button
             component={Link}
             to={route.path}
-            onClick={handleDrawerToggle}>
+            onClick={mobile ? handleDrawerToggle : null}>
             <ListItemIcon>{route.icon()}</ListItemIcon>
             <ListItemText primary={route.name} />
           </ListItem>
@@ -94,7 +94,7 @@ const Sidebar = ({ isOpen, handleDrawerToggle, drawerWidth }) => {
       variant="permanent">
       <Toolbar />
       <Box sx={{ overflow: 'auto' }}>
-        <LinkList />
+        <LinkList mobile={false} />
       </Box>
     </Drawer>
   );
@@ -117,7 +117,7 @@ const Sidebar = ({ isOpen, handleDrawerToggle, drawerWidth }) => {
       <Box sx={{ overflow: 'auto' }}>
         <Toolbar />
         <Divider />
-        <LinkList />
+        <LinkList mobile={true} />
       </Box>
     </Drawer>
   );

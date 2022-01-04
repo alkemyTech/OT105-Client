@@ -182,45 +182,43 @@ function BackofficeListActivities() {
                 ) : (
                   <TableBody>
                     {sortedActivitiesList.map((row) => (
-                      <>
-                        <StyledTableRow key={row.id} hover>
-                          <StyledTableCell component="th" scope="row">
-                            {row.name}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="center"
-                            className="customTableCol">
-                            <ListItemAvatar sx={{ marginTop: 0 }}>
-                              <Avatar
-                                alt={row.name}
-                                src={row.image}
-                                sx={memberAvatarStyle}
-                              />
-                            </ListItemAvatar>
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="center"
-                            className="customTableCol">
-                            {sliceDate(row.created_at)}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            <Tooltip title="Editar">
-                              <IconButton
-                                component={Link}
-                                to={`/backoffice/activities/edit/${row.id}`}
-                                variant="contained">
-                                <EditIcon />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Eliminar">
-                              <IconButton
-                                onClick={() => deleteActivityById(row.id)}>
-                                <DeleteIcon color="error" />
-                              </IconButton>
-                            </Tooltip>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      </>
+                      <StyledTableRow key={row.id} hover>
+                        <StyledTableCell component="th" scope="row">
+                          {row.name}
+                        </StyledTableCell>
+                        <StyledTableCell
+                          align="center"
+                          className="customTableCol">
+                          <ListItemAvatar sx={{ marginTop: 0 }}>
+                            <Avatar
+                              alt={row.name}
+                              src={row.image}
+                              sx={memberAvatarStyle}
+                            />
+                          </ListItemAvatar>
+                        </StyledTableCell>
+                        <StyledTableCell
+                          align="center"
+                          className="customTableCol">
+                          {sliceDate(row.created_at)}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <Tooltip title="Editar">
+                            <IconButton
+                              component={Link}
+                              to={`/backoffice/activities/edit/${row.id}`}
+                              variant="contained">
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Eliminar">
+                            <IconButton
+                              onClick={() => deleteActivityById(row.id)}>
+                              <DeleteIcon color="error" />
+                            </IconButton>
+                          </Tooltip>
+                        </StyledTableCell>
+                      </StyledTableRow>
                     ))}
                     {emptyRowsToAvoidLayoutJump > 0 && (
                       <TableRow

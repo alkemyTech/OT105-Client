@@ -4,6 +4,7 @@ import React from 'react';
 import s from '../../Styles/Title.module.css';
 //MUI
 import { Typography } from '@mui/material';
+import LoaderSpinner from '../CommonComponents/LoaderSpinner';
 
 const Title = ({
   titleText,
@@ -13,6 +14,7 @@ const Title = ({
   bckgColor = '#FAFA88',
   bckgOpacity = '0.7',
   titlePadding = '6rem',
+  isLoading,
 }) => {
   const containerStyles = {
     paddingBlock: titlePadding,
@@ -29,7 +31,7 @@ const Title = ({
           fontSize: { xs: '2rem', md: '3rem', lg: '3.5rem' },
         }}
         variant={titleMuiVariant}>
-        {titleText}
+        {isLoading ? <LoaderSpinner /> : titleText}
       </Typography>
       {imageUrl && (
         <img

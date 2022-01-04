@@ -227,14 +227,16 @@ const Backoffice_ListCategories = () => {
                 )}
               </Table>
             </TableContainer>
-            <TablePagination
-              component="div"
-              count={categories?.length}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              rowsPerPageOptions={[10]}
-              onPageChange={handleChangePage}
-            />
+            {!loading && (
+              <TablePagination
+                component="div"
+                count={categories?.length}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={[10]}
+                onPageChange={handleChangePage}
+              />
+            )}
           </Paper>
         </Box>
       </Container>

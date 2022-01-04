@@ -44,9 +44,7 @@ const OrganizationInfo = () => {
             />
           </div>
         ) : (
-          <Typography variant="h6">
-            <h4>No se encuentra el logo</h4>
-          </Typography>
+          <Typography variant="h6">No se encuentra el logo</Typography>
         )}
 
         <Typography variant="subtitle1">Descripción corta</Typography>

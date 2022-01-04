@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorAlert, questionAlert, successAlert } from './alertsService';
+import { errorAlert, successAlert } from './alertsService';
 
 export const ACTIVITIES_URL = 'http://ongapi.alkemy.org/api/activities';
 
@@ -54,17 +54,9 @@ const editActivity = async (activityId, editActivity) => {
 
 const deleteActivity = async (activityId) => {
   try {
-    const userResponse = await questionAlert(
-      `¿Seguro que desea eliminar la actividad ${activityId}?`,
-    );
+    const res = await axios.delete(`${ACTIVITIES_URL}/${activityId}`);
 
-    if (userResponse) {
-      const res = await axios.delete(`${ACTIVITIES_URL}/${activityId}`);
-
-      return res.data;
-    }
-
-    return;
+    return res.data;
   } catch (err) {
     errorAlert('Error', err.data || 'Error al eliminar la Actividad');
 

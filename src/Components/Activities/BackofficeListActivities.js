@@ -35,6 +35,7 @@ import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import { memberAvatarStyle } from '../../Styles/MembersList/MembersListInlineStyles';
 import SortableTableCell from '../Users/SortableTableCell';
 import '../../Styles/TablesStyles.css';
+import { questionAlert } from '../../Services/alertsService';
 
 function BackofficeListActivities() {
   const [order, setOrder] = useState('asc');
@@ -71,10 +72,25 @@ function BackofficeListActivities() {
     setActivities(updatedActivities);
   };
 
-  const deleteActivityById = (id) => {
-    deleteActivity(id).then(() =>
-      getActivities().then((res) => setActivities(res)),
+  const deleteActivityById = async (id) => {
+    const userResponse = await questionAlert(
+      `¿Seguro que desea eliminar actividad ${id}?`,
     );
+
+    if (userResponse) {
+      deleteActivity(id);
+      const updatedActivities = activities.filter(
+        (activity) => activity.id !== id,
+      );
+
+      if (isLastItemOnPage()) {
+        setPage(page - 1);
+      }
+
+      setActivities(updatedActivities);
+    }
+
+    return;
   };
 
   useEffect(() => {

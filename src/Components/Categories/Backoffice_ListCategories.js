@@ -33,6 +33,7 @@ import style from '../../Styles/Categories/CategoriesList/Backoffice_ListCategor
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import '../../Styles/TablesStyles.css';
+import { questionAlert } from '../../Services/alertsService';
 
 const Backoffice_ListCategories = () => {
   const dispatch = useDispatch();
@@ -67,18 +68,25 @@ const Backoffice_ListCategories = () => {
     return page === pages && page !== 0;
   };
 
-  const deletecategory = (id) => {
-    const isDelete = window.confirm(
-      `Estas seguro de querer eliminar la categoria "${id}"`,
+  const deletecategory = async (id) => {
+    const userResponse = await questionAlert(
+      `¿Seguro que desea eliminar categoría ${id}?`,
     );
 
-    if (isDelete) {
+    if (userResponse) {
       dispatch(deleteCategorybyId(id));
+      const updatedCategories = categoriesList.filter(
+        (activity) => activity.id !== id,
+      );
+
+      if (isLastItemOnPage()) {
+        setPage(page - 1);
+      }
+
+      setCategoriesList(updatedCategories);
     }
 
-    if (isLastItemOnPage()) {
-      setPage(page - 1);
-    }
+    return;
   };
 
   const updateCategoriesList = () => {

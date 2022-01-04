@@ -66,7 +66,7 @@ const Footer = () => {
             sx={{
               margin: '3px',
             }}>
-            <Link style={linkStyle} to="/toys-campaig">
+            <Link style={linkStyle} to="/toys-campaign">
               Campaña Juguetes
             </Link>
           </Box>

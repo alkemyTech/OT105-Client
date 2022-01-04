@@ -15,9 +15,13 @@ import {
   editContactData,
 } from '../../Services/contactsService';
 import '../../Styles/CategoriesFormStyles.css';
+import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const FormContact = ({ id }) => {
   const [apiResponse, setApiResponse] = useState({});
+  const history = useHistory();
+
   const validate = (values) => {
     const errors = {};
 
@@ -76,9 +80,11 @@ const FormContact = ({ id }) => {
       message: formik.values.message,
     };
 
-    createOrUpdateContactData(id, body).then((resp) =>
-      setApiResponse(resp.data),
-    );
+    Swal.fire('Gracias', 'por contactarnos', 'success');
+    history.push('/');
+    // createOrUpdateContactData(id, body).then((resp) =>
+    //   setApiResponse(resp.data),
+    // );
   };
 
   return (

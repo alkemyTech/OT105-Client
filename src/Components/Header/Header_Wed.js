@@ -31,6 +31,10 @@ const links = [
     path: '/contact',
   },
   {
+    name: 'Actividades',
+    path: '/activities',
+  },
+  {
     name: 'Campaña Escolar',
     path: '/school-campaign',
   },
@@ -130,12 +134,27 @@ const Header_Wed = ({ isLogged }) => {
                     {link.name}
                   </MenuItem>
                 ))}
+                {localStorage.getItem('token') === '2' && (
+                  <MenuItem
+                    component={Link}
+                    to="/backoffice"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      handleLogout();
+                      Swal.fire({
+                        icon: 'success',
+                        text: 'Sesión finalizada',
+                      });
+                    }}>
+                    Backoffice
+                  </MenuItem>
+                )}
                 {!isLogged ? (
                   <MenuItem
                     component={Link}
                     to="/login"
                     onClick={handleCloseNavMenu}>
-                    Login
+                    Iniciar sesión
                   </MenuItem>
                 ) : (
                   <MenuItem
@@ -149,7 +168,7 @@ const Header_Wed = ({ isLogged }) => {
                         text: 'Sesión finalizada',
                       });
                     }}>
-                    Logout
+                    Cerrar sesión
                   </MenuItem>
                 )}
               </Menu>
@@ -182,12 +201,27 @@ const Header_Wed = ({ isLogged }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     paddingInline: '1rem',
+                    whiteSpace: 'nowrap',
                   }}
                   to={link.path}
                   onClick={handleCloseNavMenu}>
                   {link.name}
                 </Button>
               ))}
+              {localStorage.getItem('token') === '2' && (
+                <Button
+                  component={Link}
+                  sx={{
+                    color: 'white',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingInline: '1rem',
+                  }}
+                  to={'/backoffice'}
+                  onClick={handleCloseNavMenu}>
+                  Backoffice
+                </Button>
+              )}
               {!isLogged ? (
                 <Button
                   color="primary"
@@ -201,10 +235,11 @@ const Header_Wed = ({ isLogged }) => {
                       color: 'primary.info',
                     },
                     marginLeft: '2rem',
+                    textAlign: 'center',
                   }}
                   to="/login"
                   variant="outlined">
-                  Login
+                  Iniciar sesión
                 </Button>
               ) : (
                 <Button
@@ -219,6 +254,8 @@ const Header_Wed = ({ isLogged }) => {
                       color: 'primary.info',
                     },
                     marginLeft: '2rem',
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
                   }}
                   to="/"
                   variant="outlined"
@@ -229,7 +266,7 @@ const Header_Wed = ({ isLogged }) => {
                       text: 'Sesión finalizada',
                     });
                   }}>
-                  Logout
+                  Cerrar sesión
                 </Button>
               )}
             </Box>

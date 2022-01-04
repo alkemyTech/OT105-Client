@@ -4,7 +4,7 @@ body {
 }
 
 .bckg {
-  background-color: #9ac9fb;
+  background-color: #b9d8fa;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -145,7 +145,6 @@ body {
 
 @media (min-width: 1000px) {
   .bckg {
-    background-color: #9ac9fb;
     min-height: 100vh;
     display: flex;
     align-items: center;

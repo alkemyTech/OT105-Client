@@ -32,11 +32,11 @@ const mockupMembers = [
 ];
 
 const MembersList = () => {
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState(mockupMembers);
 
-  useEffect(() => {
-    getAllMembers().then((res) => setMembers(res));
-  }, []);
+  // useEffect(() => {
+  //   getAllMembers().then((res) => setMembers(res));
+  // }, []);
 
   return (
     <List sx={membersListStyle}>

@@ -3,8 +3,7 @@ import { useParams } from 'react-router';
 import '../../Styles/FormStyles.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import Card from '@mui/material/Card';
+import { Formik } from 'formik';
 import CardHeader from '@mui/material/CardHeader';
 
 import {
@@ -143,10 +142,12 @@ function MembersCreateEdit() {
                   padding: '3rem',
                   gap: '2rem',
                 }}>
-                <CardHeader title={id ? 'Edit Member' : 'Create Member'} />
+                <Typography component="div" variant="h4">
+                  Formulario de {id ? 'edición' : 'creación'} de miembro
+                </Typography>
 
                 <Typography component="div" variant="h5">
-                  Name
+                  Nombre del miembro
                 </Typography>
                 <TextField
                   fullWidth
@@ -162,7 +163,7 @@ function MembersCreateEdit() {
                 />
                 {errors.name && showErrorMessage(errors.name)}
                 <Typography component="div" variant="h5">
-                  Descripcion
+                  Descripción
                 </Typography>
 
                 <CKEditor
@@ -176,7 +177,7 @@ function MembersCreateEdit() {
 
                 {errors.description && showErrorMessage(errors.description)}
                 <Typography component="div" variant="h5">
-                  Image
+                  Foto de perfil
                 </Typography>
 
                 <Box
@@ -199,7 +200,7 @@ function MembersCreateEdit() {
                 {errors.image && showErrorMessage(errors.image)}
 
                 <Typography component="div" variant="h5">
-                  FacebookUrl
+                  URL de Facebook
                 </Typography>
 
                 <TextField
@@ -218,7 +219,7 @@ function MembersCreateEdit() {
                 {errors.facebookUrl && showErrorMessage(errors.facebookUrl)}
 
                 <Typography component="div" variant="h5">
-                  linkedinUrl
+                  URL de Linkedin
                 </Typography>
                 <TextField
                   fullWidth
@@ -242,7 +243,7 @@ function MembersCreateEdit() {
                   type="submit"
                   variant="contained"
                   onClick={() => handleClick()}>
-                  Send
+                  Enviar
                 </Button>
               </Paper>
             </Box>

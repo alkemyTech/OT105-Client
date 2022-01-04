@@ -158,8 +158,11 @@ const NewsCreateEdit = ({ match }) => {
             padding: '3rem',
             gap: '2rem',
           }}>
+          <Typography component="div" variant="h4">
+            Formulario de {id ? 'edición' : 'creación'} de noticia
+          </Typography>
           <Typography component="div" variant="h5">
-            Title
+            Título de la noticia
           </Typography>
 
           <TextField
@@ -175,7 +178,7 @@ const NewsCreateEdit = ({ match }) => {
           {formik.errors.title && showErrorMessage(formik.errors.title)}
 
           <Typography component="div" variant="h5">
-            Descripcion
+            Cuerpo
           </Typography>
 
           <CKEditor

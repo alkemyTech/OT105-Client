@@ -95,7 +95,7 @@ function ScreenOrganizationEditForm() {
           component="div"
           style={{ marginBottom: '3rem' }}
           variant="h4">
-          Editar datos de la organización
+          Actualizar datos de la organización
         </Typography>
 
         <form

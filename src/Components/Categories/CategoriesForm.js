@@ -173,8 +173,11 @@ const CategoriesForm = () => {
             padding: '3rem',
             gap: '2rem',
           }}>
+          <Typography component="div" variant="h4">
+            Formulario de {id ? 'edición' : 'creación'} de categoría
+          </Typography>
           <Typography component="div" variant="h5">
-            Name
+            Nombre de categoría
           </Typography>
 
           <TextField
@@ -190,7 +193,7 @@ const CategoriesForm = () => {
           {formik.errors.name && showErrorMessage(formik.errors.name)}
 
           <Typography component="div" variant="h5">
-            Descripcion
+            Descripción
           </Typography>
 
           <CKEditor

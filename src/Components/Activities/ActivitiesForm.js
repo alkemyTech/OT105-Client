@@ -173,8 +173,11 @@ const ActivitiesForm = () => {
             padding: '3rem',
             gap: '2rem',
           }}>
+          <Typography component="div" variant="h4">
+            Formulario de {id ? 'edición' : 'creación'} de actividad
+          </Typography>
           <Typography component="div" variant="h5">
-            Name
+            Nombre de la actividad
           </Typography>
 
           <TextField
@@ -190,7 +193,7 @@ const ActivitiesForm = () => {
           {formik.errors.name && showErrorMessage(formik.errors.name)}
 
           <Typography component="div" variant="h5">
-            Descripcion
+            Descripción
           </Typography>
 
           <CKEditor

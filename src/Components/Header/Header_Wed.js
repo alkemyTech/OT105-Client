@@ -140,7 +140,6 @@ const Header_Wed = ({ isLogged }) => {
                     to="/donations"
                     onClick={() => {
                       handleCloseNavMenu();
-                      handleLogout();
                     }}>
                     Donacion
                   </MenuItem>

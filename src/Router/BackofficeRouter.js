@@ -70,8 +70,6 @@ const BackofficeRouter = () => {
 
       <Route component={UserForm} path={`${path}/users/create`} />
       <Route component={UsersListTable} path={`${path}/users`} />
-
-      <Route component={ProjectsForm} path={`${path}/projects/create`} />
     </BackofficeLayout>
   );
 };

@@ -1,14 +1,9 @@
-import { useEffect } from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute = ({ props }) => {
+const PrivateRoute = (props) => {
   const token = localStorage.getItem('token');
 
-  const history = useHistory();
-
-  useEffect(() => {
-    !token && history.push('/');
-  }, []);
+  if (token === '1' || !token) return <Redirect to="/" />;
 
   return <Route {...props} />;
 };

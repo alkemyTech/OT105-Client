@@ -14,7 +14,7 @@ import {
 import { createOrEditTestimonial } from '../../Services/testimonialsService';
 import { listHasValues, dropzoneConfig, isEmptyList } from '../../Utils';
 import '../../Styles/CategoriesFormStyles.css';
-import '../FormStyles.css';
+import '../../Styles/FormStyles.css';
 
 const TestimonialForm = ({ id }) => {
   const [imageFiles, setImageFiles] = useState([]);

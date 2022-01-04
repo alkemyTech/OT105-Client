@@ -13,10 +13,9 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
-import '../FormStyles.css';
+import '../../Styles/FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
 import { URLImageToBlob } from '../../Services/imageService';
-import '../../Styles/CategoriesFormStyles.css';
 
 const NewsCreateEdit = ({ match }) => {
   const [categoryDescription, setCategoryDescription] = useState('');

@@ -18,8 +18,8 @@ import {
   Paper,
 } from '@mui/material';
 import '../../Styles/CategoriesFormStyles.css';
-import '../FormStyles.css';
-import '../../Styles/ProjectsForm.css';
+import '../../Styles/FormStyles.css';
+// import '../../Styles/ProjectsForm.css';
 
 const ProjectsForm = ({ id }) => {
   const [projectDueDate, setProjectDueDate] = useState('');

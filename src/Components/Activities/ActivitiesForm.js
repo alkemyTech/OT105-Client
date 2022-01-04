@@ -20,7 +20,7 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
-import '../FormStyles.css';
+import '../../Styles/FormStyles.css';
 
 import '../../Styles/CategoriesFormStyles.css';
 

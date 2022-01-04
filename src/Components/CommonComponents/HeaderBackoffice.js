@@ -53,18 +53,16 @@ const HeaderBackoffice = ({ children }) => {
             </Link>
           </div>
           <div>
-            <Link style={{ display: 'block', textDecoration: 'none' }} to="/">
-              <Button
-                sx={{
-                  textTransform: 'none',
-                  fontSize: '.8rem',
-                  margin: '10px',
-                  color: 'black',
-                }}
-                variant="outlined">
-                Web pública
-              </Button>
-            </Link>
+            <Button
+              href="/"
+              sx={{
+                textTransform: 'none',
+                fontSize: '.8rem',
+                margin: '10px',
+              }}
+              variant="contained">
+              WEB PÚBLICA
+            </Button>
           </div>
         </Toolbar>
       </AppBar>

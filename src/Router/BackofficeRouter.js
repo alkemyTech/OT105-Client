@@ -18,6 +18,7 @@ import Backoffice_ListCategories from '../Components/Categories/Backoffice_ListC
 import News from '../Components/News/News';
 import BackofficeLayout from '../Components/Layouts/BackofficeLayout';
 import TestimonialsListScreen from '../Components/Testimonials/TestimonialsListScreen';
+import Error404 from '../Components/Error404/Error404';
 
 const BackofficeRouter = () => {
   let { path } = useRouteMatch();
@@ -70,6 +71,8 @@ const BackofficeRouter = () => {
 
       <Route component={UserForm} path={`${path}/users/create`} />
       <Route component={UsersListTable} path={`${path}/users`} />
+
+      <Route component={Error404} path="*" />
     </BackofficeLayout>
   );
 };

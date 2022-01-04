@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import {
   Alert,
   AlertTitle,
@@ -10,6 +10,8 @@ import {
   Input,
   InputAdornment,
   InputLabel,
+  CardHeader,
+  Box,
 } from '@mui/material';
 import {
   containsSixCharacters,
@@ -27,20 +29,20 @@ const validate = (values) => {
   let errors = {};
 
   if (!values.password) {
-    errors.password = 'required!';
+    errors.password = 'Por favor, complete el campo.';
   } else if (containsSixCharacters(values.password)) {
-    errors.password = 'at least 6 characters';
+    errors.password = 'Debe contener 6 caracteres';
   } else if (!containsOneNumber(values.password)) {
-    errors.password = 'at least 1 number';
+    errors.password = 'Debe contener al menos un numero';
   } else if (!containSpecialCharacter(values.password)) {
-    errors.password = 'at least 1 special character';
+    errors.password = 'Debe contener 1 caracter especial';
   } else if (!containsOneLetter(values.password)) {
-    errors.password = 'at least 1 letter';
+    errors.password = 'Debe contener al menos una letra';
   }
   if (!values.email) {
-    errors.email = 'required!';
+    errors.email = 'Por favor, complete el campo.';
   } else if (!validEmail(values.email)) {
-    errors.email = 'Invalid email address';
+    errors.email = 'Correo electrónico invalido.';
   }
 
   return errors;
@@ -107,66 +109,126 @@ const LoginForm = () => {
     const showErrors = (errorAttribute) => {
       if (formik.touched[errorAttribute] && formik.errors[errorAttribute]) {
         return (
-          <Alert align="justify" severity="warning" sx={{ width: '23rem' }}>
-            <AlertTitle> Warning </AlertTitle>
+          <Alert
+            align="justify"
+            severity="error"
+            sx={{ width: '90%', height: 'fit-content' }}>
             {formik.errors[errorAttribute]}
           </Alert>
         );
       }
     };
 
+    const titleValidation = () => {
+      if (history.location.pathname === '/login') {
+        return 'Iniciar sesion';
+      } else if (history.location.pathname === '/register') {
+        return 'Registrate';
+      }
+    };
+
+    console.log(history.location);
+
     return (
       <>
         {localStorage.getItem('token') && <Redirect to="/" />}
         <form className="login-user-form" onSubmit={formik.handleSubmit}>
-          <FormControl margin="dense" sx={{ width: '25rem' }}>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input
-              id="email"
-              margin="dense"
-              name="email"
-              placeholder="Email"
-              startAdornment={
-                <InputAdornment position="start">
-                  <EmailOutlinedIcon />
-                </InputAdornment>
-              }
-              type="email"
-              value={formik.values.email}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-            />
-            {showErrors('email')}
-          </FormControl>
-          <FormControl sx={{ width: '25rem' }}>
-            <InputLabel htmlFor="password">password</InputLabel>
-            <Input
-              id="password"
-              margin="dense"
-              name="password"
-              placeholder="password"
-              startAdornment={
-                <InputAdornment position="start">
-                  <VisibilityOutlinedIcon />
-                </InputAdornment>
-              }
-              type="password"
-              value={formik.values.password}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-            />
-            {showErrors('password')}
-          </FormControl>
-          <Button className="submit-btn" type="submit" variant="contained">
-            Login
-          </Button>
+          <div className="login-user-form__left">
+            <div className="login-user-form__left--img">
+              <img src="http://ongapi.alkemy.org/storage/SisQ2VMbze.png" />
+            </div>
+          </div>
+          <div className="login-user-form__right">
+            <div className="login-user-form__right--container">
+              <CardHeader title={titleValidation()} />
+              <FormControl
+                sx={{ width: '100%', margin: '55px 0', display: 'flex' }}>
+                <InputLabel htmlFor="email">Correo electronico</InputLabel>
+                <Input
+                  id="email"
+                  margin="dense"
+                  name="email"
+                  placeholder="Ingrese su correo electronico"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <EmailOutlinedIcon />
+                    </InputAdornment>
+                  }
+                  type="email"
+                  value={formik.values.email}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                />
+                {showErrors('email')}
+              </FormControl>
+              <FormControl
+                sx={{ width: '100%', margin: '55px 0', display: 'flex' }}>
+                <InputLabel htmlFor="password">Contraseña</InputLabel>
+                <Input
+                  id="password"
+                  margin="dense"
+                  name="password"
+                  placeholder="Ingrese su contraseña"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <VisibilityOutlinedIcon />
+                    </InputAdornment>
+                  }
+                  type="password"
+                  value={formik.values.password}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                />
+                {showErrors('password')}
+              </FormControl>
+              {history.location.pathname === '/register' && (
+                <FormControl
+                  sx={{ width: '100%', margin: '55px 0', display: 'flex' }}>
+                  <InputLabel htmlFor="password">
+                    Confirmar contraseña
+                  </InputLabel>
+                  <Input
+                    id="password"
+                    margin="dense"
+                    name="password"
+                    placeholder="Confirme su contraseña"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <VisibilityOutlinedIcon />
+                      </InputAdornment>
+                    }
+                    type="password"
+                    value={formik.values.password}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                  />
+                  {showErrors('password')}
+                </FormControl>
+              )}
+              <FormControl>
+                <Button
+                  className="submit-btn"
+                  sx={{ alignItem: 'center' }}
+                  type="submit"
+                  variant="contained">
+                  Enviar
+                </Button>
+                {history.location.pathname === '/login' && (
+                  <Link to="/register">Registrarme</Link>
+                )}
+                {history.location.pathname === '/register' && (
+                  <Link to="/login">Ya tengo una cuenta</Link>
+                )}
+              </FormControl>
+            </div>
+          </div>
         </form>
       </>
     );
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="none" sx={{ padding: '0 !important' }}>
       <SignupForm />
     </Container>
   );

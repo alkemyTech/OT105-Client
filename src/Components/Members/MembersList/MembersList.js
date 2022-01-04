@@ -1,7 +1,8 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { List } from '@mui/material';
 import MembersListItem from './MembersListItem';
 import { membersListStyle } from '../../../Styles/MembersList/MembersListInlineStyles';
+import { getAllMembers } from '../../../Services/membersService';
 
 const mockupMembers = [
   {
@@ -30,12 +31,19 @@ const mockupMembers = [
   },
 ];
 
-const MembersList = ({ members = mockupMembers }) => {
+const MembersList = () => {
+  const [members, setMembers] = useState([]);
+
+  useEffect(() => {
+    getAllMembers().then((res) => setMembers(res));
+  }, []);
+
   return (
     <List sx={membersListStyle}>
-      {members.map((member) => (
-        <MembersListItem key={member.id} member={member} />
-      ))}
+      {members.length &&
+        members.map((member) => (
+          <MembersListItem key={member.id} member={member} />
+        ))}
     </List>
   );
 };

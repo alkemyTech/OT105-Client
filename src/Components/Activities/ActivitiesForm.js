@@ -4,7 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import {
   getActivities,
@@ -25,6 +25,7 @@ import '../../Styles/FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
 
 const ActivitiesForm = () => {
+  const history = useHistory();
   const { id } = useParams();
   const [activitiesDescription, setActivitiesDescription] = useState('');
   const [image, setImage] = useState('');
@@ -152,9 +153,15 @@ const ActivitiesForm = () => {
     };
 
     if (id) {
-      editActivity(id, body).then((resp) => setApiResponse(resp.data));
+      editActivity(id, body).then((resp) => {
+        setApiResponse(resp.data);
+        history.push('/backoffice/activities');
+      });
     } else {
-      createActivity(body).then((resp) => setApiResponse(resp.data));
+      createActivity(body).then((resp) => {
+        setApiResponse(resp.data);
+        history.push('/backoffice/activities');
+      });
     }
   };
 

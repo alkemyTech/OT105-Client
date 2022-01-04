@@ -72,23 +72,9 @@ function BackofficeListActivities() {
   };
 
   const deleteActivityById = (id) => {
-    const isDelete = window.confirm(
-      `Estas seguro de querer eliminar la tarea "${id}"`,
+    deleteActivity(id).then(() =>
+      getActivities().then((res) => setActivities(res)),
     );
-
-    if (isDelete) {
-      let result = activities.filter((e) => {
-        return e.id !== id;
-      });
-
-      deleteActivity(id);
-
-      return setActivities(result);
-    }
-
-    if (isLastItemOnPage()) {
-      setPage(page - 1);
-    }
   };
 
   useEffect(() => {

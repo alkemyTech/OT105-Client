@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { dropzoneConfig, isEmptyList, listHasValues } from '../../Utils';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -16,12 +17,15 @@ import {
 import '../../Styles/FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
 import { URLImageToBlob } from '../../Services/imageService';
+import LoadingBackdrop from '../CommonComponents/LoadingBackdrop';
 
 const NewsCreateEdit = ({ match }) => {
+  const history = useHistory();
   const [categoryDescription, setCategoryDescription] = useState('');
   const [image, setImage] = useState('');
   const [base64ImageFile, setBase64ImageFile] = useState('');
   const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [apiResponse, setApiResponse] = useState({});
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
@@ -139,12 +143,18 @@ const NewsCreateEdit = ({ match }) => {
     if (id) {
       editNews(id, body).then((resp) => setApiResponse(resp));
     } else {
-      createNews(body).then((resp) => setApiResponse(resp));
+      setIsLoading(true);
+      createNews(body).then((resp) => {
+        setIsLoading(false);
+        setApiResponse(resp);
+        history.push('/backoffice/news');
+      });
     }
   };
 
   return (
     <div className="bckg">
+      <LoadingBackdrop isLoading={isLoading} />
       <Box
         noValidate
         className="form-container"

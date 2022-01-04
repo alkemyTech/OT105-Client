@@ -1,5 +1,6 @@
 import axios from 'axios';
 import es from 'date-fns/locale/es';
+import { errorAlert, successAlert } from './alertsService';
 
 export const CATEGORIES_URL = 'http://ongapi.alkemy.org/api/categories';
 
@@ -35,8 +36,12 @@ const createCategory = async (categorie) => {
   try {
     const res = await axios.post(CATEGORIES_URL, categorie);
 
+    successAlert('Categoria creada satisfactoriamente');
+
     return res.data;
   } catch (err) {
+    errorAlert('Error', err.data || 'Error al crear la Categoria');
+
     return err.response.data;
   }
 };
@@ -48,8 +53,12 @@ const editCategory = async (categorieId, editCategorie) => {
       editCategorie,
     );
 
+    successAlert('Categoria editada satisfactoriamente');
+
     return res.data;
   } catch (err) {
+    errorAlert('Error', err.data || 'Error al editar la Categoria');
+
     return err.response.data;
   }
 };
@@ -60,6 +69,8 @@ const deleteCategory = async (categorieId) => {
 
     return res.data;
   } catch (err) {
+    errorAlert('Error', err.data || 'Error al editar la Categoria');
+
     return err.response.data;
   }
 };

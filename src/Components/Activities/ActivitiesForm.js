@@ -19,10 +19,15 @@ import {
   Alert,
   Typography,
   Paper,
+  Backdrop,
+  CircularProgress,
 } from '@mui/material';
 import '../../Styles/FormStyles.css';
 
 import '../../Styles/CategoriesFormStyles.css';
+import LoaderSpinner from '../CommonComponents/LoaderSpinner';
+import LoadingBackdrop from '../CommonComponents/LoadingBackdrop';
+import { TryRounded } from '@mui/icons-material';
 
 const ActivitiesForm = () => {
   const history = useHistory();
@@ -32,6 +37,7 @@ const ActivitiesForm = () => {
   const [base64ImageFile, setBase64ImageFile] = useState('');
   const [imageError, setImageError] = useState(false);
   const [apiResponse, setApiResponse] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
   const getActivity = async () => {
@@ -153,13 +159,17 @@ const ActivitiesForm = () => {
     };
 
     if (id) {
+      setIsLoading(TryRounded);
       editActivity(id, body).then((resp) => {
         setApiResponse(resp.data);
+        setIsLoading(false);
         history.push('/backoffice/activities');
       });
     } else {
+      setIsLoading(true);
       createActivity(body).then((resp) => {
         setApiResponse(resp.data);
+        setIsLoading(false);
         history.push('/backoffice/activities');
       });
     }
@@ -167,6 +177,7 @@ const ActivitiesForm = () => {
 
   return (
     <div className="bckg">
+      <LoadingBackdrop isLoading={isLoading} />
       <Box
         noValidate
         className="form-container"

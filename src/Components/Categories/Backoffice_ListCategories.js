@@ -27,7 +27,7 @@ import {
   deleteCategorybyId,
 } from '../../features/categories/categoriesAsyncThunks';
 import SortableTableCell from '../Users/SortableTableCell';
-import { listHasValues, sliceDate } from '../../Utils';
+import { getItemName, listHasValues, sliceDate } from '../../Utils';
 import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import style from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
@@ -70,7 +70,7 @@ const Backoffice_ListCategories = () => {
 
   const deletecategory = async (id) => {
     const userResponse = await questionAlert(
-      `¿Seguro que desea eliminar categoría ${id}?`,
+      `¿Seguro que desea eliminar categoría ${getItemName(id, categories)}?`,
     );
 
     if (userResponse) {

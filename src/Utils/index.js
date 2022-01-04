@@ -18,3 +18,9 @@ export const sliceDate = (fullDate) => {
 
   return `${day}-${month}-${year}`;
 };
+
+export const getItemName = (id, list) => {
+  const item = list.filter((item) => item.id === id);
+
+  return item[0].name;
+};

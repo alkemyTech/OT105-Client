@@ -134,6 +134,17 @@ const Header_Wed = ({ isLogged }) => {
                     {link.name}
                   </MenuItem>
                 ))}
+                {localStorage.getItem('token') === '1' && (
+                  <MenuItem
+                    component={Link}
+                    to="/donations"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      handleLogout();
+                    }}>
+                    Donacion
+                  </MenuItem>
+                )}
                 {localStorage.getItem('token') === '2' && (
                   <MenuItem
                     component={Link}
@@ -208,6 +219,27 @@ const Header_Wed = ({ isLogged }) => {
                   {link.name}
                 </Button>
               ))}
+              {localStorage.getItem('token') === '1' && (
+                <Button
+                  component={Link}
+                  sx={{
+                    textTransform: 'none',
+                    color: 'white',
+                    height: '100%',
+                    bgcolor: '#63CD65',
+                    ':hover': {
+                      bgcolor: '#63CD65',
+                      color: 'primary.info',
+                    },
+                    marginLeft: '2rem',
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                  }}
+                  to={'/donations'}
+                  onClick={handleCloseNavMenu}>
+                  Donaciones
+                </Button>
+              )}
               {localStorage.getItem('token') === '2' && (
                 <Button
                   component={Link}

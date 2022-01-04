@@ -7,13 +7,18 @@ import { getWelcomeMessage } from '../../Services/homeService';
 import Seccion_Novedades from '../News/Seccion_Novedades';
 import Testimonials from '../Testimonials/Testimonials';
 import SlideHome from './SlideHome';
+import { errorAlert } from '../../Services/alertsService';
 
 const HomeScreen = () => {
   const [title, setTitle] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     getWelcomeMessage().then((message) => {
-      setTitle(message);
+      message
+        ? (setTitle(message), setIsLoading(false))
+        : errorAlert('Error', 'Ocurrio un error al obtener el titulo');
     });
   }, []);
 
@@ -22,9 +27,11 @@ const HomeScreen = () => {
       <Title
         bckgOpacity="0.5"
         imageUrl="https://images.unsplash.com/photo-1540479859555-17af45c78602?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+        isLoading={isLoading}
         titlePadding="13rem"
         titleText={title}
       />
+
       <Box
         sx={{
           background: '#EDF2F7',

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Sidebar from './SidebarBackoffice';
 import {
   AppBar,
@@ -38,7 +39,11 @@ const HeaderBackoffice = ({ children }) => {
             onClick={handleDrawerToggle}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5">Backoffice</Typography>
+          <Link
+            style={{ textDecoration: 'none', color: 'white' }}
+            to="/backoffice">
+            <Typography variant="h5">Backoffice</Typography>
+          </Link>
         </Toolbar>
       </AppBar>
       <Sidebar

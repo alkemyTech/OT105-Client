@@ -17,6 +17,7 @@ import ScreenOrganizationEditForm from '../Components/Organization/ScreenOrganiz
 import Backoffice_ListCategories from '../Components/Categories/Backoffice_ListCategories';
 import News from '../Components/News/News';
 import BackofficeLayout from '../Components/Layouts/BackofficeLayout';
+import TestimonialsListScreen from '../Components/Testimonials/TestimonialsListScreen';
 
 const BackofficeRouter = () => {
   let { path } = useRouteMatch();
@@ -60,11 +61,12 @@ const BackofficeRouter = () => {
       <Route exact component={SlidesForm} path={`${path}/slides/create`} />
       <Route component={SlidesBackOffice} path={`${path}/slides`} />
 
-      <Route component={TestimonialForm} path={`${path}/testimonials/create`} />
       <Route
-        path="/create-testimonials"
-        render={() => <TestimonialForm id={25} />}
+        component={TestimonialForm}
+        path={`${path}/testimonials/edit/:id`}
       />
+      <Route component={TestimonialForm} path={`${path}/testimonials/create`} />
+      <Route component={TestimonialsListScreen} path={`${path}/testimonials`} />
 
       <Route component={UserForm} path={`${path}/users/create`} />
       <Route component={UsersListTable} path={`${path}/users`} />

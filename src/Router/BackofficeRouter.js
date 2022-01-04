@@ -18,61 +18,98 @@ import News from '../Components/News/News';
 import BackofficeLayout from '../Components/Layouts/BackofficeLayout';
 import TestimonialsListScreen from '../Components/Testimonials/TestimonialsListScreen';
 import Error404 from '../Components/Error404/Error404';
+import PrivateRoute from './PrivateRoutes/PrivateRoute';
 
 const BackofficeRouter = () => {
   let { path } = useRouteMatch();
 
   return (
     <BackofficeLayout>
-      <Route exact component={BackofficeDashboard} path={`${path}`} />
+      <PrivateRoute exact component={BackofficeDashboard} path={`${path}`} />
 
-      <Route
+      <PrivateRoute
         path={`${path}/activities/edit/:id`}
         render={() => <ActivitiesForm />}
       />
-      <Route component={ActivitiesForm} path={`${path}/activities/create`} />
-      <Route component={BackofficeListActivities} path={`${path}/activities`} />
+      <PrivateRoute
+        component={ActivitiesForm}
+        path={`${path}/activities/create`}
+      />
+      <PrivateRoute
+        component={BackofficeListActivities}
+        path={`${path}/activities`}
+      />
 
-      <Route
+      <PrivateRoute
         path={`${path}/categories/edit/:id`}
         render={() => <CategoriesForm />}
       />
-      <Route component={CategoriesForm} path={`${path}/categories/create`} />
-      <Route
+      <PrivateRoute
+        component={CategoriesForm}
+        path={`${path}/categories/create`}
+      />
+      <PrivateRoute
         component={Backoffice_ListCategories}
         path={`${path}/categories`}
       />
 
-      <Route component={MembersCreateEdit} path={`${path}/members/edit/:id`} />
-      <Route component={MembersCreateEdit} path={`${path}/members/create`} />
-      <Route exact component={ScreenMembersList} path={`${path}/members`} />
+      <PrivateRoute
+        component={MembersCreateEdit}
+        path={`${path}/members/edit/:id`}
+      />
+      <PrivateRoute
+        component={MembersCreateEdit}
+        path={`${path}/members/create`}
+      />
+      <PrivateRoute
+        exact
+        component={ScreenMembersList}
+        path={`${path}/members`}
+      />
 
-      <Route component={NewsCreateEdit} path={`${path}/news/edit/:id`} />
-      <Route component={NewsCreateEdit} path={`${path}/news/create`} />
-      <Route component={News} path={`${path}/news`} />
+      <PrivateRoute component={NewsCreateEdit} path={`${path}/news/edit/:id`} />
+      <PrivateRoute component={NewsCreateEdit} path={`${path}/news/create`} />
+      <PrivateRoute component={News} path={`${path}/news`} />
 
-      <Route
+      <PrivateRoute
         component={ScreenOrganizationEditForm}
         path={`${path}/organization/edit`}
       />
-      <Route component={ScreenOrganization} path={`${path}/organization`} />
+      <PrivateRoute
+        component={ScreenOrganization}
+        path={`${path}/organization`}
+      />
 
-      <Route exact component={SlidesForm} path={`${path}/slides/edit/:id`} />
-      <Route exact component={SlidesForm} path={`${path}/slides/create`} />
-      <Route component={SlidesBackOffice} path={`${path}/slides`} />
+      <PrivateRoute
+        exact
+        component={SlidesForm}
+        path={`${path}/slides/edit/:id`}
+      />
+      <PrivateRoute
+        exact
+        component={SlidesForm}
+        path={`${path}/slides/create`}
+      />
+      <PrivateRoute component={SlidesBackOffice} path={`${path}/slides`} />
 
-      <Route
+      <PrivateRoute
         component={TestimonialForm}
         path={`${path}/testimonials/edit/:id`}
       />
-      <Route component={TestimonialForm} path={`${path}/testimonials/create`} />
-      <Route component={TestimonialsListScreen} path={`${path}/testimonials`} />
+      <PrivateRoute
+        component={TestimonialForm}
+        path={`${path}/testimonials/create`}
+      />
+      <PrivateRoute
+        component={TestimonialsListScreen}
+        path={`${path}/testimonials`}
+      />
 
-      <Route component={UserForm} path={`${path}/users/edit/:id`} />
-      <Route component={UserForm} path={`${path}/users/create`} />
-      <Route component={UsersListTable} path={`${path}/users`} />
+      <PrivateRoute component={UserForm} path={`${path}/users/edit/:id`} />
+      <PrivateRoute component={UserForm} path={`${path}/users/create`} />
+      <PrivateRoute component={UsersListTable} path={`${path}/users`} />
 
-      <Route component={Error404} path="*" />
+      <PrivateRoute component={Error404} path="*" />
     </BackofficeLayout>
   );
 };

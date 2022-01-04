@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorAlert } from './alertsService';
+import { errorAlert, successAlert } from './alertsService';
 
 export const urlEditNews = process.env.REACT_APP_PUBLIC_NEWS_URL;
 export const urlCreateNews = process.env.REACT_APP_PUBLIC_NEWS_URL;
@@ -46,6 +46,8 @@ const createNews = async (news) => {
   try {
     const res = await axios.post(NEWS_URL, news);
 
+    successAlert('Nodedad creada satisfactoriamente');
+
     return res.data;
   } catch (err) {
     errorAlert('Error', err.data || 'Error al crear Novedad');
@@ -57,6 +59,8 @@ const createNews = async (news) => {
 const editNews = async (newsId, editedNews) => {
   try {
     const res = await axios.put(`${NEWS_URL}/${newsId}`, editedNews);
+
+    successAlert('Nodedad editada satisfactoriamente');
 
     return res.data;
   } catch (err) {

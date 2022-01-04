@@ -4,7 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import {
   getCategories,
@@ -23,13 +23,16 @@ import {
 } from '@mui/material';
 import '../../Styles/FormStyles.css';
 import '../../Styles/CategoriesFormStyles.css';
+import LoadingBackdrop from '../CommonComponents/LoadingBackdrop';
 
 const CategoriesForm = () => {
+  const history = useHistory();
   const { id } = useParams();
   const [categoryDescription, setCategoryDescription] = useState('');
   const [image, setImage] = useState('');
   const [base64ImageFile, setBase64ImageFile] = useState('');
   const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [apiResponse, setApiResponse] = useState({});
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
@@ -152,14 +155,25 @@ const CategoriesForm = () => {
     };
 
     if (id) {
-      editCategory(id, body).then((resp) => setApiResponse(resp.data));
+      setIsLoading(true);
+      editCategory(id, body).then((resp) => {
+        setIsLoading(false);
+        setApiResponse(resp.data);
+        history.push('/backoffice/categories');
+      });
     } else {
-      createCategory(body).then((resp) => setApiResponse(resp.data));
+      setIsLoading(true);
+      createCategory(body).then((resp) => {
+        setIsLoading(false);
+        setApiResponse(resp.data);
+        history.push('/backoffice/categories');
+      });
     }
   };
 
   return (
     <div className="bckg">
+      <LoadingBackdrop isLoading={isLoading} />
       <Box
         noValidate
         className="form-container"

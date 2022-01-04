@@ -22,16 +22,17 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { NewsSearch_Form } from './NewsSearch_Form';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import SortableTableCell from '../Users/SortableTableCell';
 import { memberAvatarStyle } from '../../Styles/MembersList/MembersListInlineStyles';
-import { listHasValues, sliceDate } from '../../Utils';
+import { getItemName, listHasValues, sliceDate } from '../../Utils';
 import { sortList } from '../../Utils/TablesUtils/sortingUtils';
+import { deleteNews } from '../../Services/NewsService';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import '../../Styles/TablesStyles.css';
 import BackOfficeNewsSearch_Form from './BackOfficeNewsSearch_Form';
+import { questionAlert } from '../../Services/alertsService';
 
 function News() {
   const [order, setOrder] = useState('asc');
@@ -85,18 +86,23 @@ function News() {
     setNews(updatedNews);
   };
 
-  const deleteNews = (id) => {
-    const isDelete = window.confirm(
-      `Estas seguro de querer eliminar la categoria "${id}"`,
+  const deleteNews = async (id) => {
+    const userResponse = await questionAlert(
+      `¿Seguro que desea eliminar la novedad ${getItemName(id, news)}?`,
     );
 
-    if (isDelete) {
-      let result = news.filter((e) => {
-        return e.id !== id;
-      });
+    if (userResponse) {
+      deleteNews(id);
+      let updatedNews = news.filter((news) => news.id === id);
 
-      return setNews(result);
+      if (isLastItemOnPage()) {
+        setPage(page - 1);
+      }
+
+      setNews(updatedNews);
     }
+
+    return;
   };
 
   return (

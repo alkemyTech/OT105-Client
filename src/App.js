@@ -19,6 +19,7 @@ function App() {
           <Route component={SchoolCampaign} path="/school-campaign" />
           <Route component={ToysCampaign} path="/toys-campaign" />
           <Route component={LoginForm} path="/login" />
+          <Route component={LoginForm} path="/register" />
           <Route component={PublicRouter} path="/" />
         </Switch>
       </BrowserRouter>

@@ -19,15 +19,10 @@ import {
   Alert,
   Typography,
   Paper,
-  Backdrop,
-  CircularProgress,
 } from '@mui/material';
 import '../../Styles/FormStyles.css';
-
 import '../../Styles/CategoriesFormStyles.css';
-import LoaderSpinner from '../CommonComponents/LoaderSpinner';
 import LoadingBackdrop from '../CommonComponents/LoadingBackdrop';
-import { TryRounded } from '@mui/icons-material';
 
 const ActivitiesForm = () => {
   const history = useHistory();
@@ -56,7 +51,6 @@ const ActivitiesForm = () => {
   const handleDrop = (acceptedFiles, fileRejections) => {
     const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
 
-    console.log(imageFileWithPreview);
     setImage(imageFileWithPreview);
     if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
   };
@@ -159,7 +153,7 @@ const ActivitiesForm = () => {
     };
 
     if (id) {
-      setIsLoading(TryRounded);
+      setIsLoading(true);
       editActivity(id, body).then((resp) => {
         setApiResponse(resp.data);
         setIsLoading(false);

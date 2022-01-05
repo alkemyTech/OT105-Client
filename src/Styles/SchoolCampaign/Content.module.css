@@ -29,6 +29,7 @@
 }
 .dateStart {
   margin: 1rem;
+  font-size: 1.4rem;
 }
 
 .countdownContainer {
@@ -49,11 +50,20 @@
   font-size: 3rem;
 }
 
+.description {
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: 600;
+}
+
 @media (min-width: 768px) {
   .description {
     font-size: 1.7rem;
     text-align: center;
     font-weight: 600;
+  }
+  .dateStart {
+    font-size: 2rem;
   }
   .daysToStart {
     font-size: 4rem;

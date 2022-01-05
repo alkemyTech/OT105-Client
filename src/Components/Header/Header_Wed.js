@@ -94,11 +94,11 @@ const Header_Wed = ({ isLogged }) => {
           color: 'white',
         }}>
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ paddingInline: '1rem', gap: '2rem' }}>
+          <Toolbar disableGutters sx={{ gap: '2rem' }}>
             <Box
               sx={{
                 flexGrow: 1,
-                display: { xs: 'flex', md: 'none' },
+                display: { xs: 'flex', lg: 'none' },
               }}>
               <IconButton
                 aria-controls="menu-appbar"
@@ -119,7 +119,7 @@ const Header_Wed = ({ isLogged }) => {
                 id="menu-appbar"
                 open={Boolean(anchorElNav)}
                 sx={{
-                  display: { xs: 'block', md: 'none' },
+                  display: { xs: 'block', lg: 'none' },
                 }}
                 transformOrigin={{
                   vertical: 'top',
@@ -130,6 +130,12 @@ const Header_Wed = ({ isLogged }) => {
                   <MenuItem
                     key={link.name}
                     component={Link}
+                    sx={{
+                      backgroundColor:
+                        link.path === history.location.pathname
+                          ? 'rgba(0, 0, 0, 0.1)'
+                          : 'white',
+                    }}
                     to={link.path}
                     onClick={handleCloseNavMenu}>
                     {link.name}
@@ -186,7 +192,7 @@ const Header_Wed = ({ isLogged }) => {
                 flexGrow: 1,
                 display: {
                   xs: 'none',
-                  md: 'flex',
+                  lg: 'flex',
                   justifyContent: 'right',
                 },
                 alignItems: 'center',
@@ -203,6 +209,14 @@ const Header_Wed = ({ isLogged }) => {
                     justifyContent: 'center',
                     paddingInline: '.5rem',
                     whiteSpace: 'nowrap',
+                    borderRadius: 'unset',
+                    borderBottom:
+                      link.path === history.location.pathname
+                        ? '2px solid white'
+                        : '2px solid #28527A',
+                    ':hover': {
+                      borderBottom: '2px solid rgba(255, 255, 255, 0.5)',
+                    },
                   }}
                   to={link.path}
                   onClick={handleCloseNavMenu}>
@@ -221,7 +235,7 @@ const Header_Wed = ({ isLogged }) => {
                       bgcolor: '#63CD65',
                       color: 'primary.info',
                     },
-                    marginLeft: '1rem',
+                    marginLeft: '2rem',
                     textAlign: 'center',
                     whiteSpace: 'nowrap',
                   }}
@@ -233,10 +247,16 @@ const Header_Wed = ({ isLogged }) => {
               {localStorage.getItem('token') === '2' && (
                 <Button
                   component={Link}
+                  size="small"
                   sx={{
                     color: 'white',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    borderRadius: 'unset',
+                    borderBottom: '2px solid #28527A',
+                    ':hover': {
+                      borderBottom: '2px solid rgba(255, 255, 255, 0.5)',
+                    },
                   }}
                   to={'/backoffice'}
                   onClick={handleCloseNavMenu}>

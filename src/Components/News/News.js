@@ -86,14 +86,14 @@ function News() {
     setNews(updatedNews);
   };
 
-  const deleteNews = async (id) => {
+  const deleteNewsById = async (id) => {
     const userResponse = await questionAlert(
       `¿Seguro que desea eliminar la novedad ${getItemName(id, news)}?`,
     );
 
     if (userResponse) {
       deleteNews(id);
-      let updatedNews = news.filter((news) => news.id === id);
+      const updatedNews = news.filter((news) => news.id !== id);
 
       if (isLastItemOnPage()) {
         setPage(page - 1);
@@ -211,7 +211,8 @@ function News() {
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Eliminar">
-                              <IconButton onClick={() => deleteNews(row.id)}>
+                              <IconButton
+                                onClick={() => deleteNewsById(row.id)}>
                                 <DeleteIcon color="error" />
                               </IconButton>
                             </Tooltip>

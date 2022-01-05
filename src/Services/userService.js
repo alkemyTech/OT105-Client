@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorAlert } from './alertsService';
+import { errorAlert, successAlert } from './alertsService';
 
 const USER_URL = 'http://ongapi.alkemy.org/api/users';
 
@@ -34,9 +34,11 @@ export const deleteUsers = async (id) => {
   try {
     const response = await axios.delete(`${USER_URL}/${id}`);
 
+    successAlert('Usuario eliminado correctamente');
+
     return response;
   } catch {
-    return errorAlert();
+    return errorAlert('Error en la eliminacion del usuario');
   }
 };
 

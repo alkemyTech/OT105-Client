@@ -21,8 +21,8 @@ import {
 const MembersListItem = ({ member }) => {
   return (
     <>
-      <ListItem alignItems="flex-start" sx={{ paddingBottom: 0 }}>
-        <ListItemAvatar sx={{ marginTop: 0 }}>
+      <ListItem alignItems="stretch">
+        <ListItemAvatar sx={{ mr: '1rem' }}>
           <Avatar alt={member.name} src={member.image} sx={memberAvatarStyle} />
         </ListItemAvatar>
         <ListItemText
@@ -32,39 +32,37 @@ const MembersListItem = ({ member }) => {
             </Typography>
           }
           secondary={
-            <>
-              <Box className={style.memberContainer}>
-                <Typography component="p" variant="p">
-                  {member.description}
-                </Typography>
-                <Box>
-                  <Tooltip arrow sx={{ padding: 0 }} title={member.facebookUrl}>
-                    <IconButton>
-                      <a
-                        href={member.facebookUrl}
-                        rel="noopener noreferrer"
-                        target="_blank">
-                        <FacebookIcon className={style.socialMediaIcon} />
-                      </a>
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip arrow sx={{ padding: 0 }} title={member.linkedinUrl}>
-                    <IconButton>
-                      <a
-                        href={member.linkedinUrl}
-                        rel="noopener noreferrer"
-                        target="_blank">
-                        <LinkedInIcon className={style.socialMediaIcon} />
-                      </a>
-                    </IconButton>
-                  </Tooltip>
-                </Box>
+            <Box className={style.memberContainer}>
+              <Typography component="p" variant="p">
+                {member.description}
+              </Typography>
+              <Box>
+                <Tooltip arrow sx={{ padding: 0 }} title={member.facebookUrl}>
+                  <IconButton>
+                    <a
+                      href={member.facebookUrl}
+                      rel="noopener noreferrer"
+                      target="_blank">
+                      <FacebookIcon className={style.socialMediaIcon} />
+                    </a>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip arrow sx={{ padding: 0 }} title={member.linkedinUrl}>
+                  <IconButton>
+                    <a
+                      href={member.linkedinUrl}
+                      rel="noopener noreferrer"
+                      target="_blank">
+                      <LinkedInIcon className={style.socialMediaIcon} />
+                    </a>
+                  </IconButton>
+                </Tooltip>
               </Box>
-            </>
+            </Box>
           }
         />
       </ListItem>
-      <Divider component="div" variant="inset" />
+      <Divider component="div" />
     </>
   );
 };

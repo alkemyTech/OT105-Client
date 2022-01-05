@@ -94,7 +94,7 @@ const Header_Wed = ({ isLogged }) => {
           color: 'white',
         }}>
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ paddingInline: '2rem', gap: '2rem' }}>
+          <Toolbar disableGutters sx={{ paddingInline: '1rem', gap: '2rem' }}>
             <Box
               sx={{
                 flexGrow: 1,
@@ -188,7 +188,6 @@ const Header_Wed = ({ isLogged }) => {
                   xs: 'none',
                   md: 'flex',
                   justifyContent: 'right',
-                  gap: '1rem',
                 },
                 alignItems: 'center',
                 gap: '0',
@@ -197,11 +196,12 @@ const Header_Wed = ({ isLogged }) => {
                 <Button
                   key={link.name}
                   component={Link}
+                  size="small"
                   sx={{
                     color: 'white',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    paddingInline: '1rem',
+                    paddingInline: '.3rem',
                     whiteSpace: 'nowrap',
                   }}
                   to={link.path}
@@ -221,7 +221,7 @@ const Header_Wed = ({ isLogged }) => {
                       bgcolor: '#63CD65',
                       color: 'primary.info',
                     },
-                    marginLeft: '2rem',
+                    marginLeft: '1rem',
                     textAlign: 'center',
                     whiteSpace: 'nowrap',
                   }}
@@ -237,7 +237,6 @@ const Header_Wed = ({ isLogged }) => {
                     color: 'white',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    paddingInline: '1rem',
                   }}
                   to={'/backoffice'}
                   onClick={handleCloseNavMenu}>
@@ -275,7 +274,7 @@ const Header_Wed = ({ isLogged }) => {
                       bgcolor: '#EDF2F7',
                       color: 'primary.info',
                     },
-                    marginLeft: '2rem',
+                    marginLeft: '1rem',
                     textAlign: 'center',
                     whiteSpace: 'nowrap',
                   }}

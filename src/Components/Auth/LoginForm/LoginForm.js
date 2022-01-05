@@ -77,7 +77,7 @@ const LoginForm = () => {
           localStorage.setItem('token', 1);
           Swal.fire({
             icon: 'success',
-            text: 'Logeado como usuario regular',
+            text: 'Logeado como usuario',
           });
           history.push('/');
 

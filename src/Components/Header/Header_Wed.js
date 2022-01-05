@@ -201,7 +201,7 @@ const Header_Wed = ({ isLogged }) => {
                     color: 'white',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    paddingInline: '.3rem',
+                    paddingInline: '.5rem',
                     whiteSpace: 'nowrap',
                   }}
                   to={link.path}

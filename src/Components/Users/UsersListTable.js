@@ -24,10 +24,11 @@ import SortableTableCell from './SortableTableCell';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
 import { getAllUsers, deleteUsers } from '../../Services/userService';
 import UsersSearchForm from './UsersSearchForm';
-import { listHasValues } from '../../Utils';
+import { getItemName, listHasValues } from '../../Utils';
 import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
+import { questionAlert } from '../../Services/alertsService';
 
 const UsersListTable = () => {
   const [order, setOrder] = useState('asc');
@@ -62,16 +63,24 @@ const UsersListTable = () => {
   };
 
   const deleteUser = async (id) => {
-    const response = await deleteUsers(id);
+    const userResponse = await questionAlert(
+      `¿Seguro que desea eliminar el usuario ${getItemName(id, usersList)}?`,
+    );
 
-    if (response.data.success) {
-      const newUsersList = usersList.filter((user) => user.id !== id);
+    if (userResponse) {
+      const response = await deleteUsers(id);
 
-      setUsersList(newUsersList);
+      if (response.data.success) {
+        const newUsersList = usersList.filter((user) => user.id !== id);
+
+        setUsersList(newUsersList);
+      }
+      if (isLastItemOnPage()) {
+        setPage(page - 1);
+      }
     }
-    if (isLastItemOnPage()) {
-      setPage(page - 1);
-    }
+
+    return;
   };
 
   useEffect(() => {

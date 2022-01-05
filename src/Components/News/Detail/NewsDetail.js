@@ -53,7 +53,7 @@ const NewsDetail = () => {
           <Title imageUrl={newsImage} titleText={newsDetail.name} />
           <Box className={style.newsDetail__container} component="div">
             <Box className={style.newsDetail__content} component="div">
-              <Typography component="div" variant="p">
+              <Typography component="p" variant="p">
                 {ReactHtmlParser(newsDetail.content)}
               </Typography>
             </Box>
@@ -67,7 +67,7 @@ const NewsDetail = () => {
           </Box>
           <Box className={style.commentsTitle__container}>
             <Typography component="h2" variant="h3">
-              COMENTARIOS
+              ultimos comentarios
             </Typography>
           </Box>
           <LazyNewsCommentsList />

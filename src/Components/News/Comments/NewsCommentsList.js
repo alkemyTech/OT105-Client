@@ -8,11 +8,13 @@ const NewsCommentsList = () => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  console.log(comments.length - 3, comments.length);
+
   const getComments = () => {
     setLoading(true);
     getAllComments()
       .then((data) => {
-        setComments(data);
+        setComments(data.slice(data.length - 3, data.length));
         setLoading(false);
       })
       .catch((err) => {

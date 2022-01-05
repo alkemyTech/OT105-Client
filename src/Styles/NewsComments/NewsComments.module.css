@@ -17,6 +17,12 @@
   .skeletonContainer {
     flex-direction: row;
   }
+}
+
+@media (min-width: 992px) {
+  .skeletonContainer {
+    flex-direction: row;
+  }
   .commentsContainer {
     max-width: 60%;
   }

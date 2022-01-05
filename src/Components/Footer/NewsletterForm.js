@@ -55,6 +55,16 @@ const NewsletterForm = () => {
 
   return !subscribed ? (
     <Container sx={{ my: '1rem' }}>
+      <div>
+        <a
+          style={{
+            textAlign: 'center',
+            display: 'block',
+            margin: '20px auto',
+          }}>
+          ¿Desea suscribirse para recibir noticias?
+        </a>
+      </div>
       <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
         <Grid container columnGap={1}>
           <FormControl size="small" variant="outlined">
@@ -87,7 +97,7 @@ const NewsletterForm = () => {
       </form>
     </Container>
   ) : (
-    <Container sx={{ my: '1rem' }}>
+    <Container sx={{ my: '1rem', margin: 'auto', display: 'block' }}>
       <Typography gutterBottom component="p" variant="body1">
         Gracias por suscribirte!
       </Typography>

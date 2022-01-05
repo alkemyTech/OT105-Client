@@ -124,27 +124,7 @@ const Footer = () => {
         </Box>
       </Container>
       <div style={{ margin: 'auto', display: 'block' }}>
-        {suscribed === false ? (
-          <div
-            style={{
-              display: 'flex',
-              margin: 'auto',
-              width: 'fit-content',
-            }}>
-            <a style={{ textAlign: 'center' }}>
-              ¿Desea suscribirse para recibir noticias?
-            </a>
-            <NewsletterForm />
-          </div>
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              margin: 'auto',
-              width: 'fit-content',
-            }}
-          />
-        )}
+        <NewsletterForm />
       </div>
     </TableFooter>
   );

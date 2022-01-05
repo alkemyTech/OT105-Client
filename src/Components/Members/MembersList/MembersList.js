@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { List } from '@mui/material';
+import { Divider, List } from '@mui/material';
 import MembersListItem from './MembersListItem';
 import { membersListStyle } from '../../../Styles/MembersList/MembersListInlineStyles';
 import { getAllMembers } from '../../../Services/membersService';
@@ -40,6 +40,7 @@ const MembersList = () => {
 
   return (
     <List sx={membersListStyle}>
+      <Divider component="div" />
       {members.length &&
         members.map((member) => (
           <MembersListItem key={member.id} member={member} />

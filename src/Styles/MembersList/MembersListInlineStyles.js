@@ -1,14 +1,13 @@
 export const membersListStyle = {
-  width: '50%',
+  width: '100%',
   maxWidth: 500,
   bgcolor: 'background.paper',
-  margin: '0 auto',
+  margin: '1rem auto 6rem',
 };
 
 export const memberAvatarStyle = {
-  width: 60,
-  height: 60,
-  margin: '0 auto',
+  width: 100,
+  height: 100,
 };
 
 export const memberNameTypography = {

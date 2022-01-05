@@ -49,9 +49,9 @@ const Content = () => {
             </h3>
           </div>
         )}
-        <h4 className={s.dateStart}>
+        <h3 className={s.dateStart}>
           1 de Febrero de 2022 a partir de las 13:00 hs
-        </h4>
+        </h3>
         <Chip
           icon={<LocationOnIcon sx={{ fontSize: '1.6rem' }} />}
           label="Barrio La Cava"

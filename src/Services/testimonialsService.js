@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorAlert } from './alertsService';
+import { errorAlert, successAlert } from './alertsService';
 
 const TESTIMONIALS_URL = process.env.REACT_APP_TESTIMONIALS_URL;
 
@@ -18,21 +18,25 @@ export const createOrEditTestimonial = (id, body) => {
 const createTestimonial = async (body) => {
   try {
     await axios.post(TESTIMONIALS_URL, body);
+    successAlert('Testimonio creado satisfactoriamente');
   } catch {
-    return errorAlert();
+    return errorAlert('Error al crear el testimonio');
   }
 };
 const updateTestimonial = async (id, body) => {
   try {
     await axios.patch(`${TESTIMONIALS_URL}/${id}`, body);
+    successAlert('Testimonio editado satisfactoriamente');
   } catch {
-    return errorAlert();
+    return errorAlert('Error al editar el testimonio');
   }
 };
 
 export const deleteTestimonial = async (id) => {
   try {
     const response = await axios.delete(`${TESTIMONIALS_URL}/${id}`);
+
+    successAlert('Testimonio eliminado satisfactoriamente');
 
     return response;
   } catch {

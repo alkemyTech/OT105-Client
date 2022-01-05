@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useDropzone } from 'react-dropzone';
@@ -11,29 +12,44 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
-import { createOrEditTestimonial } from '../../Services/testimonialsService';
+import {
+  createOrEditTestimonial,
+  getTestimonial,
+} from '../../Services/testimonialsService';
 import { listHasValues, dropzoneConfig, isEmptyList } from '../../Utils';
+import LoadingBackdrop from '../CommonComponents/LoadingBackdrop';
+import { URLImageToBlob } from '../../Services/imageService';
 import '../../Styles/CategoriesFormStyles.css';
 import '../../Styles/FormStyles.css';
 
-const TestimonialForm = ({ id }) => {
-  const [imageFiles, setImageFiles] = useState([]);
+const TestimonialForm = () => {
+  const { id } = useParams();
+  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState('');
   const [base64ImageFile, setBase64ImageFile] = useState('');
   const [imageError, setImageError] = useState(false);
   const [apiResponse, setApiResponse] = useState({});
   const [testimonialDescription, setTestimonialDescription] = useState('');
   const { multipleFiles, maxFiles, validImages } = dropzoneConfig;
 
-  const getTestimonial = () => ({
-    name: 'Testimonial testings',
-    description: 'This is a mockup testimonial',
-    image: '',
-  });
+  const getTestimonialById = async () => {
+    const resp = await getTestimonial(id);
+
+    URLImageToBlob(resp.data.data.image).then((res) => {
+      const data = res;
+
+      setImage(data);
+      setBase64ImageFile(data);
+    });
+
+    return resp;
+  };
 
   const handleDrop = (acceptedFiles, fileRejections) => {
     const imageFileWithPreview = addImagePreviewtoImageFile(acceptedFiles);
 
-    setImageFiles(imageFileWithPreview);
+    setImage(imageFileWithPreview);
     if (isEmptyList(fileRejections)) imageFileToBase64File(acceptedFiles);
   };
 
@@ -64,10 +80,10 @@ const TestimonialForm = ({ id }) => {
 
   const isEditingMode = () => id !== undefined;
   const updateTestimonialswithCurrentData = () => {
-    const currentTestimonial = getTestimonial();
-
-    formik.values.name = currentTestimonial.name;
-    setTestimonialDescription(currentTestimonial.description);
+    getTestimonialById().then((resp) => {
+      formik.values.name = resp.data.data.name;
+      setTestimonialDescription(resp.data.data.description);
+    });
   };
 
   const showErrorMessage = (errorMessage) => {
@@ -134,11 +150,16 @@ const TestimonialForm = ({ id }) => {
       image: base64ImageFile,
     };
 
-    createOrEditTestimonial(id, body);
+    setIsLoading(true);
+    createOrEditTestimonial(id, body).then((data) => {
+      setIsLoading(false);
+      history.push('/backoffice/testimonials');
+    });
   };
 
   return (
     <div className="bckg">
+      <LoadingBackdrop isLoading={isLoading} />
       <Box
         noValidate
         className="form-container"
@@ -200,8 +221,11 @@ const TestimonialForm = ({ id }) => {
             <div className="thumbs-container">
               <div className="thumb">
                 <div className="thumbInner">
-                  {listHasValues(imageFiles) && (
-                    <img className="thumb-image" src={imageFiles[0].preview} />
+                  {listHasValues(image) && (
+                    <img
+                      className="thumb-image"
+                      src={id ? base64ImageFile : image[0].preview}
+                    />
                   )}
                 </div>
               </div>

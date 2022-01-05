@@ -25,13 +25,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SortableTableCell from '../Users/SortableTableCell';
 import LoadSpinner from '../CommonComponents/LoaderSpinner';
-import { deleteUsers } from '../../Services/userService';
+import { deleteTestimonial } from '../../Services/testimonialsService';
 import { memberAvatarStyle } from '../../Styles/MembersList/MembersListInlineStyles';
-import { listHasValues } from '../../Utils';
+import { getItemName, listHasValues } from '../../Utils';
 import { sortList } from '../../Utils/TablesUtils/sortingUtils';
 import { StyledTableCell, StyledTableRow } from '../../Styles/TableStyles';
 import s from '../../Styles/Categories/CategoriesList/Backoffice_ListCategories.module.css';
 import { getAllTestimonials } from '../../Services/testimonialsService';
+import { questionAlert } from '../../Services/alertsService';
 
 const TestimonialsListScreen = () => {
   const [order, setOrder] = useState('asc');
@@ -65,17 +66,27 @@ const TestimonialsListScreen = () => {
     return page === pages && page !== 0;
   };
 
-  const deleteUser = async (id) => {
-    const response = await deleteUsers(id);
+  const deleteTestimonials = async (id) => {
+    const userResponse = await questionAlert(
+      `Deseas eliminar el testimonio de ${getItemName(id, testimonials)}`,
+    );
 
-    if (response.data.success) {
-      const newTestimonialsList = testimonials.filter((user) => user.id !== id);
+    if (userResponse) {
+      const response = await deleteTestimonial(id);
 
-      setTestimonials(newTestimonialsList);
+      if (response.data.success) {
+        const newTestimonialsList = testimonials.filter(
+          (testimonial) => testimonial.id !== id,
+        );
+
+        setTestimonials(newTestimonialsList);
+      }
+      if (isLastItemOnPage()) {
+        setPage(page - 1);
+      }
     }
-    if (isLastItemOnPage()) {
-      setPage(page - 1);
-    }
+
+    return;
   };
 
   useEffect(() => {
@@ -201,7 +212,8 @@ const TestimonialsListScreen = () => {
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Eliminar">
-                              <IconButton onClick={() => deleteUser(row.id)}>
+                              <IconButton
+                                onClick={() => deleteTestimonials(row.id)}>
                                 <DeleteIcon color="error" />
                               </IconButton>
                             </Tooltip>

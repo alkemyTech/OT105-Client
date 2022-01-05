@@ -71,6 +71,7 @@ const Header_Wed = ({ isLogged }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.getItem('suscribed') && localStorage.removeItem('suscribed');
     setNavLinks(links);
   };
 

@@ -198,7 +198,7 @@ const Video = () => {
               },
             }}
             controls={false}
-            height={handle.active === false ? '600px' : '100vh'}
+            height={handle.active === true && '100vh'}
             light={light}
             loop={loop}
             muted={muted}
@@ -207,7 +207,7 @@ const Video = () => {
             playing={playing}
             url="https://www.youtube.com/watch?v=4YnSk1gI_Oo"
             volume={volume}
-            width={handle.active === false ? '80%' : '100%'}
+            width={handle.active === true && '100%'}
             onProgress={handleProgress}
           />
 

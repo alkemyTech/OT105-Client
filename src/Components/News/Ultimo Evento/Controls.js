@@ -67,10 +67,7 @@ const Controls = forwardRef(
     const id = open ? 'simple-popover' : undefined;
 
     return (
-      <div
-        ref={ref}
-        className="controls-wrapper"
-        style={{ width: handle.active === false ? '80%' : '100%' }}>
+      <div ref={ref} className="controls-wrapper">
         <Grid
           container
           direction="column"

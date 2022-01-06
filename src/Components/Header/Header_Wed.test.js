@@ -7,6 +7,7 @@ describe('Header', () => {
   let isLogged = false;
   let token = 1;
 
+  // Si el usuario no está autenticado, deberán mostrarse links públicos y el de iniciar sesion
   const userNotLogged = [
     'Inicio',
     'Nosotros',
@@ -17,7 +18,7 @@ describe('Header', () => {
     'Iniciar sesión',
   ];
 
-  test('test 1', () => {
+  test('Si el usuario no está autenticado, deberán mostrarse links públicos, iniciar sesion', () => {
     const { getAllByText } = render(
       <MemoryRouter>
         <Header_Wed isLogged={isLogged} />
@@ -29,10 +30,11 @@ describe('Header', () => {
     });
   });
 
+  //Si el usuario está autenticado y no es administrador, se deberán ocultar los links de login y registro, mostrar los items de navegación
   const userRegularLogged = ['Donaciones', 'Cerrar sesión'];
   const iniciarSesion = 'Iniciar sesión';
 
-  test('test 2', () => {
+  test('Si el usuario está autenticado y no es administrador, se deberán ocultar los links de login y registro, mostrar los items de navegación', () => {
     isLogged = true;
     token = 1;
 
@@ -49,10 +51,11 @@ describe('Header', () => {
     expect(container).not.toHaveTextContent(iniciarSesion);
   });
 
+  // Si el usuario está autenticado y es administrador, se deberán ocultar los links de Iniciar sesión y Donación. También mostrar el ítem de navegación "Backoffice" y el link de "Cerrar sesión"
   const userAdminLogged = ['Backoffice', 'Cerrar sesión'];
   const shouldNotBeShown = ['Iniciar sesión', 'Donacion'];
 
-  test('test 3', () => {
+  test('Si el usuario está autenticado y es administrador, se deberán ocultar los links de Iniciar sesión y Donación. También mostrar el ítem de navegación "Backoffice" y el link de "Cerrar sesión"', () => {
     isLogged = true;
     token = 2;
 

@@ -49,6 +49,8 @@ const Header_Wed = ({ isLogged }) => {
   const [organizationInformation, setOrganizationInformation] = useState({});
   const [navLinks, setNavLinks] = useState(links);
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const token = localStorage.getItem('token');
+  // const pathname = history.location.pathname;
 
   const getNavLinks = () => {
     const tobeRendered = [...links];
@@ -75,15 +77,15 @@ const Header_Wed = ({ isLogged }) => {
     setNavLinks(links);
   };
 
-  useEffect(() => {
-    getOrganization().then((res) => {
-      setOrganizationInformation(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getOrganization().then((res) => {
+  //     setOrganizationInformation(res.data);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    getNavLinks();
-  }, []);
+  // useEffect(() => {
+  //   getNavLinks();
+  // }, []);
 
   return (
     <>
@@ -130,18 +132,16 @@ const Header_Wed = ({ isLogged }) => {
                   <MenuItem
                     key={link.name}
                     component={Link}
-                    sx={{
-                      backgroundColor:
-                        link.path === history.location.pathname
-                          ? 'rgba(0, 0, 0, 0.1)'
-                          : 'white',
-                    }}
+                    // sx={{
+                    //   backgroundColor:
+                    //     link.path === pathname ? 'rgba(0, 0, 0, 0.1)' : 'white',
+                    // }}
                     to={link.path}
                     onClick={handleCloseNavMenu}>
                     {link.name}
                   </MenuItem>
                 ))}
-                {localStorage.getItem('token') === '1' && (
+                {token === '1' && (
                   <MenuItem
                     component={Link}
                     to="/donations"
@@ -151,7 +151,7 @@ const Header_Wed = ({ isLogged }) => {
                     Donacion
                   </MenuItem>
                 )}
-                {localStorage.getItem('token') === '2' && (
+                {token === '2' && (
                   <MenuItem component={Link} to="/backoffice">
                     Backoffice
                   </MenuItem>
@@ -210,20 +210,20 @@ const Header_Wed = ({ isLogged }) => {
                     paddingInline: '.5rem',
                     whiteSpace: 'nowrap',
                     borderRadius: 'unset',
-                    borderBottom:
-                      link.path === history.location.pathname
-                        ? '2px solid white'
-                        : '2px solid #28527A',
-                    ':hover': {
-                      borderBottom: '2px solid rgba(255, 255, 255, 0.5)',
-                    },
+                    // borderBottom:
+                    //   link.path === history.location.pathname
+                    //     ? '2px solid white'
+                    //     : '2px solid #28527A',
+                    // ':hover': {
+                    //   borderBottom: '2px solid rgba(255, 255, 255, 0.5)',
+                    // },
                   }}
                   to={link.path}
                   onClick={handleCloseNavMenu}>
                   {link.name}
                 </Button>
               ))}
-              {localStorage.getItem('token') === '1' && (
+              {token === '1' && (
                 <Button
                   component={Link}
                   sx={{
@@ -244,7 +244,7 @@ const Header_Wed = ({ isLogged }) => {
                   Donaciones
                 </Button>
               )}
-              {localStorage.getItem('token') === '2' && (
+              {token === '2' && (
                 <Button
                   component={Link}
                   size="small"

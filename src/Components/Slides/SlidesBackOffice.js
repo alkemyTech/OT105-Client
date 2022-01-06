@@ -15,8 +15,11 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from '../../Utils/SlidesBackOfficeStyled';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 function SlidesBackOffice() {
+  const [input, setInput] = useState('');
   const [mockedData, setMockedData] = useState([
     {
       id: 1,
@@ -51,6 +54,22 @@ function SlidesBackOffice() {
 
   return (
     <div style={{ height: 400, width: '900px', margin: '20px auto' }}>
+      <Autocomplete
+        getOptionLabel={(option) => option}
+        inputValue={input}
+        options={mockedData}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            label="Search"
+            variant="outlined"
+            onChange={({ target }) => setInput(target.value)}
+          />
+        )}
+        style={{ width: 300 }}
+        onChange={(e, v) => setInput(v)}
+      />
       <Link exact className="link-button" to="/backoffice/Slides/create">
         Create a new slide
         <ArrowRightAltIcon />

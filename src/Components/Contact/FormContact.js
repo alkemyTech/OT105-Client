@@ -7,6 +7,7 @@ import {
   sendContactData,
   editContactData,
 } from '../../Services/contactsService';
+import { errorAlert } from '../../Services/alertsService';
 
 const FormContact = ({ id }) => {
   const [apiResponse, setApiResponse] = useState({});
@@ -68,9 +69,9 @@ const FormContact = ({ id }) => {
       message: formik.values.message,
     };
 
-    createOrUpdateContactData(id, body).then((resp) =>
-      setApiResponse(resp.data),
-    );
+    createOrUpdateContactData(id, body)
+      .then((resp) => setApiResponse(resp.data))
+      .catch((error) => errorAlert({ title: 'Error', text: error }));
   };
 
   return (
